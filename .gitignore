@@ -1,0 +1,14 @@
+*.gz
+*.zip
+.vscode
+.DS_Store
+.vs
+*.log
+*_latexmk
+bamt*
+*.aux
+*.fls
+*.out
+*.aux
+*.fdb*
+*.fdb

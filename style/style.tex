@@ -1,0 +1,175 @@
+%This tex file contains all the stylings, so if you render some stylings please leave a comment so that others get aware of it !
+
+\usepackage{tcolorbox}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tcolorbox}
+\usepackage[a4paper, total={6in, 9in}]{geometry}
+\setlength{\parindent}{0ex}
+\usepackage{tikz}
+\usepackage{float}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage[T1]{fontenc}
+\usepackage{tgschola}
+\usepackage{lmodern}
+\usepackage{subcaption}
+\usepackage{tocloft}
+\usepackage{hyperref}
+\usepackage{fancyvrb}
+\usepackage{listings} 
+\usepackage{color} 
+\usepackage{enumitem}
+\usepackage{parskip}
+\usepackage{bbm}
+\usepackage{xcolor}
+
+
+
+
+
+
+\hypersetup{
+  colorlinks = true,
+  linkcolor = blue,
+  urlcolor = cyan
+  }
+  
+% New commands
+  
+%\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\theoremstyle{definition} \newtheorem{lemma}{Lemma}
+
+
+
+
+
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\qed}{\quad $ \blacksquare $}
+
+\newcommand{\contra}{\rightarrow \leftarrow}
+\newcommand{\fif}{if and only if }
+\newcommand{\gen}{without loss of generality }
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\m}[1]{\pmod {#1}}
+\newcommand{\eps}{\epsilon}
+\newcommand{\floor}[1]{\lfloor {#1} \rfloor}
+\newcommand{\eq}{\equiv}
+\newcommand{\msk}{\medskip}
+\newcommand{\ssk}{\smallskip}
+\newcommand{\bsk}{\bigskip}
+\newcommand{\Qed}{\quad \blacksquare }
+\newcommand{\tr}[1]{\operatorname{trace}\left({#1}\right)}
+\newcommand{\modulo}[1]{\ (\mbox{mod } #1)}
+\newcommand{\bb}[1]{\mathbb{#1}}
+
+
+\newcommand{\texty}[1]{\textsf{\textbf{#1}}}
+\newcommand{\shared}[1]{\begin{flushright}\textit{(shared by #1)}\end{flushright}}
+\newcommand{\plabel}[1]{(Solution to \texty{Problem} \ref{#1})}
+\newcommand{\Solun}[1]{\textit{Solution #1}\\}
+\newcommand{\rd}[1]{{rd(#1)}}
+\newcommand{\X}{\times}
+\newcommand{\thatis}{\text{,i.e.,  }}
+\newcommand{\Jac}[2]{D\psi^{(#1)}(#2)}
+\newcommand{\JacX}[1]{\Bigg|\frac{1}{y}D\psi^{(#1)}(x^{(#1)})\Bigg|}
+\newcommand{\Abs}[1]{| #1|}
+\newcommand{\AbsB}[1]{\Bigg| #1 \Bigg|}
+
+% Custom tcolorbox styles and new environments
+
+\newtcolorbox{probBox}
+{
+    colframe = blue!40,
+    colback = cyan!4,
+    titlerule = 0mm,
+    arc = 3mm,
+    sharp corners = northwest, 
+    sharp corners = southeast,
+}
+
+\newtcolorbox{theoremBox}
+{
+    colback = teal!6,
+    colframe = teal!50,
+    arc = 0mm,
+    leftrule = 2.5mm,
+    rightrule = 0mm,
+    toprule = 0mm,
+    bottomrule = 0mm,
+}
+
+\newtcolorbox{lemmaBox}
+{
+    colback = orange!6,
+    colframe = orange!50,
+    arc = 0mm,
+    leftrule = 2.5mm,
+    rightrule = 0mm,
+    toprule = 0mm,
+    bottomrule = 0mm,
+}
+
+\newtcolorbox{corrBox}
+{
+    colback = magenta!6,
+    colframe = magenta!50,
+    arc = 4mm,
+    sharp corners = southwest,
+    sharp corners = northeast,
+}
+
+\newtcolorbox{exampleBox}
+{
+    colback = green!6,
+    colframe = green!50,
+    arc = 2.5mm
+}
+
+\newtcolorbox{clmBox}
+{
+    colback = magenta!4,
+    colframe = magenta!50,
+    arc = 5mm,
+    leftrule = 0mm,
+    rightrule = 2.5mm,
+    toprule = 0mm,
+    bottomrule = 0mm,
+    sharp corners = northeast,
+    sharp corners = southeast
+}
+
+\newenvironment{soln}
+{
+    \vspace{0.1cm}
+    \textit{Solution.}
+}{$\hfill \blacksquare$}
+
+\newenvironment{soln-container}
+{
+    \vspace{0.1cm}
+}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+% \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{clm}[theorem]{Claim}
+
+\theoremstyle{remark}
+\newtheorem{examples}{Example}[theorem]
+
+\theoremstyle{definition}
+\newtheorem{prob}{Problem}
+
+\newenvironment{thm}{\begin{theoremBox} \begin{theorem}}{\end{theorem} \end{theoremBox}}
+\newenvironment{problem}{\begin{probBox} \begin{prob}}{\end{prob} \end{probBox}}
+\newenvironment{lem}{\begin{lemmaBox} \begin{lemma}}{ \end{lemma} \end{lemmaBox}}
+\newenvironment{corr}{\begin{corrBox} \begin{corollary}}{ \end{corollary} \end{corrBox}}
+\newenvironment{example}{\begin{exampleBox} \begin{examples}}{ \end{examples} \end{exampleBox}}
+\newenvironment{claim}{\begin{clmBox} \begin{clm}}{ \end{clm} \end{clmBox}}
+
+

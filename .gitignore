@@ -13,3 +13,5 @@ bamt*
 *.aux
 *.fdb*
 *.fdb
+*#*
+*~

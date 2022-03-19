@@ -6,12 +6,13 @@
 .vs
 *.log
 *_latexmk
-bamt*
+bmat*
 *.aux
 *.fls
 *.out
 *.aux
 *.fdb*
 *.fdb
+*.toc
 *#*
 *~

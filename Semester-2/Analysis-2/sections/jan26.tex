@@ -1,0 +1,69 @@
+\chapter*{Lecture 2, January 26}
+\addcontentsline{toc}{chapter}{Lecture 2, January 26}
+\setcounter{chapter}{2}
+
+\section{Properties of Lower and Upper Riemann Sums}
+
+\begin{props}\label{prop1:jan26}
+    Let $f \in \mathcal{B}[a,b]$ and let $P, \tilde{P} \in \mathcal{P}[a,b]$, if $\tilde{P} \supset P$ then \[ L(f,P) \leq L(f,\tilde{P}) \leq U(f,\tilde{P}) \leq U(f,P)\]
+\end{props}
+\begin{prf}
+    We prove it for the case $\tilde{P} = P \cup \{c\}$. Suppose $c \in [x_i, x_{i-1}]$ where $P = \{x_1,\dots,x_n\}$. Then we can write 
+    \begin{equation}\label{eq1:jan26}
+        U(f,\tilde{P}) = \sum_{\underset{k \neq i}{k=1}}^n M_k \Delta x_k + \tilde{M}_i(c-x_i)+\tilde{M}_{i+1}(x_{i+1}-c) 
+    \end{equation}
+    where $\tilde{M}_i = \sup \{f(x) : x\in [x_i,c]\}$ and $\tilde{M}_{i+1} = \sup \{f(x) : x \in [c,x_{i+1}]\}$. Now since \[[x_i,c], [c,x_{i+1}] \subset [x_i,x_{i+1}]\] its obvious that $\tilde{M}_i \leq M_i$ and $\tilde{M}_{i+1} \leq M_i$. But then from equation $(\ref{eq1:jan26})$ we get that 
+    \begin{align*}
+        U(f,\tilde{P}) &\leq \sum_{\underset{k \neq i}{k=1}}^n M_k \Delta x_k + M_i(c-x_i)+M_i(x_{i+1}-c) \\ &= \sum_{k=1}^n M_k \Delta x_k \\ &= U(f,P) 
+    \end{align*}
+    Now by induction it easily follows that for any $\tilde{P} \supset P$, we have $U(f,\tilde{P}) \leq U(f,P)$. The proof of the other part is similar, just that in place of $\tilde{M}_i$ and $\tilde{M}_{i+1}$ we will be working with $\tilde{m}_i$ and $\tilde{m}_{i+1}$, where $\tilde{m}_i = \inf \{f(x) : x \in [x_i,c]\}$ and $\tilde{m}_{i+1} = \inf \{ f(x) : x \in [c,x_{i+1}] \}$, and we will use that fact that $\tilde{m}_i, \tilde{m}_{i+1} \geq m_i$. 
+
+    Now since for any $ P \in \mathcal{P}[a,b]$, we have $L(f,P) \leq U(f,P)$, we get that 
+    \[ L(f,P) \leq L(f,\tilde{P}) \leq U(f,\tilde{P}) \leq U(f,P) \]
+    which completes the proof.
+\end{prf}
+
+\begin{corr}\label{corr1:jan26}
+    Let $f \in \mathcal{B}[a,b]$ and $P,Q \in \mathcal{P}[a,b]$, then \[ L(f,P) \leq U(f,Q) \] 
+\end{corr}
+\begin{prf}
+    We take $\tilde{P} = P \cup Q$, then we have $ \tilde{P} \supset P $ and $ \tilde{P} \supset Q $ then using \texty{Proposition} $\ref{prop1:jan26}$, we get that 
+
+    \[ L(f,P) \leq L(f,\tilde{P}) \leq U(f,\tilde{P}) \leq U(f,Q) \]
+    which completes the proof.
+\end{prf}
+
+\begin{corr}\label{corr2:jan26}
+    Let $f \in \mathcal{B}[a,b]$, then 
+    \[ \underline{\int_a^b}f \leq \overline{\int_a^b} f \]
+\end{corr}
+\begin{prf}
+    From \texty{Corollary} $\ref{corr1:jan26}$, we know that for any $P,Q \in \mathcal{P}[a,b]$, we have $L(f,P) \leq U(f,Q)$. Now fix $Q$ thus we get that $U(f,Q)$ is an upper bound for $L(f,P)$ for all $ P \in \mathcal{P}[a,b]$, hence \[ \underline{\int_a^b}f = \sup \{ L(f,P) : P \in \mathcal{P}[a,b] \} \leq U(f,Q) \]
+    But then we get that $\displaystyle{\underline{\int_a^b}f}$ is an lower bound for $U(f,Q)$ for all $Q \in \mathcal{P}[a,b]$, thus we get that 
+    \[ \underline{\int_a^b}f \leq \inf \{ U(f,Q) : Q \in \mathcal{P}[a,b] \} = \overline{\int_a^b}f \]
+\end{prf}
+
+Now the question that arises is whether $\mathcal{B}[a,b] = \mathcal{R}[a,b]$, i.e., are all bounded functions Riemann integrable? And as it turns out this is not true, consider the following counter example.
+
+\begin{cexample}\label{ceg1:jan26}
+    Consider the \texty{Dirichlet function} $f : [0,1] \to \bb{R}$ defined by 
+    \[ f(x) = \begin{cases} 1 & \mbox{ if } x \in [0,1] \cap \bb{Q} \\ 0 & \mbox{ if } x \in [0,1] \cap \bb{Q}^c \end{cases} \]
+    Clearly $f \in \mathcal{B}[0,1]$. But note that for any partition $P = \{x_1,\dots,x_n\} \in \mathcal{P}[0,1]$, we have \[ I_j \cap \bb{Q} \neq \emptyset \mbox{ and } I_j \cap \bb{Q}^c \neq \emptyset, \ \forall \, j = 1,\dots,n-1 \] where $I_j = [x_j,x_{j+1}]$. And hence we trivially get that \[ L(f,P) = 0 \mbox{ and } U(f,P) = 1, \ \forall \, P \in \mathcal{P}[0,1] \]
+    and hence we get that 
+    \[ \underline{\int_0^1 f} = 0 \neq 1 = \overline{\int_0^1} f \]
+    and thus we get that $f \notin \mathcal{R}[0,1]$.
+\end{cexample}
+We conclude this section with two examples.
+\begin{example}\label{eg1:jan26}
+    The set of Riemann integrable functions on $[a,b]$ is non-empty. Consider $ f : [a,b] \to \bb{R}$ defined by $f(x) = c$ for all $x \in [a,b]$, where $c$ is any real number. Then its trivial to show that \[ L(f,P) = U(f,P) = c(b-a), \ \forall \, P \in \mathcal{P}[a,b] \]
+    Thus, we obvious have $f \in \mathcal{R}[a,b]$, in particulat we get that $ \int_a^b f = c(b-a) $.
+\end{example}
+
+\begin{example}\label{eg2:jan26}
+    Can we find a function $f \in \mathcal{B}[a,b]$ such that $f \notin \mathcal{R}[a,b]$ but $|f| \in \mathcal{R}[a,b]$ ?
+
+    Consider $f : [0,1] \to \bb{R}$ as follow \[ f(x) = \begin{cases}
+        1 & \mbox{ if } x \in [0,1] \cap \bb{Q} \\ -1 & \mbox{ if } x \in [0,1] \cap \bb{Q}^c
+    \end{cases} \]
+    Then its trivial to show that $f \notin \mathcal{R}[0,1]$ (the proof is exactly same as the arguments given in \texty{Counter Example} $\ref{ceg1:jan26}$), whereas $|f|$ is simply a constant function, and from \texty{Example} $\ref{eg1:jan26}$, it follow that $|f| \in \mathcal{R}[0,1]$.
+\end{example}

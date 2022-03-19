@@ -23,10 +23,9 @@
 \usepackage{enumitem}
 \usepackage{parskip}
 \usepackage{bbm}
+\usepackage{rsfso}
 \usepackage{xcolor}
 \usepackage{physics} % For notation used in analysis
-
-
 
 
 
@@ -145,6 +144,19 @@
     sharp corners = southeast
 }
 
+\newtcolorbox{propBox}
+{
+    colback = teal!4,
+    colframe = teal!50,
+    arc = 5mm,
+    leftrule = 0mm,
+    rightrule = 2.5mm,
+    toprule = 0mm,
+    bottomrule = 0mm,
+    sharp corners = northeast,
+    sharp corners = southeast
+}
+
 \newtcolorbox{defBox}
 {
   colback = red!4,
@@ -162,6 +174,11 @@
     \textit{Solution.}
 }{$\hfill \blacksquare$}
 
+\newenvironment{prf}
+{
+    \textit{Proof.}
+}{$\hfill \blacksquare$}
+
 \newenvironment{soln-container}
 {
     \vspace{0.1cm}
@@ -171,12 +188,14 @@
 \newtheorem{corollary}{Corollary}[theorem]
 % \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{clm}[theorem]{Claim}
+\newtheorem{propn}[theorem]{Proposition}
 
 \theoremstyle{remark}
-\newtheorem{examples}{Example}[theorem]
 
 \theoremstyle{definition}
 \newtheorem{prob}{Problem}
+\newtheorem{examples}[theorem]{Example}
+\newtheorem{counterexample}[theorem]{Counter Example}
 \newtheorem{definition}{Definition}[section]
 
 \newenvironment{thm}{\begin{theoremBox} \begin{theorem}}{\end{theorem} \end{theoremBox}}
@@ -184,6 +203,8 @@
 \newenvironment{lem}{\begin{lemmaBox} \begin{lemma}}{ \end{lemma} \end{lemmaBox}}
 \newenvironment{corr}{\begin{corrBox} \begin{corollary}}{ \end{corollary} \end{corrBox}}
 \newenvironment{example}{\begin{exampleBox} \begin{examples}}{ \end{examples} \end{exampleBox}}
+\newenvironment{cexample}{\begin{exampleBox} \begin{counterexample}}{ \end{counterexample} \end{exampleBox}}
 \newenvironment{claim}{\begin{clmBox} \begin{clm}}{ \end{clm} \end{clmBox}}
+\newenvironment{props}{\begin{propBox}\begin{propn}}{\end{propn}\end{propBox}}
 \newenvironment{defn}{\begin{defBox} \begin{definition}}{ \end{definition} \end{defBox}}
 

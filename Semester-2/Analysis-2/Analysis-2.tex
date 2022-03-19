@@ -3,12 +3,118 @@
 \input{../../style/style.tex}
 
 \title{Real Analysis II Notes}
-\author{B. Math(Hons.) 1st year batch}
+\author{B. Math(Hons.) 1st years}
 \date{}
 
 \begin{document}
-  \maketitle
+\maketitle
 
-	Hello
+[Note: \qed \quad marks the end of a proof. If used immediately after a statement to be proved, indicates that the proof is trivial and left as an exercise to the reader]
+
+\section*{\center\underline{January 24}}
+
+\subsection*{Assumptions:}
+
+\begin{itemize}
+\item
+  $\N$, the set of all natural numbers, is defined by $\N = \{0, 1, \dots \}$.
+
+\item
+  $\Z$, the set of all integers, is defined the usual way.
+  
+\item
+  $\Z_+$, the set of all non negative integers, is defined by $\Z_+ = \{0, \pm 1, \pm 2, \dots \}$.
+
+\item
+  Any function $f \colon [a, b] \subset \R \to \R$ shall always be bounded.
+
+\end{itemize}
+
+\section{Partitions}
+
+\begin{defn}
+  A partition $P$ of $I = [a, b] \subset \R$ is a set of reals $\{x_0, x_1, \dots ,x_n \}$ for some $n \in \N$ such that
+  \[
+    x_0 < x_1 < \dots < x_n
+  \]
+  We shall denote the interval $[x_{j-1}, x_j]$ by the expression $I_j$.
+\end{defn}
+
+\begin{defn}
+  If $I = (a, b)$ or $(a, b]$ or $[a, b)$ or $[a, b]$, we define
+  \[
+    \abs{I} = b - a
+  \]
+  We shall informally refer to $\abs{I}$ as the \textit{length} of $I$.
+\end{defn}
+
+\begin{claim}
+  If $P = \{a = x_0, x_1, \dots ,x_n = b \}$ is a partion of $I = [a, b] \subset \R$,
+  \[
+    \abs{I} = \sum_{i=1}^n \abs{I_i}
+  \]
+  \hfill\qed
+\end{claim}
+
+\begin{claim}
+  If $P$ and $\tilde{P}$ are both partitions of an interval $[a, b] \subset \R$, so is $P \cup \tilde{P}$. \qed
+\end{claim}
+
+\begin{defn}
+  \label{jan24_def_Mm}
+  \hfill
+  \begin{enumerate}[label = \arabic*), itemsep = 10pt]
+  \item
+    We define $\pf[a, b]$ to be the set of all partitions (not just those of a fixed cardinality) of $[a, b]$. If the interval is clear from the context, we shall suppress it, writing $\pf[a, b]$ as $\pf$.
+
+  \item
+    Let $f \colon [a, b] \subset \R \to \R$ be a (bounded) function.
+    Given a partition $P = \{a = x_0, x_1, \dots ,x_n = b \}$ of an interval $I = [a, b] \subset \R$, we define
+    \[
+      M_j = \sup_{x \in I_j} f(x)
+      \qquad
+      \text{and}
+      \qquad
+      m_j = \inf_{x \in I_j} f(x)
+    \]
+    for all $1 \leq j \leq n$. We also define
+    \[
+      M = \sup_{x \in I} f(x)
+      \qquad
+      \text{and}
+      \qquad
+      m = \inf_{x \in I} f(x)
+    \]
+    
+  \end{enumerate}
+\end{defn}
+
+\begin{claim}
+  If $S_1 \subset S_2 \subset \R$,
+  \[
+    \sup S_1 \leq \sup S_2
+    \qquad
+    \text{and}
+    \qquad
+    \inf S_1 \geq \inf S_2
+  \]
+  \hfill\qed
+\end{claim}
+
+\begin{corr}
+  Using the notation of item 2 of definition \ref{jan24_def_Mm},
+  \[
+    m \leq m_j \leq M_j \leq M
+  \]
+  for all $1 \leq j \leq n$.
+\end{corr}
+
+\begin{proof}
+  After choosing $S_1$ and $S_2$ to be the relevant images of $f$ (see definition \ref{jan24_def_Mm}), the statement follows trivially. \hfill
+\end{proof}
+
+\begin{defn}
+  Given an interval $[a, b] \subset \R$, we define $\bb{B}[a, b]$ to be the set of all bounded functions from $[a, b]$ to $\R$.
+\end{defn}
 
 \end{document}

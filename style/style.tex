@@ -143,6 +143,17 @@
     sharp corners = southeast
 }
 
+\newtcolorbox{defBox}
+{
+  colback = red!6,
+  colframe = red!50,
+  arc = 0mm,
+  leftrule = 2.5mm,
+  rightrule = 0mm,
+  toprule = 0mm,
+  bottomrule = 0mm
+}
+
 \newenvironment{soln}
 {
     \vspace{0.1cm}
@@ -164,6 +175,7 @@
 
 \theoremstyle{definition}
 \newtheorem{prob}{Problem}
+\newtheorem{definition}{Definition}[section]
 
 \newenvironment{thm}{\begin{theoremBox} \begin{theorem}}{\end{theorem} \end{theoremBox}}
 \newenvironment{problem}{\begin{probBox} \begin{prob}}{\end{prob} \end{probBox}}
@@ -171,5 +183,5 @@
 \newenvironment{corr}{\begin{corrBox} \begin{corollary}}{ \end{corollary} \end{corrBox}}
 \newenvironment{example}{\begin{exampleBox} \begin{examples}}{ \end{examples} \end{exampleBox}}
 \newenvironment{claim}{\begin{clmBox} \begin{clm}}{ \end{clm} \end{clmBox}}
-
+\newenvironment{defn}{\begin{defBox} \begin{definition}}{ \end{definition} \end{defBox}}
 

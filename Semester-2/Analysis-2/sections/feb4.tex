@@ -42,7 +42,7 @@ Observe that whenever the limit in equation $(\ref{eq1:feb4})$ exists, the limit
     Then for $\eps > 0$, we get there there exists a $\delta > 0$ such that $|S(f,P) - \lambda| < \displaystyle{\frac{\eps}{2}}$ for all $P \in \mathcal{P}[a,b]$ and tag set $T_P$, such that $\|P\| < \delta$. Suppose $P = \{x_0, \dots, x_n\}$, and let $M_j = \sup_{x \in I_j} f(x)$ where $I_j = [x_{j-1},x_j]$ for $j = 1, \dots, n$. Then note that from properties of supremum of a set we get that $\forall \ \eps > 0$, there exists a $\zeta_j \in I_j$ such that \[ M_j - \frac{\eps}{2(b-a)} < f(\zeta_j) \leq M_j \] So if we choose our tag set to be the set of all these $\zeta_j$'s, we get that 
     \begin{align*}
         S(f,P) &= \sum_{j=1}^n f(\zeta_j) \Delta x_j \\ 
-               &> \sum_{j=1}^n (M_j - \frac{\eps}{2(b-a)}) \Delta x_j \\ 
+               &> \sum_{j=1}^n \left(M_j - \frac{\eps}{2(b-a)}\right) \Delta x_j \\ 
                &= \sum_{j=1}^n M_j \Delta x_j - \frac{\eps}{2(b-a)} \sum_{j=1}^n \Delta x_j \\ 
                &= U(f,P) - \frac{\eps}{2}
     \end{align*}
@@ -137,7 +137,7 @@ Observe that the set of bounded functions on $[a,b]$, i.e., $\mathcal{B}[a,b]$ f
     \item And if $f \in \mathcal{B}[a,b]$, then since $|f| = |-f|$, we get that $-f \in \mathcal{B}[a,b]$, and since $f + (-f) = \mathbf{0}$, we get that additive inverse exists for all $f \in \mathcal{B}[a,b]$.
     \item Distributive properties hold trivially.
 \end{itemize} 
-Also its not difficult to show that if $f : [a.b] \to [c,d]$ and $g : [c,d] \to \bb{R}$ such that both $f,g \in \mathcal{B}[a,b]$, then $g \circ f : [a,b] \to \bb{R} \in \mathcal{B}[a,b]$.
+Also its not difficult to show that if $f : [a,b] \to [c,d]$ and $g : [c,d] \to \bb{R}$ such that both $f,g \in \mathcal{B}[a,b]$, then $g \circ f : [a,b] \to \bb{R} \in \mathcal{B}[a,b]$.
 
 The next question that arises immediately is can we say $\mathcal{R}[a,b]$ is a vector space over the field of real numbers? Well, with similar operations as in case of $\mathcal{B}[a,b]$, its again not very difficult to show that indeed $\mathcal{R}[a,b]$ is a vector space over the field of real numbers. Now consider the function $\mathcal{I} : \mathcal{R}[a,b] \to \bb{R}$ given by 
 \begin{equation}\label{eq7:feb4}
@@ -161,3 +161,93 @@ The next question that arises immediately is can we say $\mathcal{R}[a,b]$ is a 
         \]  
     \end{enumerate}
 \end{thm}
+
+\begin{prf}
+\begin{enumerate}
+    \item[(i)] Let $f,g \in \mathcal{R}[a,b]$, we will first show that $f+g \in \mathcal{R}$. Note the since $f,g \in \mathcal{R}$, then using \texty{theorem} $\ref{thm1:feb4}$ we get for $\eps > 0$, there exists $\delta_1 > 0$ and $\delta_2 > 0$, such that 
+    \begin{align*}
+        &\left|S(f,P) - \int_a^b f \right| < \frac{\eps}{2}, \ \forall \, P \in \mathcal{P}[a,b] \mbox{ such that } \|P\| < \delta_1 \\ &\left|S(g,P) - \int_a^b g\right| < \frac{\eps}{2}, \ \forall \, P \in \mathcal{P}[a,b] \mbox{ such that } \|P\| < \delta_2 
+    \end{align*}
+    choose $\delta = \min \{\delta_1,\delta_2\}$, then we get that 
+
+    \begin{align*}
+        \left| S(f+g, P) - \int_a^b f - \int_a^b g \right| &= \left| \left(S(f,P) - \int_a^b f \right) + \left( S(g,P) - \int_a^b g \right) \right| \\ 
+        &\leq \left| S(f,P) - \int_a^b f \right| + \left| S(g,P) - \int_a^b g \right| \\ 
+        &\overset{(1)}{<} \eps 
+    \end{align*}
+    where the $(1)$ holds $\forall \, P \in \mathcal{P}[a,b] \mbox{ such that } \|P\| < \delta$. Hence we have shown that $f+g \in \mathcal{R}[a,b]$, and in particular we have 
+    \begin{equation}\label{eq9:feb4}
+        \int_a^b (f+g) = \int_a^b f + \int_a^b g 
+    \end{equation}
+    Finally its enough to show that if $f \in \mathcal{R}[a,b]$, then $rf \in \mathcal{R}[a,b]$ for all $r \in \bb{R}$. But this is not difficult to prove as it can be easily seen that 
+    \[
+        S(rf,P) = rS(f,P)    
+    \]
+    and hence 
+    \begin{align*}
+        \left| S(rf,P) - r \int_a^b f \right| = |r|\left| S(f,P) - \int_a^b f \right| \overset{(1)}{<} |r|\eps
+    \end{align*}
+    where $(1)$ holds for all $P \in \mathcal{P}[a,b]$, such that $\|P\| < \delta$, from here we can conclude that $rf \in \mathcal{R}[a,b]$, and in particular we have shown that
+    \begin{equation}\label{eq10:feb4}
+        \int_a^b rf = r \int_a^b f  
+    \end{equation} 
+    Hence, using equation $(\ref{eq9:feb4})$ and $(\ref{eq10:feb4})$ we get that if $f,g \in \mathcal{R}[a,b]$, then $rf,sg \in \mathcal{R}[a,b]$, and hence $rf+sg \in \mathcal{R}[a,b]$, and in particular we have 
+    \[
+        \mathcal{I}(rf+sg) = \int_a^b (rf+sg) = r\int_a^b f + s \int_a^b g = r\mathcal{I}(f) + s\mathcal{I}(s)
+    \]
+    Thus we have proved that $I : \mathcal{R}[a,b] \to \bb{R}$, is a \texty{linear functional}.
+
+    \item[(ii)] Let $f,g \in \mathcal{R}[a,b]$ such that $f(x) \leq g(x), \ \forall \, x \in [a,b]$, then consider a sequence of partitions $\{P_n\} \subset \mathcal{P}[a,b]$ such that $\|P_n\| \to 0$ as $n \to \infty$, then using \texty{theorem} $\ref{thm2:feb4}$, we get that 
+    \begin{align*}
+        &&\lim_{n\to\infty} S(f,P_n) = \mathcal{I}(f) &&\mbox{and} &&\lim_{n\to\infty} S(g,P_n) = \mathcal{I}(g)    
+    \end{align*} 
+    then for any $P_n \in \mathcal{P}[a,b]$ and for any tag set $T_{P_n} = \{\zeta_1, \dots, \zeta_n\}$ we get that 
+    \[ 
+        S(f,P_n) = \sum_{j=1}^n f(\zeta_j) \Delta x_j \leq \sum_{j=1}^n g(\zeta_j) \Delta x_j = S(g,P_n)    
+    \] 
+    and hence we get that 
+    \[
+        \mathcal{I}(f) = \lim_{n\to\infty} S(f,P_n) \leq \lim_{n\to\infty} S(g,P_n) = \mathcal{I}(g)  
+    \] 
+
+    \item[(iii)] Let $c \in (a,b)$. We first need to show that if $f \in \mathcal{R}[a,b]$, then $f \in \mathcal{R}[a,c]$ and $f \in \mathcal{R}[c,b]$ for all $c \in [a,b]$. Now since $f \in \mathcal{R}[a,b]$ \texty{Cauchy criterion} tells us that for all $\eps > 0$, there exists a partition $P_{\eps} \in \mathcal{P}[a,b]$ such that for all $P \supset P_{\eps}$, we have 
+    \[
+        U(f,P) - L(f,P) < \eps    
+    \] 
+    Now WLOG we can assume that $c \in P$ (otherwise we can simply work with $P \cup \{c\}$). Let \[P = \{a = x_0, \dots, x_{i-1}, x_i = c, x_{i+1}, \dots, x_n = b\ \] and consider $P_1 = \{x_0,\dots,x_i\}$ and $P_2 = \{x_i,\dots,x_n\}$, then we have $P_1 \in \mathcal{P}[a,c]$ and $P_2 \in \mathcal{P}[c,b]$ and further $P = P_1 \cup P_2 $. Now observe that 
+    \begin{align*}
+        &&L(f,P) = L(f,P_1) + L(f,P_2) &&\mbox{and} &&U(f,P) = U(f,P_1) + U(f,P_2)
+    \end{align*}
+    Then we get that 
+    \begin{equation}\label{eq11:feb4}
+        \underbrace{(U(f,P_1) - L(f,P_1))}_{\geq 0} + \underbrace{(U(f,P_2) - L(f,P_2))}_{\geq 0} = U(f,P) - L(f,P) < \eps
+    \end{equation}
+    Thus from equation $(\ref{eq11:feb4})$, we deduce that 
+    \begin{align}\label{eq12:feb4}
+        &&U(f,P_1) - L(f,P_1) < \eps &&\mbox{and} &&U(f,P_2) - L(f,P_2) < \eps
+    \end{align}
+    Now since equation $(\ref{eq12:feb4})$, will hold for any partition $P', P^{''}$ finer that $P_1, P_2$ respectively we can conclude that $f \in \mathcal{R}[a,c]$ and $f \in \mathcal{R}[c,b]$, so $\int_a^c f $ and $\int_c^b f$ are well defined. Finally we have 
+    \begin{align*}
+        \int_a^b f &\geq L(f,P) \\ 
+                   &= L(f,P_1) + L(f,P_2) \\ 
+                   &> (U(f,P_1)-\eps) + (U(f,P_2)-\eps) \\ 
+                   &= (U(f,P_1)+U(f,P_2)) - 2\eps \\ 
+                   &\geq \left(\int_a^c f + \int_c^b f \right) - 2\eps
+    \end{align*}
+    and on the other hand we get 
+    \begin{align*}
+        \int_a^b f &\leq U(f,P) \\ 
+                   &= U(f,P_1) + U(f,P_2) \\ 
+                   &< (L(f,P_1)+L(f,P_2)) + 2\eps \\ 
+                   &\leq \left( \int_a^c f + \int_c^b f \right) + 2\eps
+    \end{align*}
+    Hence, we have shown that for all $\eps > 0$, we have  
+    \[
+        \left| \int_a^b f - \left( \int_a^c f + \int_c^b f\right) \right| < 2\eps
+    \]  
+    and hence, we can conclude that 
+    \[ 
+        \mathcal{I}(f) = \int_a^b f = \int_a^c f + \int_c^b f    
+    \]
+\end{enumerate}
+\end{prf}

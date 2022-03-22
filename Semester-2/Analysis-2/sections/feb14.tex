@@ -1,0 +1,112 @@
+\chapter*{Lecture 8, Febuary 14 \\ {\Large (Valentine's Special) }}
+\addcontentsline{toc}{chapter}{Lecture 8, Febuary 14 (Valentine's Special)}
+\setcounter{chapter}{8}
+\setcounter{section}{0}
+
+\section{Fundamental Theorem of Calculus}
+
+\begin{defn}\label{def1:feb14}
+    Let $S \subseteq \bb{R}$, and let $f : S \to \bb{R}$ be a function. A differentiable function $F$ is called \texty{antiderivative} or \texty{primitive} of $f$ on $S$, if 
+    \[
+        f(x) = F'(x), \ \forall \, x \in S   
+    \]  
+\end{defn}
+
+\begin{example}\label{eg1:feb14}
+    Let $f : [0,1] \to \bb{R}$ be defined by $f(x) = x, \ \forall \, x \in [0,1]$ then $F(x) = \frac{1}{2}x^2 + c$ is a antiderivative of $f$ on $[0,1]$, where $c$ is a fixed real number. Thus clearly antiderivatives are not unique, since if $F$ is an antiderivative of $f$ on some set $S$, then so is $F' := F+c$, where $c$ is any real number.
+\end{example}
+
+The natural question that arises now is do all functions have antiderivatives? 
+
+\begin{example}\label{eg2:feb14}
+    Consider $f : [-1.1] \to \bb{R}$ as follows 
+    \[ 
+        f(x) = 
+        \begin{cases}
+            1 & \mbox{ if } x \in [0,1] \\ 
+            0 & \mbox{ otherwise }    
+        \end{cases}    
+    \]
+    Then $f$ doesn't have any antiderivative. To see this observe if $f$ indeed had an antiderivative $F$, then we would have 
+    \[
+        F'(x) = f(x) = 
+        \begin{cases}
+            1 & \mbox{ if } x \in [0,1] \\ 
+            0 & \mbox{ otherwise }    
+        \end{cases}      
+    \]
+    But then by \texty{Darboux's theorem}\footnote{\texty{Darboux's theorem:} Let $f : [a,b] \to \bb{R}$ be a differentiable function such that $f'(a) \neq f'(b)$, then for any $c$ in between $f'(a)$ and $f'(b)$, there exists $\eta \in (a,b)$ such that $f'(\eta) = c$.}, we would get that $\forall \, c \in (0,1)$, there exists a $\eta \in [-1,1]$ such that $f(\eta) = F'(\eta) = c$ (Contradiction! since range of $f$ is simply $\{0,1\}$).
+\end{example}
+
+Thus its evident from \texty{example} $\ref{eg2:feb14}$, that there are functions which do not have any antiderivatives. Later we will see that for any continuous function there always exists an antiderivative, this will follow as a consequence of \texty{Second Fundamental Theorem of Calculus}. But first we look at the \texty{First Fundamental Theorem of Calculus}.
+
+\subsection{First Fundamental Theorem of Calculus}
+
+\begin{thm}\label{thm1:feb14}
+    Let $f \in \mR[a,b]$, and suppose $F$ is an antiderivative of $f$ on $(a,b)$, then 
+    \[
+        \int_a^b f = F(b) - F(a)  
+    \] 
+\end{thm}
+\begin{prf}
+    Let $P \in \mP[a,b]$, suppose $ P = \{a=x_0, x_1, \dots, x_{n-1},x_n =b\}$ where $x_0 < x_1 < \cdots < x_n $. Then observe that we can write 
+    \[ 
+        F(b) - F(a) = \sum_{j=1}^n (F(x_j) - F(x_{j-1}))    
+    \] 
+    But then since $F$ is antiderivative of $f$ on $(a,b)$, we have $F$ is differentiable on $(a,b)$, and hence using \texty{Mean Value Theorem} we get that 
+    \begin{align*}
+        F(x_j) - F(x_{j-1}) &= F'(\zeta_j) (x_j - x_{j-1}) \\ 
+                            &= f'(\zeta_j) \Delta x_j
+    \end{align*}
+    for some $\zeta_j \in (x_{j-1},x_j)$. Hence, we get that 
+    \[
+        L(f,P) \leq \sum_{j=1}^n f(\zeta_j) \Delta x_j = \sum_{j=1}^n (F(x_j) - F(x_{j-1})) = \sum_{j=1}^n f(\zeta_j) \Delta x_j \leq U(f,P)  
+    \]
+    and thus, we have shown that 
+    \begin{align}\label{eq1:feb14}
+        L(f,P) \leq F(b) - F(a) \leq U(f,P) &&\forall \, P \in \mP[a,b] 
+    \end{align}
+    but then from properties of supremum and infimum of a set we deduce that 
+    \[
+        \underline{\int_a^b} f \leq F(b) - F(a) \leq \overline{\int_a^b} f   
+    \]
+    But since $f \in \mR[a,b]$, we get that $\underline{\int_a^b}f = \int_a^b f = \overline{\int_a^b} f$, and thus we have proved that 
+    \[
+        \int_a^b f = F(b) - F(a)  
+    \]
+\end{prf}
+
+Thus \texty{theorem} $\ref{thm1:feb14}$ tells us that, if we already known the antiderivative of the function $f$, we can easily compute its intergral.
+
+\subsection{Second Fundamental Theorem of Calculus}
+
+\begin{thm}
+    Let $f \in \mR[a,b]$, and define the function $F : [a,b] \to \bb{R}$, as 
+    \begin{equation}\label{eq2:feb14}
+        F(x) := \int_a^x f(t) \dd{t}, \ \forall \, x \in [a,b]
+    \end{equation}
+    then the following statements are true:
+    \begin{enumerate}
+        \item[(i)] $F \in \mathcal{C}[a,b]$.
+        \item[(ii)] If $f$ is continuous at $x_0 \in (a,b)$, then $F$ is differentiable at $x_0$, and in particular we have $F'(x_0) = f(x_0)$.
+        \item[(iii)] If $f$, is continuous from right at $a$, then $F$ has right-hand derivative at $a$, and we have $F'_{+}(a) = f(a)$. Similarly if $f$ is continuous from left at $b$, then $F$ has left-hand derivative at $b$, and we have $F'_{-}(b) = f(b)$. 
+    \end{enumerate}
+\end{thm}
+
+\begin{prf}
+    Let $M = \sup_{x \in [a,b]} |f(x)|$, let $x,y \in [a,b]$, then we have 
+    \begin{align*}
+        |F(x) - F(y)| = \left| \int_y^x f(t) \dd{t} \right| 
+    \end{align*}
+    Now note that from $-M \leq f(t) \leq M $ we have 
+    \begin{align*} 
+        &\Rightarrow -\int_y^x M \dd{t} \leq \int_y^x f(t) \dd{t} \leq \int_x^y M \dd{t} \\ 
+        &\Rightarrow -M(x-y) \leq \int_y^x f(t) \dd{t} \leq M(x-y) \\ 
+        &\Rightarrow \left| \int_y^x f(t) \dd{t} \right| \leq M |x-y|
+    \end{align*}
+    and hence we get that 
+    \[
+        |F(x) - F(y)| \leq M |x-y|  
+    \]
+    and hence, $F$ from here we can easily see that $F \in \mathcal{C}[a,b]$, and we further conclude that $F$ is in fact \texty{Lipschitz continuous}.
+\end{prf} 

@@ -1,4 +1,4 @@
-\chapter*{Lecture 5, Febuary 4}
+\chapter*{Lecture 5, February 4}
 \addcontentsline{toc}{chapter}{Lecture 5, Febuary 4}
 \setcounter{chapter}{5}
 \setcounter{section}{0}
@@ -39,7 +39,7 @@ Observe that whenever the limit in equation $(\ref{eq1:feb4})$ exists, the limit
     Hence, we get that $|S(f,P) - \lambda| < \eps$ for all $P \in \mathcal{P}[a,b]$ and tag set $T_P$, such that $\|P\| < \delta$.
 
     Conversely, suppose \[ \lim_{\|P\| \to 0} S(f,P) = \lambda \]
-    Then for $\eps > 0$, we get there there exists a $\delta > 0$ such that $|S(f,P) - \lambda| < \displaystyle{\frac{\eps}{2}}$ for all $P \in \mathcal{P}[a,b]$ and tag set $T_P$, such that $\|P\| < \delta$. Suppose $P = \{x_0, \dots, x_n\}$, and let $M_j = \sup_{x \in I_j} f(x)$ where $I_j = [x_{j-1},x_j]$ for $j = 1, \dots, n$. Then note that from properties of supremum of a set we get that $\forall \ \eps > 0$, there exists a $\zeta_j \in I_j$ such that \[ M_j - \frac{\eps}{2(b-a)} < f(\zeta_j) \leq M_j \] So if we choose our tag set to be the set of all these $\zeta_j$'s, we get that 
+    Then for $\eps > 0$, we get there exists a $\delta > 0$ such that $|S(f,P) - \lambda| < \displaystyle{\frac{\eps}{2}}$ for all $P \in \mathcal{P}[a,b]$ and tag set $T_P$, such that $\|P\| < \delta$. Suppose $P = \{x_0, \dots, x_n\}$, and let $M_j = \sup_{x \in I_j} f(x)$ where $I_j = [x_{j-1},x_j]$ for $j = 1, \dots, n$. Then note that from properties of supremum of a set we get that $\forall \ \eps > 0$, there exists a $\zeta_j \in I_j$ such that \[ M_j - \frac{\eps}{2(b-a)} < f(\zeta_j) \leq M_j \] So if we choose our tag set to be the set of all these $\zeta_j$'s, we get that 
     \begin{align*}
         S(f,P) &= \sum_{j=1}^n f(\zeta_j) \Delta x_j \\ 
                &> \sum_{j=1}^n \left(M_j - \frac{\eps}{2(b-a)}\right) \Delta x_j \\ 
@@ -90,7 +90,7 @@ Observe that whenever the limit in equation $(\ref{eq1:feb4})$ exists, the limit
     \[
         U(f,P) - L(f,P) < \eps, \ \forall \, P \in \mathcal{P}[a,b] \mbox{ such that } \|P\| < \delta  
     \]
-    Now since $\|P_n\| \to 0$, thus for all $\delta > 0$, there exists a $N \in \bb{N}$ such that $\|P_n\| < \delta, \ \forall \, n > N$. Thus we get 
+    Now since $\|P_n\| \to 0$, thus for all $\delta > 0$, there exists an $N \in \bb{N}$ such that $\|P_n\| < \delta, \ \forall \, n > N$. Thus, we get 
     \[ 
         U(f, P_n) - L(f, P_n) < \eps, \ \forall \, n > N    
     \]
@@ -133,13 +133,13 @@ Thus, if we know that the function is Riemann integrable then the integral can b
 Observe that the set of bounded functions on $[a,b]$, i.e., $\mathcal{B}[a,b]$ forms a vector space over the field of real numbers, with addition on $\mathcal{B}[a,b]$ as sum of functions, and scalar multiplication as product of a function with a real number. 
 \begin{itemize}
     \item Associativity and commutativity follows trivially.
-    \item Additive identiy is the zero function and obviously we have $\mathbf{0} \in \mathcal{B}[a,b]$, and multiplicative identiy is $1$.
+    \item Additive identity is the zero function, and obviously we have $\mathbf{0} \in \mathcal{B}[a,b]$, and multiplicative identity is $1$.
     \item And if $f \in \mathcal{B}[a,b]$, then since $|f| = |-f|$, we get that $-f \in \mathcal{B}[a,b]$, and since $f + (-f) = \mathbf{0}$, we get that additive inverse exists for all $f \in \mathcal{B}[a,b]$.
     \item Distributive properties hold trivially.
 \end{itemize} 
-Also its not difficult to show that if $f : [a,b] \to [c,d]$ and $g : [c,d] \to \bb{R}$ such that both $f,g \in \mathcal{B}[a,b]$, then $g \circ f : [a,b] \to \bb{R} \in \mathcal{B}[a,b]$.
+Also, it's not difficult to show that if $f : [a,b] \to [c,d]$ and $g : [c,d] \to \bb{R}$ such that both $f,g \in \mathcal{B}[a,b]$, then $g \circ f : [a,b] \to \bb{R} \in \mathcal{B}[a,b]$.
 
-The next question that arises immediately is can we say $\mathcal{R}[a,b]$ is a vector space over the field of real numbers? Well, with similar operations as in case of $\mathcal{B}[a,b]$, its again not very difficult to show that indeed $\mathcal{R}[a,b]$ is a vector space over the field of real numbers. Now consider the function $\mathcal{I} : \mathcal{R}[a,b] \to \bb{R}$ given by 
+The next question that arises immediately is can we say $\mathcal{R}[a,b]$ is a vector space over the field of real numbers? Well, with similar operations as in case of $\mathcal{B}[a,b]$, again it's not very difficult to show that indeed $\mathcal{R}[a,b]$ is a vector space over the field of real numbers. Now consider the function $\mathcal{I} : \mathcal{R}[a,b] \to \bb{R}$ given by 
 \begin{equation}\label{eq7:feb4}
     \mathcal{I}(f) = \int_a^b f, \ \ \forall \, f \in \mathcal{R}[a,b]
 \end{equation}
@@ -175,7 +175,7 @@ The next question that arises immediately is can we say $\mathcal{R}[a,b]$ is a 
         &\leq \left| S(f,P) - \int_a^b f \right| + \left| S(g,P) - \int_a^b g \right| \\ 
         &\overset{(1)}{<} \eps 
     \end{align*}
-    where the $(1)$ holds $\forall \, P \in \mathcal{P}[a,b] \mbox{ such that } \|P\| < \delta$. Hence we have shown that $f+g \in \mathcal{R}[a,b]$, and in particular we have 
+    where the $(1)$ holds $\forall \, P \in \mathcal{P}[a,b] \mbox{ such that } \|P\| < \delta$. Hence, we have shown that $f+g \in \mathcal{R}[a,b]$, and in particular we have 
     \begin{equation}\label{eq9:feb4}
         \int_a^b (f+g) = \int_a^b f + \int_a^b g 
     \end{equation}
@@ -214,7 +214,7 @@ The next question that arises immediately is can we say $\mathcal{R}[a,b]$ is a 
     \[
         U(f,P) - L(f,P) < \eps    
     \] 
-    Now WLOG we can assume that $c \in P$ (otherwise we can simply work with $P \cup \{c\}$). Let \[P = \{a = x_0, \dots, x_{i-1}, x_i = c, x_{i+1}, \dots, x_n = b\ \] and consider $P_1 = \{x_0,\dots,x_i\}$ and $P_2 = \{x_i,\dots,x_n\}$, then we have $P_1 \in \mathcal{P}[a,c]$ and $P_2 \in \mathcal{P}[c,b]$ and further $P = P_1 \cup P_2 $. Now observe that 
+    Now \gen we can assume that $c \in P$ (otherwise we can simply work with $P \cup \{c\}$). Let \[P = \{a = x_0, \dots, x_{i-1}, x_i = c, x_{i+1}, \dots, x_n = b\ \] and consider $P_1 = \{x_0,\dots,x_i\}$ and $P_2 = \{x_i,\dots,x_n\}$, then we have $P_1 \in \mathcal{P}[a,c]$ and $P_2 \in \mathcal{P}[c,b]$ and further $P = P_1 \cup P_2 $. Now observe that 
     \begin{align*}
         &&L(f,P) = L(f,P_1) + L(f,P_2) &&\mbox{and} &&U(f,P) = U(f,P_1) + U(f,P_2)
     \end{align*}
@@ -226,7 +226,7 @@ The next question that arises immediately is can we say $\mathcal{R}[a,b]$ is a 
     \begin{align}\label{eq12:feb4}
         &&U(f,P_1) - L(f,P_1) < \eps &&\mbox{and} &&U(f,P_2) - L(f,P_2) < \eps
     \end{align}
-    Now since equation $(\ref{eq12:feb4})$, will hold for any partition $P', P^{''}$ finer that $P_1, P_2$ respectively we can conclude that $f \in \mathcal{R}[a,c]$ and $f \in \mathcal{R}[c,b]$, so $\int_a^c f $ and $\int_c^b f$ are well defined. Finally we have 
+    Now since equation $(\ref{eq12:feb4})$, will hold for any partition $P', P^{''}$ finer that $P_1, P_2$ respectively we can conclude that $f \in \mathcal{R}[a,c]$ and $f \in \mathcal{R}[c,b]$, so $\int_a^c f $ and $\int_c^b f$ are well-defined. Finally, we have 
     \begin{align*}
         \int_a^b f &\geq L(f,P) \\ 
                    &= L(f,P_1) + L(f,P_2) \\ 

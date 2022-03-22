@@ -6,7 +6,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
-\usepackage{tcolorbox}
+\usepackage{footnote}
 \usepackage[a4paper, total={6in, 9in}]{geometry}
 \setlength{\parindent}{0ex}
 \usepackage{tikz}
@@ -207,7 +207,7 @@
 \newenvironment{problem}{\begin{probBox} \begin{prob}}{\end{prob} \end{probBox}}
 \newenvironment{lem}{\begin{lemmaBox} \begin{lemma}}{ \end{lemma} \end{lemmaBox}}
 \newenvironment{corr}{\begin{corrBox} \begin{corollary}}{ \end{corollary} \end{corrBox}}
-\newenvironment{example}{\begin{exampleBox} \begin{examples}}{ \end{examples} \end{exampleBox}}
+\newenvironment{example}{\begin{savenotes}\begin{exampleBox} \begin{examples}}{ \end{examples} \end{exampleBox}\end{savenotes}}
 \newenvironment{cexample}{\begin{exampleBox} \begin{counterexample}}{ \end{counterexample} \end{exampleBox}}
 \newenvironment{claim}{\begin{clmBox} \begin{clm}}{ \end{clm} \end{clmBox}}
 \newenvironment{props}{\begin{propBox}\begin{propn}}{\end{propn}\end{propBox}}

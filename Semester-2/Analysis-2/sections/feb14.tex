@@ -80,7 +80,7 @@ Thus \texty{theorem} $\ref{thm1:feb14}$ tells us that, if we already known the a
 
 \subsection{Second Fundamental Theorem of Calculus}
 
-\begin{thm}
+\begin{thm}\label{thm2:feb14}
     Let $f \in \mR[a,b]$, and define the function $F : [a,b] \to \bb{R}$, as 
     \begin{equation}\label{eq2:feb14}
         F(x) := \int_a^x f(t) \dd{t}, \ \forall \, x \in [a,b]
@@ -94,7 +94,8 @@ Thus \texty{theorem} $\ref{thm1:feb14}$ tells us that, if we already known the a
 \end{thm}
 
 \begin{prf}
-    Let $M = \sup_{x \in [a,b]} |f(x)|$, let $x,y \in [a,b]$, then we have 
+\begin{enumerate}
+    \item[(i)] Let $M = \sup_{x \in [a,b]} |f(x)|$, let $x,y \in [a,b]$, then we have 
     \begin{align*}
         |F(x) - F(y)| = \left| \int_y^x f(t) \dd{t} \right| 
     \end{align*}
@@ -109,4 +110,106 @@ Thus \texty{theorem} $\ref{thm1:feb14}$ tells us that, if we already known the a
         |F(x) - F(y)| \leq M |x-y|  
     \]
     and hence, $F$ from here we can easily see that $F \in \mathcal{C}[a,b]$, and we further conclude that $F$ is in fact \texty{Lipschitz continuous}.
+
+    \item[(ii)] Observe that we can write 
+    \[
+        \frac{F(x)-F(x_0)}{x-x_0} - f(x_0) = \frac{1}{x-x_0} \int_{x_0}^x \left(f(t) - f(x_0)\right) \dd{t}   
+    \] 
+    But then since $f$ is continuous at $x_0$, we have for all $\eps > 0$, there exists a $\delta > 0$, such that 
+    \[
+        |f(t) - f(x_0)| < \eps, \ \forall \, t \in (x_0 - \delta, x_0 + \delta)  
+    \]
+    and hence for $x \in (x_0-\delta, x_0-\delta)$ we have 
+    \begin{align*}
+        \left| \frac{F(x)-F(x_0)}{x-x_0} - f(x_0) \right| &= \frac{1}{|x-x_0|} \left| \int_{x_0}^x (f(t) - f(x_0)) \dd{t} \right| \\ 
+        &\leq \frac{1}{|x-x_0|} \int_{x_0}^x |f(t) - f(x_0)| \dd{t} \\ 
+        &\overset{(1)}{<} \frac{1}{|x-x_0|} \int_{x_0}^x \eps \dd{t} \\ 
+        &\leq \frac{1}{|x-x_0|} \cdot |x-x_0| \cdot \eps = \eps
+    \end{align*}
+    where $(1)$ is true because for $x \in (x_0 - \delta, x_0+\delta)$, we have $t \in (x_0-\delta,x_0+\delta)$. Hence, if $x_0$ is a point continuity of $f$, we have $F$ is differentiable at $x_0$, and further we have $F'(x_0) = f(x_0)$.
+
+    \item[(iii)] Now if $f$ is continuous from right at $a$, then similar arguments as in part (ii), will work, just that we in this case we have to work on an interval $(a,a+\delta)$, for some $\delta > 0$. The proof for $f$ is continuous from left at $b$, is also similar (in this case we will have to work on an interval $(b-\delta,b)$ for some $\delta > 0$).  
+\end{enumerate} 
 \end{prf} 
+
+\begin{corr}\label{cor1:feb14}
+    Let $f \in \mathcal{C}[a,b]$, then 
+    \[
+        \dv{x} \left( \int_a^x f(t)dt \right) = f(x), \ \forall \, x \in [a,b]    
+    \]
+\end{corr}
+\begin{prf}
+    Directly follows from \texty{theorem} $\ref{thm2:feb14}$.
+\end{prf}
+
+\begin{example}\label{eg3:feb14}
+    Consider $f : [0,2] \to \bb{R}$, defined by 
+    \[
+        f(x) = \begin{cases}
+            1 & \mbox{ if } x \in [0,1] \\ 
+            0 & \mbox{ otherwise}
+        \end{cases}  
+    \]
+    Then it is obvious that $f \in \mR[0,2]$. Now the funcion $F(x) := \int_0^x f(t) \dd{t}$, where $x \in [0,2]$ can be easily computed, and we get 
+    \[
+        F(x) = \begin{cases}
+            x & \mbox{ if } 0 \leq x \leq 1 \\ 
+            1 & \mbox{ if } 1 < x \leq 2
+        \end{cases}  
+    \]
+    But then we easily observe that $F \in \mathcal{C}[0,2]$, but evidently $F$ is not differentiable at $1$, which is in fact the point of discontinuity of $f$.
+\end{example}
+
+\section{Integration By Parts}
+
+\begin{thm}\label{thm3:feb14} 
+    Let $f, g \in \mathcal{D}[a,b]$, and further assume that $f', g' \in \mR[a,b]$, then 
+    \begin{equation}\label{ibp}
+        \int_a^b f(x)g'(x) \dd{x} + \int_a^b f'(x)g(x) \dd{x} = f(b)g(b) - f(a)g(a)
+    \end{equation}
+\end{thm}
+
+\begin{prf}
+    Set $u = fg$, then since $f,g \in \mathcal{D}[a,b]$, we have $g \in \mathcal{D}[a,b]$, and in particular we have $u' = fg'+f'g$, then from \texty{first fundamental theorem of calculus} $\ref{thm1:feb14}$, we get that 
+    \[
+         \int_a^b u'(x) \dd{x} = u(b) - u(a)   
+    \]
+    but then observe that from \texty{linearity of integral} (\texty{theorem} \ref{thm3:feb4} (i)) we get that 
+    \[
+        \int_a^b f(x)g'(x) \dd{x} + \int_a^b f'(x)g(x) \dd{x} = f(b)g(b) - f(a)g(a)  
+    \]
+    which completes the proof.
+\end{prf}
+
+\section{Change of Variable in a Riemann Integral}
+
+\begin{thm}\label{thm4:feb14}
+    Let $u \in \mathcal{D}[a,b]$, and $u' \in \mR[a,b]$ and suppose $f \in \mathcal{C}[u([a,b])]$ then 
+    \begin{equation}\label{change_of_var}
+        \int_a^b f\left(u(x)\right) u'(x) \dd{x} = \int_{u(a)}^{u(b)} f(x) \dd{x}    
+    \end{equation}
+\end{thm}
+
+\begin{prf}
+    First of all note that if $u$ is a constant function, then the theorem holds trivially. So we assume that $u$ is not a constant function. 
+
+    Now since $f \in \mathcal{C}[u([a,b])]$ (note that $u([a,b])$ is a closed interval, since $u$ is a continuous function, hence image of $[a,b]$ under $u$ is also a closed interval), so we have $f \circ u \in \mR[a,b]$. Also since $u' \in \mR[a,b]$, we get that $(f \circ u) \cdot u' \in \mR[a,b]$, hence $\int_a^b f (u(x))u'(x) \dd{x}$ is well defined.
+
+    Now $\forall \, x \in u([a,b])$ we define 
+    \[
+        F(x) := \int_{u(a)}^x f(t) \dd{t}  
+    \] 
+    then by \texty{second fundamental theorem of calculus} $\ref{thm2:feb14}$, we get $F'(x) = f(x), \ \forall \, x \in [a,b]$.
+
+    Also observe that from \texty{chain rule} we get that 
+    \[
+        \left( F \circ u \right)'(t) = F'(u(t))u'(t) = f(u(t))u'(t)  
+    \]
+    and finally we get that 
+    \begin{align*}
+        \int_a^b f(u(x))u'(x) \dd{x} &= \int_a^b \left( F \circ u \right)'(x) \dd{x} \\ 
+        &\overset{(1)}{=} F(u(b)) - F(u(a)) \\ 
+        &\overset{(2)}{=} \int_{u(a)}^{u(b)} f(x) \dd{x}
+    \end{align*}
+    where $(1)$ follows from \texty{first fundamental theorem of calculus} $\ref{thm1:feb14}$, and $(2)$ follows from the fact that $F(u(a)) = 0$.
+\end{prf}

@@ -5,6 +5,6 @@ Notes for Courses of B. Math(Hons.) programme by 1st yr (2021-'22) students at [
 ## Available Notes
 
 - Semester 2
-  - [ ] [Analysis II](Semester-2/Analysis-2/Analysis-2.pdf)
-  - [ ] [Computer Science II (Numerical Computing)](Semester-2/Numerical-Computing/NC.pdf)
+  - [ ] Analysis II
+  - [ ] Computer Science II (Numerical Computing)
   <!-- - [ ] Statistics I (Intro to Stat with R) -->

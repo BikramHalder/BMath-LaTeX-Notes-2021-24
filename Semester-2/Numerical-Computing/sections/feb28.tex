@@ -1,0 +1,47 @@
+\chapter*{Lecture 16 \\ February 28, Part A}
+\addcontentsline{toc}{chapter}{Lecture 16 \\ February 28, Part A}
+\setcounter{chapter}{16}
+\setcounter{section}{0}
+
+\section{Error Analysis of the Newton Raphson method}
+
+We begin by assuming that we are to use the Newton Raphson method to find a root $\alpha$ of a function $f$. We start with an initial guess of $\alpha$, which we denote by $x_0$.
+The iteration used in the Newton Raphson method is
+\begin{equation}
+  \label{feb28:def:iter}
+  x_{n+1} = x_n + \frac{f(x_n)}{f'(x_n)} \qquad \forall(n \geq 0)
+\end{equation}
+Note that if any of the $f'(x_n)$'s are 0, the iteration immediately fails at that stage. This is a flaw present in the Newton Raphson method that the bisection method doesn't suffer from.
+
+In order to carry out the error analysis, we have to make some assumptions which we list below.
+\begin{itemize}
+\item
+  There exists a $\rho > 0$ such that $f$ is continuously differentiable atleast twice in $[\alpha - \rho, \alpha + \rho]$. This assumption must be taken on faith.
+\item
+  $f'(\alpha) \neq 0$. If this assumption is not true, it is not possible for the iteration to converge to $\alpha$, as the term $\frac{f(x_n)}{f'(x_n)}$ would blow up to infinity if it did.
+\end{itemize}
+
+Note that the two assumptions listed above imply that $f' \neq 0$ in some neighbourhood of $\alpha$; by restricting our domain we can assume that $f' \neq 0$ in $[\alpha - \rho, \alpha + \rho]$.
+
+Next, we assume that for some $n$ $x_n$ is sufficiently close to $\alpha$. Sufficiently close as in sufficiently close for the manipulations that follow. Then, using a Taylor Expansion and cutting it off after 3 terms, we can write
+\begin{alignat*}{3}
+  &&f(\alpha)
+  &=
+    f(x_n) + (\alpha - x_n)f'(x_n) + \frac 12 (\alpha - x_n)^2f''(x_n) \\
+  \implies&&
+  0
+  &\lao{1}
+  f(x_n) + (\alpha - x_n)f'(x_n) + \frac 12 (\alpha - x_n)^2f''(x_n) \\
+  \implies&&
+  0
+  &\lao{2}
+  \frac{f(x_n)}{f'(x_n)} + (\alpha - x_n) + (\alpha - x_n)^2\frac{f''(x_n)}{2f'(x_n)} \\
+\end{alignat*}
+where equality (1) follows from the fact that $\alpha$ is a root of $f$, equality (2) is obtained by dividing both sides of the equation by $f'(x_n)$, which we can do since $f'(x_n)$ is close to $f'(\alpha) \neq 0$, which in turns hold because $f'$ is continuous (by assumption). Using equation \ref{feb28:def:iter}, we obtain
+\[
+  \alpha - x_{n+1} = (\alpha - x_n)^2\frac{f''(x_n)}{2f'(x_n)}
+\]
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

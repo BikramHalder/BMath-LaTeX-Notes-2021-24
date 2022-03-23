@@ -3,7 +3,7 @@
 \setcounter{chapter}{1}
 \setcounter{section}{0}
 
-[Note: $\blacksquare$ marks the end of a proof. If used immediately after a statement to be proved, indicates that the proof is trivial and left as an exercise to the reader]
+[Note: $\blacksquare$ marks the end of a proof, i.e., QED. If used immediately after a statement to be proved, indicates that the proof is trivial and left as an exercise to the reader]
 
 \subsection*{Assumptions:}
 
@@ -53,11 +53,11 @@
 \end{claim}
 
 \begin{defn}
-  \label{jan24_def_Mm}
+  \label{jan24:def:Mm}
   \hfill
   \begin{enumerate}[label = \arabic*), itemsep = 10pt]
   \item
-    We define $\mathcal{P}[a, b]$ to be the set of all partitions (not just those of a fixed cardinality) of $[a, b]$. If the interval is clear from the context, we shall suppress it, writing $\pf[a, b]$ as $\pf$.
+    We define $\mathcal{P}[a, b]$ to be the set of all partitions (not just those of a fixed cardinality) of $[a, b]$. If the interval is clear from the context, we shall suppress it, writing $\mP[a, b]$ as $\mP$.
 
   \item
     Let $f \colon [a, b] \subset \R \to \R$ be a (bounded) function.
@@ -94,7 +94,8 @@
 \end{claim}
 
 \begin{corr}
-  Using the notation of item 2 of definition \ref{jan24_def_Mm},
+  \label{jan24:corr:mMIneq}
+  Using the notation of item 2 of definition \ref{jan24:def:Mm},
   \[
     m \leq m_j \leq M_j \leq M
   \]
@@ -102,9 +103,77 @@
 \end{corr}
 
 \begin{proof}
-  After choosing $S_1$ and $S_2$ to be the relevant images of $f$ (see definition \ref{jan24_def_Mm}), the statement follows trivially. \hfill
+  After choosing $S_1$ and $S_2$ to be the relevant images of $f$ (see definition \ref{jan24:def:Mm}), the statement follows trivially. \hfill
 \end{proof}
 
 \begin{defn}
   Given an interval $[a, b] \subset \R$, we define $\mathcal{B}[a, b]$ to be the set of all bounded functions from $[a, b]$ to $\R$.
 \end{defn}
+
+\begin{defn}
+  \label{jan24:def:UL}
+  Let $f \in \mB[a, b]$ and let $P = \{a = x_0, x_1, \dots , x_n = b \} \in \mP[a, b]$. Then, using the notation of item 2 of definition \ref{jan24:def:Mm}, the \textbf{upper Riemann sum} of $f$ with respect to $P$ is defined as
+  \[
+    U(f; P) = \sum_{i=1}^n M_i\abs{I_i}
+  \]
+  and the \textbf{lower Riemann sum} of $f$ with respect to $P$ is defined as
+  \[
+    L(f; P) = \sum_{i=1}^n m_i\abs{I_i}
+  \]
+\end{defn}
+
+\begin{claim}
+  Both $U(f; P)$ and $L(f; P)$ must exist.
+\end{claim}
+
+\begin{proof}
+  The maxima and minima exist because $f \in\mB[a, b]$, and the sums exist because $P$ has finitely many elements (also called nodes).
+  \hfill
+\end{proof}
+
+\begin{thm}
+  Using the notation of definitions \ref{jan24:def:UL} and \ref{jan24:def:Mm}, given a function $f \in \mB[a, b]$,
+  \[
+    m(b-a) \leq L(f; P) \leq U(f; P) \leq M(b-a)
+  \]
+  for all $P \in \mP[a, b]$.
+\end{thm}
+
+\begin{proof}
+  Let $P = \{a = x_0, x_1, \dots , x_n = b \}$. For all $1 \leq i \leq n$, using corollary \ref{jan24:corr:mMIneq}
+  \[
+    m\abs{I_i} \leq m_i\abs{I_i} \leq M_i\abs{I_i} \leq M\abs{I_i}
+  \]
+  Summing up over all $1 \leq i \leq n$, we obtain the desired inequality.
+\end{proof}
+
+\begin{corr}
+  \label{jan24:corr:allBnd}
+  For all $P \in \mP$, $L(f; P)$ and $U(f; P)$ are bounded by $m(b-a)$ and $M(b-a)$. \qed
+\end{corr}
+
+\begin{defn}
+  Suppose that $f \in \mB[a, b]$. We define the \textbf{lower Riemann integral} of $f$ on $[a, b]$ to be
+  \[
+    \underline{\int_a^b} f = \sup\{L(f, P) \colon P \in \mP[a, b] \}
+  \]
+  and \textbf{upper Riemann integral} of $f$ on $[a, b]$ to be
+  \[
+    \overline{\int_a^b} f = \inf\{U(f, P) \colon P \in \mP[a, b] \}
+  \]
+  Note that both integrals must exist, since they are defined as the supremums/infimums of sets that by corollary \ref{jan24:corr:allBnd} are bounded, and because the reals are complete.
+\end{defn}
+
+\begin{defn}
+  Suppose that $f \in \mB[a, b]$. We say that $f$ is \textbf{Riemann integrable} on $[a, b]$ if
+  \[
+    \underline{\int_a^b} f = \overline{\int_a^b} f
+  \]
+  We also define the \textbf{Riemann integral} of $f$ on $[a, b]$ to be
+  \[
+    \int_a^b f \coloneqq \underline{\int_a^b} f = \overline{\int_a^b} f
+  \]
+\end{defn}
+
+The remainder of the notes covering the material done in Lecture 1 overlap with the notes covering the material done in Lecture 2, so there is no point in reproducing it here.
+

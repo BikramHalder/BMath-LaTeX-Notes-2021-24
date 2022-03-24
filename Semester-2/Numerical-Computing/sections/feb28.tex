@@ -133,7 +133,7 @@ We end by noting that although the bisection method always works (provided you c
 We wish to find a root $\alpha$ of a function $f$. Start with \textbf{\textit{two}} initial guesses of $\alpha$ namely $x_0$ and $x_1$. Ideally, the guesses should bracket $\alpha$. Then, compute subsequent guesses using the following iteration
 \begin{defn}
   \[
-    x_{n+1} = x_n - f(x_n)\frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})}
+    x_{n+1} = x_n - f(x_n)\frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})} \qquad \forall(n \geq 1)
   \]
 \end{defn}
 Note the similarity between the Newton Raphson method and the Secant method! (The derivative in the Newton Raphson method is replaced with a discrete version of it)

@@ -35,7 +35,7 @@ The bisection method will consist of the following steps:
 \begin{theoremBox}
     \begin{enumerate}
         \item[]\texty{Step 1.} Define $c = \frac{1}{2}(a+b)$.
-        \item[]\texty{Step 2.} If $b - c \leq eps$, then terminate the iteration process and return $c$ as the root.
+        \item[]\texty{Step 2.} If $b - c \leq \eps$, then terminate the iteration process and return $c$ as the root.
         \item[]\texty{Step 3.} If $\mbox{sgn}(f(b)) \cdot \mbox{sgn}(f(c)) \leq 0$, then set $a = c$, else set $b = c$, and return to \texty{Step 1}.    
     \end{enumerate}
 \end{theoremBox}
@@ -56,7 +56,7 @@ and hence from equation $(\ref{eq1:feb21})$, and using induction we easily get t
 \begin{equation}\label{eq2:feb21}
     b_n - a_n = \frac{1}{2^{n-1}} (b-a), \ \forall \, n \in \bb{N}
 \end{equation} 
-Now at the $n^{th}$ iteration, we will have, $c_n = \frac{1}{2}(a_n+b_n)$, and since throughout the process we have either $f(a_n) f(c_n) \leq 0$ or $f(c_n) f(b_n) \leq 0$, thus if $\alpha$ either lies in the interval $[a_n, c_n]$ or in the interval $[c_n,b_n]$, in either case, we since 
+Now at the $n^{th}$ iteration, we will have, $c_n = \frac{1}{2}(a_n+b_n)$, and since throughout the process we have either $f(a_n) f(c_n) \leq 0$ or $f(c_n) f(b_n) \leq 0$, thus $\alpha$ either lies in the interval $[a_n, c_n]$ or in the interval $[c_n,b_n]$, in either case, we since 
 \[
     c_n - a_n = b_n - c_n = \frac{1}{2}(b_n - a_n)  
 \]
@@ -68,7 +68,7 @@ and then using equation $(\ref{eq2:feb21})$, we get that
 \begin{equation}\label{eq3:feb21}
     |\alpha - c_n| \leq \frac{1}{2^n} (b-a)
 \end{equation}
-and hence since \[\lim_{n \to \infty} \frac{1}{2^n}(b-a) = 0\] we deduce that $c_n \to \alpha$, as $n \to \infty$, hence the \texty{bisection method} guarantees that eventually our estimate will converge to a root of $f$. Now ofcourse our can not run for enternity, so must terminate it at a certain point this is where \texty{Step 2} is necessary. But the next question that arises is how many iterations would we need to reach to our desired root? 
+and hence since \[\lim_{n \to \infty} \frac{1}{2^n}(b-a) = 0\] we deduce that $c_n \to \alpha$, as $n \to \infty$, hence the \texty{bisection method} guarantees that eventually our estimate will converge to a root of $f$. Now ofcourse our function can not run for enternity, so we must terminate it at a certain point this is where \texty{Step 2} is necessary. But the next question that arises is how many iterations would we need to reach to our desired root? 
 
 \subsection{How many iterations do we need?}
 

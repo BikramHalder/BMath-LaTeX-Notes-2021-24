@@ -28,6 +28,7 @@ Therefore, we now set for ourselves the task of finding fixed points $\alpha$ of
 \end{thm}
 
 \begin{thm}
+  \label{mar4:thm:ufp}
   \hfill
   
   If the following conditions obtain,
@@ -51,7 +52,33 @@ Therefore, we now set for ourselves the task of finding fixed points $\alpha$ of
   then $g$ has a \textbf{unique} fixed point in $[a, b]$.
   \hfill\qed
 \end{thm}
-Note that we have the same problem here as when we did the bisection method; the problem of finding a suitable interval ($[a, b]$ in this case).
+Note that we have the same problem here as when we did the bisection method; the problem of finding a suitable interval ($[a, b]$ in this case). But let us assume that you have found such an interval, and proceed.
+
+Under the assumptions of theorem \ref{mar4:thm:ufp}, if we start with an initial guess $x_0 \in [a, b]$, and define subsequent guesses using the recursion
+\begin{defn}
+  \label{mar4:def:iter}
+  \[
+    x_{n+1} = g(x_n) \qquad \forall(n \geq 0)
+  \]
+\end{defn}
+then if we denote the unique fixed point of $g$ in $[a, b]$ by $\alpha$, we have
+\begin{thm}
+  \[
+    \lim_{n\to\infty} x_n = \alpha
+  \]
+\end{thm}
+
+\begin{proof}
+  Assuming the preconditions of theorem \ref{mar4:thm:ufp}, $g \colon [a, b] \to [a, b]$. Combining that with the fact that $x_0 \in [a, b]$, it is easy to see by induction that $x_n \in [a, b]$ for all $n \geq 0$.
+
+  Now, by definition \ref{mar4:def:iter}, and the fact that $g(\alpha) = \alpha$, we have
+  \[
+    \alpha - x_{n+1} = g(\alpha) - g(x_n) = g'(c_n)(\alpha - x_n)
+  \]
+  for some $c_n \in (\alpha, x_n)$, by the \emph{mean value theorem}.
+\end{proof}
+
+[Stopped at 20:00 $+$ a few seconds]
 
 %%% Local Variables:
 %%% mode: latex

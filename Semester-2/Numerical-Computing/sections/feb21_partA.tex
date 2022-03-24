@@ -1,0 +1,118 @@
+\chapter*{Lecture 14 \\ February 21, Part A}
+\addcontentsline{toc}{chapter}{Lecture 14 (February 21, Part A)}
+\setcounter{chapter}{14}
+\setcounter{section}{0}
+
+Finding a root of a function $f : \bb{R} \to \bb{R}$, i.e., to say a root of the equation 
+\[
+    f(x) = 0  
+\]
+is a common problem in applied mathematics. We will discuss over how to numerically solve the equation for functions with a closed form, along with some other conditions. 
+
+\texty{Iteration Methods}
+
+All the numerical methods which we will use for approximating the root of the equation will be iteration methods. In iteration methods we compute a sequence of increasingly accurate estimate of the root of the equation $f(x) = 0$.
+
+\section{Bisection Method}
+
+Suppose we have a function $f : \bb{R} \to \bb{R}$, such that \begin{itemize}
+    \item $f \in \mathcal{C}[a,b]$, i.e., $f$ in continuous on the closed set $[a,b]$. 
+    \item $f(a)f(b) < 0$, i.e., $f(a)$ and $f(b)$ have opposite signs.  
+\end{itemize}
+Then note that from \texty{Intermediate Value Theorem}\footnote{\texty{Intermediate Value Theorem:} Let $f : [a,b] \to \bb{R}$, be a continuous function, and let $\eta$ be any real number between $f(a)$ and $f(b)$, then there exists a $c \in [a,b]$ such that $f(c) = \eta$.}, we have, there exists at least one $\alpha \in [a,b]$ such that $f(\alpha) = 0$. In this setup we can use \texty{bisection method} to find a root to the equation $f(x) = 0$, to our precise degree of accuracy. We will now design an algorithm for the \texty{bisection method}.  
+
+\subsection{Algorithm for Bisection Method}
+
+Our function will take $4$ inputs: 
+\begin{itemize}
+    \item The continuous function $f$.
+    \item Points $a$ and $b$ in the domain of $f$ such that $a < b$, and we have $f(a) f(b) < 0$.
+    \item An \textit{error tolerance} level $\eps > 0$. The \textit{error tolerance} level will indicate our function when to stop the iteration process. 
+\end{itemize}
+
+The bisection method will consist of the following steps: 
+
+\begin{theoremBox}
+    \begin{enumerate}
+        \item[]\texty{Step 1.} Define $c = \frac{1}{2}(a+b)$.
+        \item[]\texty{Step 2.} If $b - c \leq eps$, then terminate the iteration process and return $c$ as the root.
+        \item[]\texty{Step 3.} If $\mbox{sgn}(f(b)) \cdot \mbox{sgn}(f(c)) \leq 0$, then set $a = c$, else set $b = c$, and return to \texty{Step 1}.    
+    \end{enumerate}
+\end{theoremBox}
+
+Now, we will show that if $f$ is a continuous function on the set $[a,b]$, where $a$ and $b$ are points such that $f(a)f(b) < 0$, then bisection method is guaranteed to converge to a root of $f$. 
+
+\subsection{The Bisection Method is guaranteed to converge to a root}
+
+Let $a_n, b_n$ and $c_n$ be the $n^{th}$ computed values of $a,b$ and $c$ respectively and we have $a_1 = a, b_1 = b$. And let $\alpha$ be the true root of the function $f$, i.e., 
+\[
+    f(\alpha) = 0  
+\]
+Then observe that 
+\begin{equation}\label{eq1:feb21}
+    b_{n+1} - a_{n+1} = \frac{1}{2} (b_n - a_n), \ \forall \, n \in \bb{N}
+\end{equation}
+and hence from equation $(\ref{eq1:feb21})$, and using induction we easily get that 
+\begin{equation}\label{eq2:feb21}
+    b_n - a_n = \frac{1}{2^{n-1}} (b-a), \ \forall \, n \in \bb{N}
+\end{equation} 
+Now at the $n^{th}$ iteration, we will have, $c_n = \frac{1}{2}(a_n+b_n)$, and since throughout the process we have either $f(a_n) f(c_n) \leq 0$ or $f(c_n) f(b_n) \leq 0$, thus if $\alpha$ either lies in the interval $[a_n, c_n]$ or in the interval $[c_n,b_n]$, in either case, we since 
+\[
+    c_n - a_n = b_n - c_n = \frac{1}{2}(b_n - a_n)  
+\]
+we get that 
+\begin{equation*}
+    |\alpha - c_n| \leq \frac{1}{2} (b_n - a_n)
+\end{equation*}
+and then using equation $(\ref{eq2:feb21})$, we get that 
+\begin{equation}\label{eq3:feb21}
+    |\alpha - c_n| \leq \frac{1}{2^n} (b-a)
+\end{equation}
+and hence since \[\lim_{n \to \infty} \frac{1}{2^n}(b-a) = 0\] we deduce that $c_n \to \alpha$, as $n \to \infty$, hence the \texty{bisection method} guarantees that eventually our estimate will converge to a root of $f$. Now ofcourse our can not run for enternity, so must terminate it at a certain point this is where \texty{Step 2} is necessary. But the next question that arises is how many iterations would we need to reach to our desired root? 
+
+\subsection{How many iterations do we need?}
+
+\begin{thm}
+    Let $n$ be the number of iterations required to a root within our desired error tolerance level $\eps > 0$, then we have 
+    \[
+        n \geq \frac{\ln{\left( \frac{b-a}{\eps} \right)}}{\ln{2}}   
+    \]
+    where $a$ and $b$, are the endpoints of our initial interval. 
+\end{thm}
+
+The number iterations required, is equivalent to finding the $n$ such that 
+\[
+    |\alpha - c_n| \leq \eps    
+\]
+But from equation $(\ref{eq3:feb21})$, this is equivalent to finding $n$ such that 
+\[
+    \frac{1}{2^n}(b-a) \leq \eps \Rightarrow \frac{b-a}{\eps} \leq 2^n
+\]  
+taking logarithm on both sides we get that we must have 
+\begin{equation}\label{eq4:feb21}
+    n \geq \frac{\ln{\left( \frac{b-a}{\eps} \right)}}{\ln{2}}
+\end{equation}
+
+\subsection{Pros and Cons of Bisection Method}
+
+\begin{tcolorbox}[
+    colback = green!5,
+    colframe = green!75
+]
+\begin{itemize}
+    \item[\texty{Pros:}]
+    \item The number of iterations, i.e., $n$ can be estimated.
+    \item Is guaranteed to converge to a root of the function.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[
+    colback = red!5,
+    colframe = red!75
+]
+    \begin{itemize}
+        \item[\texty{Cons:}]
+        \item The algorithm converges to a desired root more slowly than other algorithms.
+        \item To we must find $a$ and $b$ such that $\alpha \in [a,b]$, which can be sometimes difficult to find.
+    \end{itemize}    
+\end{tcolorbox}

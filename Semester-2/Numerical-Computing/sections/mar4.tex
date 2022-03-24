@@ -1,0 +1,59 @@
+\chapter*{Lecture 18 \\ March 4}
+\addcontentsline{toc}{chapter}{Lecture 18 (March 4)}
+\setcounter{chapter}{18}
+\setcounter{section}{0}
+
+\section{Fixed point methods}
+
+Instead of trying to find a root to an equation of the form $f(x) = 0$, we can try to find a root to an equation of the form $x - f(x) = x$. Defining $g(x) \coloneqq x - f(x)$, we see that the task of finding a root of $f$ is equivalent to finding a \textbf{fixed point} of $g$ (a fixed point of a function $g$ is a real $\alpha$ such that $g(\alpha) = \alpha$).
+
+We shall deal mainly with non-linear functions, as finding the roots/fixed points of linear functions can be done by employing the techniques of linear algebra, which we have already covered.
+
+Therefore, we now set for ourselves the task of finding fixed points $\alpha$ of a function $g$. But first, we recall some theorems that we proved in previous lectures
+
+\begin{thm}
+  \hfill
+  
+  If the following conditions obtain,
+  \begin{itemize}
+  \item
+    $g \colon [a, b] \to [a, b]$.
+    
+  \item
+    $g$ is continuous on $[a, b]$.
+    
+  \end{itemize}
+  then $g$ has a (not necessarily unique) fixed point in $[a, b]$.
+  \hfill\qed
+\end{thm}
+
+\begin{thm}
+  \hfill
+  
+  If the following conditions obtain,
+  \begin{itemize}
+  \item
+    $g \colon [a, b] \to [a, b]$.
+
+  \item
+    $g$ is continuous on $[a, b]$.
+
+    \item
+    $g'$ exists in $[a, b]$.
+
+  \item
+    $g'$ is continuous on $[a, b]$.
+
+  \item
+    $\lambda \coloneqq \max_{x \in [a, b]} \abs{g'(x)} < 1$.
+
+  \end{itemize}
+  then $g$ has a \textbf{unique} fixed point in $[a, b]$.
+  \hfill\qed
+\end{thm}
+Note that we have the same problem here as when we did the bisection method; the problem of finding a suitable interval ($[a, b]$ in this case).
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

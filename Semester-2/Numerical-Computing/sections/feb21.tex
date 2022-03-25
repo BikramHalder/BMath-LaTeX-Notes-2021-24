@@ -54,22 +54,19 @@ Now, we look at an example computation problem that can be solved using the Newt
 	Notice that the arithmetic of the above recursion involves only subtraction and multiplication which were supported in the early computers.
 
 	Now, we look at the error analysis of this procedure.
-	From $\epsilon_x_n = \frac{\alpha-x_n}{\alpha}$, we easily get
+	From $\epsilon_{x_n} = \frac{\alpha-x_n}{\alpha}$, we easily get
 	 \[
-	 \epsilon_{x_{n+1}} = \epsilon_x_n^2 \implies \epsilon_{x_n} = \left( \epsilon_{x_0} \right)^{2^n} 
+	 \epsilon_{x_{n+1}} = \epsilon_{x_n}^2 \implies \epsilon_{x_n} = \left( \epsilon_{x_0} \right)^{2^n} 
 	.\] 
 	We want the relative error of $x_n$,i.e. $\epsilon_{x_n}$, to decrease to $0$, as $n$ increases.  For that purpose, it is necessary to have $|\epsilon_{x_0}| < 1$.
 
 	So, we want $|\frac{\alpha - x_0}{\alpha}| < 1$.
-	\begin{itemize*}
+	\begin{itemize}
 		\item If $x_0 > \alpha$, then  $\frac{x_0-\alpha}{alpha} < 1 \implies x_0 < 2\alpha = \frac{2}{b}$\\
 		\item If $ x_0 < \alpha$, then $\frac{\alpha - x_0}{\alpha} < 1 \implies x_0 > 0$
-	\end{itemize*}
+	\end{itemize}
 	This gives us the equivalent condition $0 < x_0 < \frac{2}{b}$ 
 	Therefore, the Newton-Raphson Method guarantees convergence to $\alpha = \frac{1}{b}$ if and only if $x_0$ satisfies the above condition.
 
 	At the lowest levels, this procedure is how computation is carried out even today.
 \end{example}
-
-
-

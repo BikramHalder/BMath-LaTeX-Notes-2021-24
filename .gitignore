@@ -17,3 +17,5 @@ bmat*
 *#*
 *~
 *.pdf
+*.latexmain
+.R*

@@ -1,0 +1,111 @@
+\chapter*{Lecture 17 \\ February 28, Part B}
+\addcontentsline{toc}{chapter}{Lecture 17 (February 28, Part B)}
+\setcounter{chapter}{17}
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\section{Fixed Point Iteration}
+
+The \texty{Newton Raphson method} and \texty{secant method} are \textit{one-point} and \textit{two-point} iteration methods respectively (an algorithm is said to be $n$-point iteration method, if for the iteration to begin we need $n$ initial guessed points). Now we will go over more general theory of \textit{one-point} iteration methods. Conisder the simple equation 
+\begin{equation}\label{eq1:feb28B}
+    x^2 - 5 = 0
+\end{equation}
+then a root of the equation $(\ref{eq1:feb28B})$, is $\alpha = \sqrt{5}$, and consider the following iterative methods for solving the above equation: 
+\begin{align}\label{eq2:feb28B}
+    &x_{n+1} = 5 + x_n - x_n^2 \\ 
+    &x_{n+1} = \frac{5}{x_n} \\ 
+    &x_{n+1} = 1 + x_n - \frac{1}{5}x_n^2 \\    
+    &x_{n+1} = \frac{1}{2}\left(x_n + \frac{5}{x_n}\right)  
+\end{align}
+Then its easy to observe that for all the above sequences whenever the sequence $\{x_n\}_{n\in\bb{N}}$ converges to some real number $\alpha$, then $\alpha = \sqrt{5}$. This can be easily seen by assuming $\{x_n\}_{n \in \bb{N}}$ converges to $\alpha$, and then taking limit as $n$ tends to infinity. For example in equation $(\ref{eq2:feb28B})$ (assume that for some initial guess the sequence converges), then we have 
+\[
+   \alpha = \lim_{n\to\infty} x_{n+1} = \lim_{n\to\infty} \left( 5+x_n-x_n^2 \right) = 5 + \alpha - \alpha^2 \Rightarrow \alpha = \sqrt{5}  
+\] 
+Now observe that all the above iterative equations, have the general form 
+\begin{equation}\label{eq3:feb28B}
+    x_{n+1} = g(x_n)
+\end{equation}
+for some appropriate continuous function on a suitable domain. For example in case of equation $(\ref{eq2:feb28B})$, the function $g(x) = 5+x-x^2$. And assuming that $x_n$ converges to $\alpha$, we get that 
+\[
+    \alpha = \lim_{n\to\infty} x_{n+1} = \lim_{n\to\infty} g(x_n) = g \left( \lim_{n\to\infty} x_n \right) = g(\alpha)  
+\]
+Thus $\alpha$ is a solution to the equation $g(x)=x$, and hence we have $\alpha$ is a root of $g$.
+
+The above idea motivates us to see that the problem of finding a root for the equation $f(x) = 0$, can be converted into an equation $g(x) = x$, where we can take $g(x) = x - f(x)$. Thus if $\alpha$ is a root of $f$, i.e., $f(\alpha) = 0$, then we have 
+\[g(\alpha) = \alpha - f(\alpha) = \alpha\]
+Now as we will see, if we are given some further informations about the functions we are working with, then \texty{fixed point iteration methods} are faster than \texty{bisection method} and are even guaranteed to converge to a root.
+
+\begin{tcolorbox}[
+    colback = cyan!5,
+    colframe = cyan!75
+]
+    \texty{Remarks:} \textit{Fixed point iteration method has a lot of applications in Chaos Theory.} 
+\end{tcolorbox}
+
+Now let us look at some of the necessary conditions, we may need for the \texty{fixed point method} to work! 
+
+The first question that arises naturally is, when does the equation $g(x) = x$ has a solution?
+
+\subsection{Necessary Condition for Existence of a Fixed Point}
+
+\begin{thm}\label{thm1:feb28B}
+    Let $g :[a,b] \to \bb{R}$, be a continuous function, and suppose $g$ satisfies the property 
+    \[
+        a \leq x \leq b \Rightarrow a \leq g(x) \leq b
+    \]
+    then the equation $x = g(x)$, has at least one solution $ \alpha $ in the interval $[a,b]$.
+\end{thm}
+
+\begin{prf}
+    Define $f(x) = x - g(x)$, then we have $f$ is a continuous function on $[a,b]$, and we further have 
+    \begin{align*}
+        &&f(a) = a-g(a) \leq 0 &&\mbox{and} &&f(b) = b - g(b) \geq 0
+    \end{align*}
+    and hence by \texty{Intermediate Value Theorem}, we get that there exists a $\alpha \in [a,b]$, such that $f(\alpha) = 0$, but then we get $g(\alpha) = \alpha$.
+\end{prf}
+
+\texty{Theorem} $\ref{thm1:feb28B}$, can be geometrically interpretated as if we have a function $g :[a,b] \to [a,b]$, i.e., the graph of $g$ is inside the square region $[a,b] \times [a,b]$, then the graph of $g$ must intersect the diagonal of the square, i.e., $y = x$ line at some point, which precisely gives us that there exists a $\alpha \in [a,b]$, such that $g(\alpha) = \alpha$.
+
+\begin{defn}\label{def1:feb28B}
+    Now consider the following assumptions: 
+
+        \begin{itemize}
+            \item $g$ is differentiable on $[a,b]$, and further $g'$ is continuous on $[a,b]$.
+            
+            \item $x \in [a,b] \Rightarrow g(x) \in [a,b]$.
+            
+            \item $\displaystyle{\lambda := \max_{a \leq x \leq b} |g'(x)| < 1}$.
+        \end{itemize}    
+\end{defn}
+Then with the above assumptions we can guarantee, that there exists an unique root.
+
+\subsection{Uniqueness of the Fixed Point}
+
+\begin{thm}\label{thm2:feb28B}
+    Assume that $g$ satisfies all the above conditions given in \texty{definition} $\ref{def1:feb28B}$, then $g$ has an unique fixed point in $[a,b]$.
+\end{thm}
+\begin{prf}
+    Now the fact that $g$ is differentiable on $[a,b]$, tells us that $g$ is continuous on $[a,b]$, and then second condition of our assumptions, along with \texty{theorem} $\ref{thm1:feb28B}$, gives us $g$ has at least one fixed point in $[a,b]$.     
+
+    Let $w_1, w_2 \in [a,b]$ then from \texty{Mean Value Theorem}\footnote[1]{\texty{Mean Value Theorem:} Let $f : [a,b] \to \bb{R}$ be differentiable on $(a,b)$, then there exists a $c \in (a,b)$ such that \[ f(b)-f(a) = f'(c) (b-a) \] }, we get that there exists a $c$ in between $w_1$ and $w_2$ such that 
+    \[
+        g(w_1) - g(w_2) = g'(c) (w_1 - w_2)     
+    \]
+    But then we get that 
+    \begin{equation}\label{eq4:feb28B}
+        |g(w_1) - g(w_2)| = |g'(c)| |w_1 - w_2| \leq \lambda |w_1 - w_2|
+    \end{equation}
+    Now suppose there exists $c_1, c_2 \in [a,b]$ such that $g(c_1) = c_1$ and $g(c_2) = c_2$, then we have 
+    \begin{align*}
+        |c_1 - c_2| &= |g(c_1) - g(c_2)| \\ 
+                    &\overset{(\ref{eq4:feb28B})}{\leq} \lambda |c_1 - c_2|
+    \end{align*}
+    and hence we get that
+    \begin{equation}\label{eq5:feb28B}
+        (1-\lambda)|c_1 - c_2| \leq 0        
+    \end{equation} 
+    But note that from the third condition in our assumptions, we have $1 -\lambda > 0$, and hence only way equation $(\ref{eq5:feb28B})$, can hold is 
+    \[
+        |c_1 - c_2| \leq 0 \Rightarrow |c_1 - c_2| = 0 \Rightarrow c_1 = c_2  
+    \]
+    Hence, $g$ has an unique fixed point in $[a.b]$.
+\end{prf}

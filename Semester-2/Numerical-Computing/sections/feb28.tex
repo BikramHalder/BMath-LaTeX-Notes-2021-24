@@ -136,6 +136,7 @@ We wish to find a root $\alpha$ of a function $f$. Start with \textbf{\textit{tw
     x_{n+1} = x_n - f(x_n)\frac{x_n - x_{n-1}}{f(x_n) - f(x_{n-1})} \qquad \forall(n \geq 1)
   \]
 \end{defn}
+
 Note the similarity between the Newton Raphson method and the Secant method! (The derivative in the Newton Raphson method is replaced with a discrete version of it)
 
 Unfortunately, the Secant method converges more slowly than the Newton Raphson method, and thus finds little practical use.
@@ -147,6 +148,14 @@ Also, just because the initial guesses bracket the root, that doesn't mean the s
 Normally, when we compute $x_{n+1}$, we discard $x_{n-1}$. But you can instead discard $x_n$ if you need to, with the goal of having guesses that bracket the root. Although even an uninterrupted bracket fails when the expressions of the form $f(x_n) - f(x_{n-1})$ are too large, and thus the brackets keep getting larger and larger instead of smaller.
 
 For an example of what can go wrong with the secant method consider the case of a vertical parabola with vertex at 0, and initial guesses $\pm 1$.
+
+\begin{figure}[H]
+	\centering
+	\def\svgwidth{0.8\textwidth}
+	\import{./figures}{secant.pdf_tex}
+	\caption{Secant Method}
+	\label{fig1:feb28A}
+\end{figure}
 
 It is not clear to me whether the secant method will converge if our initial guesses bracket the root, we always choose our subsequent guesses so that they always bracket the root, and $f$ has different signs at our guesses (including the initial guesses). Someone should probably investigate.
 

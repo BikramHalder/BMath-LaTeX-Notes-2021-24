@@ -16,6 +16,5 @@ bmat*
 *.toc
 *#*
 *~
-*.pdf
 *.latexmain
 .R*

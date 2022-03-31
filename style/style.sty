@@ -179,6 +179,12 @@
   bottomrule = 0mm
 }
 
+\newtcolorbox{rmkBox}
+{
+  colback = cyan!5,
+  colframe = cyan!75
+}
+
 \newenvironment{soln}
 {
     \vspace{0.1cm}
@@ -194,6 +200,10 @@
 {
     \vspace{0.1cm}
 }
+
+\newenvironment{rmk}
+{\begin{rmkBox} \textbf{Remark:} \itshape}
+{\end{rmkBox}}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]

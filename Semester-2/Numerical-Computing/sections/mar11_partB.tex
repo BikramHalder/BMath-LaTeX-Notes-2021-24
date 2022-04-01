@@ -3,6 +3,114 @@
 \setcounter{chapter}{23}
 \setcounter{section}{0}
 
+\section{Summary of Newton's divided differences}
+
+\begin{defn}
+  Given support points $(x_0, f_0), (x_1, f_1), \dots ,(x_k, y_k)$, we can define the polynomial $\Phi(x) = P_{i_0i_1\dots i_n} \in \Pi_n$ to be the \textbf{unique} $n$ degree polynomial that satisfies $\Phi(x_{i_j}) = f_{i_j}$ for all $0 \leq j \leq n$.
+\end{defn}
+\begin{rmk}
+  $\Phi$ and $P_{i_0i_1\dots i_n}$ are merely different ways to write the same polynomial; the second form emphasizes the role of the support points in the definition of $\Phi$.
+\end{rmk}
+
+ Now, $\Phi$ can be written using a formula called the \textbf{Newton's divided differences representation}, as the following theorem states
+ \begin{thm}
+   \label{mar11b:thm:ndd}
+  \[
+    \Phi = \sum_{j = 0}^n f_{i_0\dots i_j}\prod_{k = 0}^{j-1}\left(x - x_{i_j}\right)
+  \]
+  where the $f_{\dots}$ are defined as follows.
+
+  Observe that we already know what the $f_{i_k}$'s have to be; they are the $y$-coordinates of the corresponding support points.
+  Then, given an integer $k$, we define
+  \[
+    f_{i_0\dots i_{k}} \coloneqq \frac{f_{i_1\dots i_{k}} - f_{i_0\dots i_{k-1}}}{x_{i_k} - x_{i_o}}
+  \]
+  The above recursive definition lets us calculate all the $f_{\dots}$ used in Newton's divided differences representation of $\Phi = P_{i_0i_1\dots i_n}$.
+\end{thm}
+
+\begin{example}
+  We calculate some examples of the coefficients used in the formula in theorem \ref{mar11b:thm:ndd}
+  \[
+    f_{01} = \frac{f_1 - f_0}{x_1 - x_0}
+    \qquad
+    f_{12} = \frac{f_2 - f_1}{x_2 - x_1}
+    \qquad
+    f_{123} = \frac{f_{23} - f_{12}}{x_3 - x_1}
+    \qquad
+    f_{4567} = \frac{f_{567} - f_{456}}{x_7 - x_4}
+  \]
+\end{example}
+
+\section{Error Analysis}
+Suppose you have a function $f$ that you can easily calculate at some, but not all values. Or perhaps the function is only defined at some, but not all values. Instead of working with the function, you might decide to use a polynomial that coincides with it at certain values of $x$, where the value of $f$ is known.
+
+More specifically, suppose you have the set of points $x_0, x_1, \dots x_n$, and you're given a function $f$ whose values are $f_0. f_1, \dots f_n$ at $x_0, x_1, \dots x_n$ respectively.
+
+Then, using the results of the above section we can construct a polynomial $P$ such that
+\[
+  P(x_i) = f_i \quad \forall(0 \leq i \leq n)
+\]
+However unless we are exceptionally lucky, given any arbitrary $x \neq x_i \quad \forall(0 \leq i \leq n)$, we shall \textbf{not} have $P(x) = f(x)$. Our task then, is to estimate the error
+\[
+  f(x) - P(x)
+\]
+for general $x \in \R$.
+
+We can supply a formula for the error $f(x) - P(x)$ if $f$ is differentiable sufficiently many times. But before that we need to state a definition:
+\begin{defn}
+  Given reals $x_0, x_1, \dots ,x_k$, we define $I_0[x_0, x_1, \dots ,x_k]$ to be the smallest interval containing them
+\end{defn}
+
+\begin{thm}
+  \label{mar11b:thm:err_thm}
+  Suppose that $f$ is differentiable atleast $n+1$ times in $\dom(f)$. Then given a real $\overline{x} \in \dom(f)$, the error $\epsilon(\overline{x})$ is given by
+  \[
+    \epsilon(\overline{x}) = f(\overline{x}) - P(\overline{x}) = \left(\frac{f^{(n+1)}(\xi)}{(n+1)!}\right)\prod_{k = 0}^n (\overline{x} - x_k)
+  \]
+  for some $\xi \in I_0[x_0, x_1, \dots ,x_n, \overline{x}]$. Note that $\prod_{k = 0}^n (\overline{x} - x_k)$ can also be abbreviated as $\omega(\overline{x})$. Using that abbreviation, the above identity can be written as
+  \[
+    \epsilon(\overline{x}) = f(\overline{x}) - P(\overline{x}) = \omega(\overline{x})\left(\frac{f^{(n+1)}(\xi)}{(n+1)!}\right)
+  \]
+\end{thm}
+\begin{proof}
+  If $\overline{x} = x_i$ for any $0 \leq i \leq n$, the result holds trivially. So we shall assume that $\overline{x} \neq x_i$ for all $0 \leq i \leq n$.
+
+  Define $F \colon \dom(f) \to \R$ by $F(x) \coloneqq \epsilon(x) - \frac{\epsilon(\overline{x})}{\omega(\overline{x})}\omega(x)$. Note that
+  \begin{itemize}
+    \item
+      The definition is valid because $\overline{x} \neq x_i$ for all $0 \leq i \leq n$ implies that $\omega(\overline{x}) \neq 0$.
+    \item
+      $F$ is 0 at $x_0, x_1, \dots ,x_n$ and $\overline{x}$. Therefore $F$ has at least $n+2$ zeroes.
+    \item
+      $F$ is differentiable atleast $n+1$ times, since $F = f - P - \frac{\epsilon(\overline{x})}{\omega(\overline{x})}\omega$, and $f$ is differentiable at least $n+1$ times, while the remaining terms are polynomials and thus differentiable arbitrarily many times.
+    \item
+      The last bullet point also tells us that $F, F^{(1)}, F^{(n)}$ are all continuous (differentiability implies continuity). This bullet point, and the last are necessary to justify our appeals to Rolle's theorem below.
+  \end{itemize}
+
+  Now, assume W.L.O.G. that $x_0 < x_1 < \dots < x_n$. Let $b$ be the index such that
+  \[
+    x_b < \overline{x} < x_{b+1}
+  \]
+  (If $\overline{x}$ is not contained in $(x_0, x_n)$, our analysis fails). Since $F$ has at least $n+2$ distinct zeroes in $I_0[x_0, x_1, \dots ,x_n, \overline{x}]$, by Rolle's theorem, $F^{(1)}$ has at least $n+1$ zeroes in $I_0[x_0, x_1, \dots ,x_n, \overline{x}]$. Continuing this way, we see that $F^{(n+1)}$ has atleast one zero in $I_0[x_0, x_1, \dots ,x_n, \overline{x}]$. Denote the zero $\xi$. Then, we have
+  \begin{align*}
+    &0 = F^{(n+1)}(\xi) \\
+    \implies&
+              0 = \left.\dv[n+1]{x}\left(\epsilon(x) - \frac{\epsilon(\overline{x})}{\omega(\overline{x})}\omega(x) \right)\right|_{x = \xi} \\
+    \implies&
+              0 = \left.\dv[n+1]{x}\left(f(x) - P(x) - \frac{\epsilon(\overline{x})}{\omega(\overline{x})}\omega(x) \right)\right|_{x = \xi} \\
+    \implies&
+              0 = f^{(n+1)}(\xi) - \frac{\epsilon(\overline{x})}{\omega(\overline{x})}(n+1)! \tag{1}
+  \end{align*}
+  since $(\text{P has degree at most } n) \implies \dv[n+1]{P}{x} = 0$ and $\dv[n+1]{\omega}{x} = (n+1)!$. Rewriting equation (1), we have
+  \[
+    \epsilon(\overline{x}) = \omega(\overline{x})\left(\frac{f^{(n+1)}(\xi)}{(n+1)!}\right)
+  \]
+  \hfill
+\end{proof}
+
+Note that if we want to use theorem \ref{mar11b:thm:err_thm}, then we need to have some information about $\frac{f^{(n+1)}(\xi)}{(n+1)!}$. For although we know everything there is to know about $\omega$, everything else is a bit of a mystery. So if we want to be able to say anything meaningful about the error at $\overline{x}$, we had better know something about $\frac{f^{(n+1)}(\xi)}{(n+1)!}$.
+
+One example of a situation where we can say something meaningful about $\frac{f^{(n+1)}(\xi)}{(n+1)!}$ is when $f = \sin$. In that case, we have $\abs{f^{(n+1)}(\xi)} \leq 1$, which helps us bound $\epsilon(\overline{x})$,
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../NC"

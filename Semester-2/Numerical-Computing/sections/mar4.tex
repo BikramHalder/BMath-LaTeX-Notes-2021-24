@@ -12,173 +12,233 @@ We shall deal mainly with non-linear functions, as finding the roots/fixed point
 Therefore, we now set for ourselves the task of finding fixed points $\alpha$ of a function $g$. But first, we recall some theorems that we proved in previous lectures
 
 \begin{thm}
-  \label{mar4:thm:efp}
-  \hfill
-  
-  If the following conditions obtain,
-  \begin{itemize}
-  \item
-    $g \colon [a, b] \to [a, b]$.
-    
-  \item
-    $g$ is continuous on $[a, b]$.
-    
-  \end{itemize}
-  then $g$ has a (not necessarily unique) fixed point in $[a, b]$.
-  \hfill\qed
+	\label{mar4:thm:efp}
+	\hfill
+
+	If the following conditions obtain,
+	\begin{itemize}
+		\item
+		      $g \colon [a, b] \to [a, b]$.
+
+		\item
+		      $g$ is continuous on $[a, b]$.
+
+	\end{itemize}
+	Then $g$ has a (not necessarily unique) fixed point in $[a, b]$.
+	\hfill\qed
 \end{thm}
 
 \begin{thm}
-  \label{mar4:thm:ufp}
-  \hfill
-  
-  If the following conditions obtain,
-  \begin{itemize}
-  \item
-    $g \colon [a, b] \to [a, b]$.
+	\label{mar4:thm:ufp}
+	\hfill
 
-  \item
-    $g$ is continuous on $[a, b]$.
+	If the following conditions obtain,
+	\begin{itemize}
+		\item
+		      $g \colon [a, b] \to [a, b]$.
 
-  \item
-    $g'$ exists in $[a, b]$.
+		\item
+		      $g$ is continuous on $[a, b]$.
 
-  \item
-    $g'$ is continuous on $[a, b]$.
+		\item
+		      $g'$ exists in $[a, b]$.
 
-  \item
-    $\lambda \coloneqq \max_{x \in [a, b]} \abs{g'(x)} < 1$.
+		\item
+		      $g'$ is continuous on $[a, b]$.
 
-  \end{itemize}
-  then $g$ has a \textbf{unique} fixed point in $[a, b]$.
-  \hfill\qed
+		\item
+		      $\lambda \coloneqq \max_{x \in [a, b]} \abs{g'(x)} < 1$.
+
+	\end{itemize}
+	Then $g$ has a \textbf{unique} fixed point in $[a, b]$.
+	\hfill\qed
 \end{thm}
 Note that we have the same problem here as when we did the bisection method; the problem of finding a suitable interval ($[a, b]$ in this case). But let us assume that you have found such an interval, and proceed.
 
 Under the assumptions of theorem \ref{mar4:thm:ufp}, if we start with an initial guess $x_0 \in [a, b]$, and define subsequent guesses using the recursion
 \begin{defn}
-  \label{mar4:def:iter}
-  \[
-    x_{n+1} = g(x_n) \qquad \forall(n \geq 0)
-  \]
+	\label{mar4:def:iter}
+	\[
+		x_{n+1} = g(x_n) \qquad \forall(n \geq 0)
+	\]
 \end{defn}
 then if we denote the unique fixed point of $g$ in $[a, b]$ by $\alpha$, we have
 \begin{thm}
-  \label{mar4:thm:2c}
-  \[
-    \abs{\alpha - x_n} \leq \lambda^n\abs{\alpha - x_0}
-  \]
+	\label{mar4:thm:2c}
+	\[
+		\abs{\alpha - x_n} \leq \lambda^n\abs{\alpha - x_0}
+	\]
 \end{thm}
 
 \begin{proof}
-  Assuming the preconditions of theorem \ref{mar4:thm:ufp}, $g \colon [a, b] \to [a, b]$. Combining that with the fact that $x_0 \in [a, b]$, it is easy to see by induction that $x_n \in [a, b]$ for all $n \geq 0$.
+	Assuming the preconditions of theorem \ref{mar4:thm:ufp}, $g \colon [a, b] \to [a, b]$. Combining that with the fact that $x_0 \in [a, b]$, it is easy to see by induction that $x_n \in [a, b]$ for all $n \geq 0$.
 
-  Now, by definition \ref{mar4:def:iter}, and the fact that $g(\alpha) = \alpha$, we have
-  \[
-    \alpha - x_{n+1} = g(\alpha) - g(x_n) = g'(c_n)(\alpha - x_n)
-  \]
-  for some $c_n \in (\alpha, x_n)$, by the \emph{mean value theorem}. Since by the preconditions of theorem \ref{mar4:thm:ufp} $\lambda \coloneqq \max_{x \in [a, b]} \abs{g'(x)} < 1$, we obtain from the above equation
-  \[
-    \abs{\alpha - x_{n+1}} \leq \lambda\abs{\alpha - x_n}
-  \]
-  By induction, we get
-  \[
-    \abs{\alpha - x_n} \leq \lambda^n\abs{\alpha - x_0}
-  \]
-  \hfill
+	Now, by definition \ref{mar4:def:iter}, and the fact that $g(\alpha) = \alpha$, we have
+	\[
+		\alpha - x_{n+1} = g(\alpha) - g(x_n) = g'(c_n)(\alpha - x_n)
+	\]
+	for some $c_n \in (\alpha, x_n)$, by the \emph{mean value theorem}. Since by the preconditions of theorem \ref{mar4:thm:ufp} $\lambda \coloneqq \max_{x \in [a, b]} \abs{g'(x)} < 1$, we obtain from the above equation
+	\[
+		\abs{\alpha - x_{n+1}} \leq \lambda\abs{\alpha - x_n}
+	\]
+	By induction, we get
+	\[
+		\abs{\alpha - x_n} \leq \lambda^n\abs{\alpha - x_0}
+	\]
+	\hfill
 \end{proof}
 \begin{corr}
-  Under the assumptions of theorem \ref{mar4:thm:ufp},
-  \[
-    \lim_{n\to\infty} x_n = \alpha
-  \]
+	Under the assumptions of theorem \ref{mar4:thm:ufp},
+	\[
+		\lim_{n\to\infty} x_n = \alpha
+	\]
 \end{corr}
 \begin{proof}
-  By theorem \ref{mar4:thm:2c}, $\abs{\alpha - x_n} \leq \lambda^n\abs{\alpha - x_0}$. Since $\lambda < 1$, we get
-  \[
-    \lim_{n\to\infty}\abs{\alpha - x_n} = 0
-  \]
-  using the squeeze theorem (the L.H.S. of the squeeze is $0 \leq \abs{\alpha - x_n}$, which follows from properties of the $\abs{\cdot}$ function).
-  \hfill
+	By theorem \ref{mar4:thm:2c}, $\abs{\alpha - x_n} \leq \lambda^n\abs{\alpha - x_0}$. Since $\lambda < 1$, we get
+	\[
+		\lim_{n\to\infty}\abs{\alpha - x_n} = 0
+	\]
+	using the squeeze theorem (the L.H.S. of the squeeze is $0 \leq \abs{\alpha - x_n}$, which follows from properties of the $\abs{\cdot}$ function).
+	\hfill
 \end{proof}
 \begin{corr}
-  Under the assumptions of theorem \ref{mar4:thm:ufp},
-  \[
-    \abs{\alpha - x_n} \leq \frac{\lambda^n}{1 - \lambda}\abs{x_0 - x_1}
-  \]
+	Under the assumptions of theorem \ref{mar4:thm:ufp},
+	\[
+		\abs{\alpha - x_n} \leq \frac{\lambda^n}{1 - \lambda}\abs{x_0 - x_1}
+	\]
 \end{corr}
 \begin{proof}
-  Note that
-  \begin{align*}
-    &\abs{\alpha - x_0}
-      \lao[\leq]{1} \abs{\alpha - x_1} + \abs{x_0 - x_1}
-      \lao[\leq]{2} \lambda\abs{\alpha - x_0} + \abs{x_0 - x_1} \\\\
-    \implies&
-              (1-\lambda)\abs{\alpha - x_0}
-              \leq
-              \abs{x_0 - x_1} \\\\
-    \lao[\implies]{3}&
-              \abs{\alpha - x_0}
-              \leq
-              \frac{\abs{x_0 - x_1}}{1-\lambda} \tag{4}
-  \end{align*}
-  where inequality (1) is the triangle inequality, and inequality 2 follows from theorem \ref{mar4:thm:2c}. Implication (3) is justified as $\lambda < 1$ and therefore we are not dividing by 0. But then
-  \[
-    \abs{\alpha - x_n}
-    \lao[\leq]{5}
-    \lambda^n\abs{\alpha - x_0}
-    \lao[\leq]{6}
-    \frac{\lambda^n}{1-\lambda}\abs{x_0 - x_1}
-  \]
-  where inequality (5) follows from theorem \ref{mar4:thm:2c}, and inequality (6) follows from inequality (4) above.
-  
-  \hfill
+	Note that
+	\begin{align*}
+		                  & \abs{\alpha - x_0}
+		\lao[\leq]{1} \abs{\alpha - x_1} + \abs{x_0 - x_1}
+		\lao[\leq]{2} \lambda\abs{\alpha - x_0} + \abs{x_0 - x_1} \\\\
+		\implies          &
+		(1-\lambda)\abs{\alpha - x_0}
+		\leq
+		\abs{x_0 - x_1}                                           \\\\
+		\lao[\implies]{3} &
+		\abs{\alpha - x_0}
+		\leq
+		\frac{\abs{x_0 - x_1}}{1-\lambda} \tag{4}
+	\end{align*}
+	where inequality (1) is the triangle inequality, and inequality 2 follows from theorem \ref{mar4:thm:2c}. Implication (3) is justified as $\lambda < 1$ and therefore we are not dividing by 0. But then
+	\[
+		\abs{\alpha - x_n}
+		\lao[\leq]{5}
+		\lambda^n\abs{\alpha - x_0}
+		\lao[\leq]{6}
+		\frac{\lambda^n}{1-\lambda}\abs{x_0 - x_1}
+	\]
+	where inequality (5) follows from theorem \ref{mar4:thm:2c}, and inequality (6) follows from inequality (4) above.
+
+	\hfill
 \end{proof}
 Now we come to what is probably the most important theorem in this lecture.
 \begin{thm}
-  Under the assumptions of theorem \ref{mar4:thm:ufp},
-  \label{mar4:thm:bigtp}
-  \[
-    \lim_{n\to\infty} \frac{\alpha - x_{n+1}}{\alpha - x_n} = g'(\alpha)
-  \]
+	Under the assumptions of theorem \ref{mar4:thm:ufp},
+	\label{mar4:thm:bigtp}
+	\[
+		\lim_{n\to\infty} \frac{\alpha - x_{n+1}}{\alpha - x_n} = g'(\alpha)
+	\]
 \end{thm}
 \begin{proof}
-  Note that by the mean value theorem, for all $n \geq 0$ we have $\alpha - x_{n+1} = g(\alpha) - g(x_n) = g'(c_n)(\alpha - x_n)$ for some $c_n \in (\alpha, x_n)$. Therefore,
-  \[
-    \lim_{n\to\infty} \frac{\alpha - x_{n+1}}{\alpha - x_n} = \lim_{n\to\infty} g'(c_n)
-  \]
-  But since $x_n \to \alpha$, $c_n \to \alpha$ too, and then using the fact that $g'$ is continuous in $[a, b]$, we get
-  \[
-    \lim_{n\to\infty} g'(c_n) = g'(\alpha)
-  \]
-  \hfill
+	Note that by the mean value theorem, for all $n \geq 0$ we have $\alpha - x_{n+1} = g(\alpha) - g(x_n) = g'(c_n)(\alpha - x_n)$ for some $c_n \in (\alpha, x_n)$. Therefore,
+	\[
+		\lim_{n\to\infty} \frac{\alpha - x_{n+1}}{\alpha - x_n} = \lim_{n\to\infty} g'(c_n)
+	\]
+	But since $x_n \to \alpha$, $c_n \to \alpha$ too, and then using the fact that $g'$ is continuous in $[a, b]$, we get
+	\[
+		\lim_{n\to\infty} g'(c_n) = g'(\alpha)
+	\]
+	\hfill
 \end{proof}
 
 \begin{defn}
-  Suppose we have a sequence $\{y_n \}$ that converges to $\beta$. We say that $\{y_n \}$ converges to $\beta$ \textbf{linearly}, if for all $n$
-  \[
-    \beta - y_{n+1} \approx c(\beta - y_n)^p
-  \]
-  with $p = 1$.
+	Suppose we have a sequence $\{y_n \}$ that converges to $\beta$. We say that $\{y_n \}$ converges to $\beta$ \textbf{linearly}, if for all $n$
+	\[
+		\beta - y_{n+1} \approx c(\beta - y_n)^p
+	\]
+	with $p = 1$.
 
-  If $p > 1$, we say that the sequence $\{y_n \}$ converges to $\beta$ \textbf{super-linearly}.
+	If $p > 1$, we say that the sequence $\{y_n \}$ converges to $\beta$ \textbf{super-linearly}.
 \end{defn}
 We are now ready to state the final theorem of this lecture.
 \begin{thm}
-  If we assume the preconditions of \ref{mar4:thm:ufp}, and we additionally assume that $g'(\alpha) \neq 0$, $x_n$ converges to $\alpha$ linearly.
+	If we assume the preconditions of \ref{mar4:thm:ufp}, and we additionally assume that $g'(\alpha) \neq 0$, $x_n$ converges to $\alpha$ linearly.
 \end{thm}
 \begin{proof}
-  Theorem \ref{mar4:thm:bigtp} tells us that $\lim_{n\to\infty} \frac{\alpha - x_{n+1}}{\alpha - x_n} = g'(\alpha)$. That implies, as long as $g'(\alpha) \neq 0$ and therefore higher order terms do not dominate, that for large $n$,
-  \[
-    \alpha - x_{n+1} \approx g'(\alpha)(\alpha - x_n)
-  \]
-  (The convergence is guaranteed both by theorem \ref{mar4:thm:efp} and by the fact that $g'(\alpha) < 1$, which follows from the preconditions of \ref{mar4:thm:ufp}).
-\hfill
+	Theorem \ref{mar4:thm:bigtp} tells us that $\lim_{n\to\infty} \frac{\alpha - x_{n+1}}{\alpha - x_n} = g'(\alpha)$. That implies, as long as $g'(\alpha) \neq 0$ and therefore higher order terms do not dominate, that for large $n$,
+	\[
+		\alpha - x_{n+1} \approx g'(\alpha)(\alpha - x_n)
+	\]
+	(The convergence is guaranteed both by theorem \ref{mar4:thm:efp} and by the fact that $g'(\alpha) < 1$, which follows from the preconditions of \ref{mar4:thm:ufp}).
+	\hfill
 \end{proof}
 
 We end by remarking that fixed point iterations are very easy to program owing to the simple nature of their iterations.
 
-[Stopped at 37:36 $\pm$ a few seconds. The remainder of the lecture is about polynomial interpolation.]
+% [Stopped at 37:36 $\pm$ a few seconds. The remainder of the lecture is about polynomial interpolation.]
+\section{Introduction to Interpolation}
+\texty{Setup:}
+\begin{itemize}
+	\item There is a family of functions given by $ \{\Phi_i(x)\} $ in a single variable $ x $.
+	\item We have, $ n+1 $ parameters $ \{a_0,a_1,\ldots,a_n\} $ unknown to us.
+	\item Given, $ (n+1) $ pairs $ (x_i,f_i), i=0,1,\ldots,n $  where support points $ x_i $'s are discrete.
+	\item We need to find the function $ \Phi \equiv \Phi(x: \{a_0,a_1,\ldots,a_n\}) $.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\def\svgwidth{0.8\textwidth}
+	\import{./figures}{interpol_intro.pdf_tex}
+	\caption{}
+	\label{fig1:mar4}
+\end{figure}
+
+More precisely, given, the set of pairs $\{(x_i,f_i): i \in \{0,1,\ldots,n\} \text{ and } x_0 < x_1 < \ldots < x_n \}$ where, $x_i$'s are support points (discrete) and $f_i$'s are values of the function $f$ at $x_i$. We need to find, $\{a_0,a_1,\ldots,a_n\}$ to approximate $f$ in the domain $[x_0,x_n]$.
+
+\begin{rmk}
+	\textit{Interpolation is a "guess" of function in a "valid domain" given to us. \\
+		There is another method of guessing a function known as \textbf{Extrapolation} which can be outside the domain of the function.}
+\end{rmk}
+
+
+
+\begin{example}
+	Some examples of various kind of interpolation are following:
+	\begin{itemize}
+		\item Linear Interpolation
+		      \\ Here, we assume that $ \Phi(x) $ is linearly dependent on $a_i$'s.
+		      \[
+			      \Phi(x) = \sum_{i=0}^{n}a_i\Phi_i(x)
+		      \]
+		      \begin{itemize}
+			      \item[(a)] Polynomial Interpolation
+				      \[\Phi(x) = \sum_{i=0}^{n}a_ix^i\]
+			      \item[(b)] \[\Phi(x) = \sum_{r=0}^{n}a_re^{\iota rx} = \sum_{r=0}^{n}a_r\cos(rx) + \iota\sum_{r=0}^{n}a_r\sin(rx) \]
+			      \item[(c)] Cubic Spline interpolation
+				      \begin{itemize}
+					      \item Here, we assume that $ \Phi(x) $ coincides with a cubic polynomial on every interval $ [x_i,x_{i+1}], i = 0,1,\ldots,n $
+					      \item Polynomials on different sub-intervals need not match.
+				      \end{itemize}
+		      \end{itemize}
+		\item Non-Linear Interpolation
+		      \begin{itemize}
+			      \item Rational function interpolation
+			            \[
+				            \Phi(x) = \frac{a_0+a_1x+\cdots+a_nx^n}{b_0+b_1x+\cdots+b_mx^m}
+			            \]
+			            Note that, total $ n+m+2 $ parameters $ a_0,a_1,\ldots,a_n,b_0,b_1,\ldots,b_n $ need to be determined here.
+		      \end{itemize}
+	\end{itemize}
+
+\end{example}
+
+
+
+
+
 
 %%% Local Variables:
 %%% mode: latex

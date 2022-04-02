@@ -1,0 +1,51 @@
+\chapter*{Lecture 22 \\ March 11, Part A}
+\addcontentsline{toc}{chapter}{Lecture 22 (March 11, Part A)}
+\setcounter{chapter}{22}
+\setcounter{section}{0}
+\setcounter{equation}{0}
+
+\section{Another View-point to the Neville's Algorithm}
+We will discuss slight variants of \texty{Neville's algorithm}, we first define 
+\begin{equation}\label{eq1:mar11A}
+    T_{i+k,k} = P_{i,i+1.\dots,i+k}
+\end{equation}
+
+\begin{thm}\label{thm1:mar11A}
+    The $T_{i,i+k}$ as defined in equation $(\ref{eq1:mar11A})$, satisfies the following recurrence relation:
+    \begin{align*}
+        &T_{i,0} := P_i(x) = f_i, &\forall \, i = 0,1,\dots,n \\ 
+        &T_{i,k} := \frac{(x-x_{i-k})T_{i,k-1} - (x-x_i)T_{i-1,k-1}}{x_i - x_{i-k}}, &1 \leq k \leq i, \, i \geq 0 
+    \end{align*}
+\end{thm}
+
+Precisely speaking the $T_{i,k}$ is just looking at the \texty{Neville's algorithm} just from a different view-point, which as it turns out is more efficient way of evaluating the recurrence relation than the one given earlier in \texty{Neville's algorithm}.
+
+The process of evaluating $T_{i,k}$ is as follow:
+\begin{itemize}
+    \item We evaluate $T_{i,k-1}$, i.e., we evaluate at the $(k-1)^{th}$ level, then
+    \item Using the values we obtained at the $(k-1)^{th}$ level, we evaluate $T_{i,k}$, i.e., we evaluate at the $k^{th}$ level using \texty{Theorem} $\ref{thm1:mar11A}$.
+\end{itemize}
+
+\section{Newton's Interpolation Formula: Divided Differences}
+
+We already know a way how to find the $P \in \Pi_n$ satisfying $P(x_i) = f_i, \ \forall \, i \in \{0,1,\dots,n\}$. Now
+if we want to find the interpolating values for several arguments $\xi_j$'s simulatenously, i.e., we are given a support set (say) $(x_i,f_i)$, and we want to evaluate $P(\xi_j)$, then \texty{Newton's method} is to be preferred.
+
+We write the interpolation polynomial in the form:
+\begin{equation}\label{eq2:mar11A}
+    P(x) = P_{01\dots n}(x) = \sum_{j=0}^n a_i \left(\prod_{k=0}^{j-1} (x-x_k)\right)
+\end{equation}
+where an empty product is assumed to be equal to $1$. 
+
+Now, we use \texty{Horner's scheme} to evaluate the polynomial at $x = \xi$, which basically a recursive way of evaluating the equation $(\ref{eq2:mar11A})$,
+\begin{equation}\label{eq3:mar11A}
+    P(\xi) = a_0 + (\xi - x_0)\left( a_1 + (\xi - x_1)\left(  a_2 + \cdots + (\xi - x_{n-2})\left( a_{n-1} + (\xi - x_{n-1})a_n \right) \cdots \right) \right)
+\end{equation}
+so we just need to compute the coefficients $a_i$'s. This can be done in many ways, but the simplest way would be to the solve the system:
+\begin{align*}
+    &f_0 = P(x_0) = a_0 \\ 
+    &f_1 = P(x_1) = a_0 + (x_1 - x_0)a_1 \\ 
+    &\vdots \\
+    &f_n = P(x_n) = a_0 + (x_n - x_0)a_1 +\cdots+ (x_n-x_{n-1})\cdots(x_n - x_0)a_n
+\end{align*}
+one after the other.

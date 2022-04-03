@@ -1,0 +1,73 @@
+\chapter*{Lecture 21 \\ March 7, Part B}
+\addcontentsline{toc}{chapter}{Lecture 21 (March 7, Part B)}
+\setcounter{chapter}{21}
+\setcounter{section}{0}
+\setcounter{figure}{0}
+\setcounter{equation}{0}
+
+\section{Neville's Algorithm}
+
+An alternate approach to solving the interpolation problem would be to initially solve the problem for a smaller set of support points and then use these to recurrently arrive at the final solution.\\
+\begin{defn}\label{def1:npoly} 
+Suppose we are given a set of support points $(x_i, f_i)$ for  $i=0,1, \ldots , n$. We define by $P_{i_0i_1\ldots i_k} \in \Pi _k$ the polynomial such that 
+ \[
+     P_{i_0i_1\ldots i_k}(x_i_j) = f_i_j, \  \forall j=0,1,\ldots,k
+.\] 
+\end{defn}
+\begin{thm}\label{thm1:nrecur}
+   The polynomials defined above obey the following recursion:
+   \begin{equation}\label{eq1:l21}
+      P_i(x) = f_i, \forall i \  (k=0 \implies deg(P_i)=0 \implies P_i\text{'s are constant})
+   \end{equation}
+   \begin{equation}\label{eq2:l21}
+       P_{i_0i_1\ldots i_k}(x) = \frac{(x-x_{i_0})P_{i_1i_2\ldots i_k} - (x-x_{i_k})P_{i_0i_1\ldots i_{k-1}}(x)}{x_{i_k} - x_{i_0}}
+   \end{equation}
+\end{thm}
+
+Based on the above theorem (\ref{thm1:nrecur}), we can construct a symmetric table to represent the flow of recursion as we calculate the final solution of the interpolation problem using solutions in intermediate steps.
+
+\begin{table}
+   \centering
+   \caption{}
+   \label{tab1:lec21}
+   \begin{tabular}{|c|c|c}
+      \hline
+      $k=0$ & $k=1$ & $k=2$ \hdots \\
+      \hline
+      $ f_0 = P_0(x)$ & & \\
+         & $P_{01}(x)$ & \\
+      $f_1 = P_1(x)$ & & P_{012}(x) \hdots \\
+                     & $P_{12}(x)$ & \\
+      \vdots & \vdots & \vdots \\
+             & $P_{n,n-1}(x)$ & \\
+      $f_n = P_n(x)$ & &   \\
+      \hline
+   \end{tabular}
+\end{table}
+
+By uniqueness of interpolating polynomials, we can say that the polynomials that we get at each intermediate step and the one that we get at the final step are all uniquely determined.
+\begin{example}
+   Let's verify the recursion for $k=1$. We have 
+   \[
+      P_{01}(x) = \frac{(x-x_0)P_1(x) - (x-x_1)P_0(x)}{x_1-x_0}
+   .\]
+   Notice that here $ i_0 = 0$ and $ i_1=1$ with $k=1$. So,
+   \[
+      P_{01}(x_0) = \frac{-(x_0-x_1)P_0(x_0)}{x_1-x_0} = f_0 \ [\because P_0(x_0) = f_0]
+   .\] 
+   and 
+   \[
+      P_{01}(x_1) = \frac{(x_1-x_0)P_1(x_1)}{x_1-x_0} = f_1 \ [\because P_1(x_1) = f_1]
+   .\]
+   So, we can see that the recursion works fine in this example.
+   We can check further for $k=2$ where we have 
+    \[
+       P_{012}(x) = \frac{(x-x_0)P_{12}(x) - (x-x_2)P_{01}(x)}{x_2-x_0}
+   .\] 
+   Note that
+   \begin{align*}
+      P_{012}(x_1) &= \frac{(x_1-x_0)P_{12}(x_1)-(x_1-x_2)P_{01}(x_1)}{x_2-x_0} \\
+                   &= \frac{(x_2-x_0)f_1}{x_2-x_0} = f_1 [\because P_{12}(x_1)=P_{01}(x_1)=f_1]
+   .\end{align*}
+\end{example}
+

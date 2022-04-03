@@ -1,4 +1,4 @@
-# B. Math <img src="https://render.githubusercontent.com/render/math?math=\LaTeX"/> Notes
+# B. Math LaTeX Notes
 
 Notes for Courses of B. Math(Hons.) programme by 1st yr (2021-'22) students at [ISI Bangalore](https://www.isibang.ac.in)
 

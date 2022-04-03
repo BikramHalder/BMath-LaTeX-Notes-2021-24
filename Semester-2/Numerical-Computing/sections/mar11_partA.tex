@@ -48,4 +48,74 @@ so we just need to compute the coefficients $a_i$'s. This can be done in many wa
     &\vdots \\
     &f_n = P(x_n) = a_0 + (x_n - x_0)a_1 +\cdots+ (x_n-x_{n-1})\cdots(x_n - x_0)a_n
 \end{align*}
-one after the other.
+one after the other. Though this will give us the $a_i$'s, once we solve the whole system of linear equations, but at every step it involves one division and $2(k-1)$ many multiplications (where $k$ indicates that we are at the $k^{th}$ equation, $k \geq 1$)
+\[
+  k^{th}\mbox{ step: } a_k = \frac{f_k - \sum_{j=0}^{k-1}a_j \left(\prod_{i=0}^{j-1}(x_i-x_0)\right)}{\prod_{i=0}^k (x_i - x_0)}
+\]
+so total it involves $n$ may divisions and $n(n-1)$ many multiplications. But there's actually a more efficient way of doing this which involves only $\frac{n(n+1)}{2}$ many divisions.
+
+\subsection{Relation between Divided Difference Coefficients}
+
+Note that $P_{i_0\dots i_k} \in \Pi_k$ and $P_{i_0 \dots i_{k-1}} \in \Pi_{k-1}$, so $P_{i_0 \dots i_k} - P_{i_0 \dots i_{k-1}} \in \Pi_k$, and not only so, since 
+\[
+    P_{i_0 \dots i_k}(x_{i_j}) = P_{i_0 \dots i_{k-1}}(x_{i_j}) = f_{i_j}, \ \forall \, j = 0,1,\dots,k-1
+\]  
+hence, we get $x_{i_0}, \dots, x_{i_{k-1}}$ are all the $k$ roots of the polynomial $P_{i_0 \dots i_k} - P_{i_0\dots i_{k-1}}$, and hence, there exists a constant say $f_{i_0\dots i_k} \in \bb{R}$, such that 
+\[
+    P_{i_0\dots i_k}(x) = P_{i_0 \dots i_{k-1}}(x) + f_{i_0\dots i_k} \prod_{j=0}^{k-1} (x - x_{i_j})  
+\]
+But then since, we know that $P_{i_0} \equiv f_{i_0}$, by induction we get that 
+\begin{equation}\label{eq4:mar11A}
+    P_{i_0 \dots i_k}(x) = \sum_{j=0}^k f_{i_0 \dots i_j} \left(\prod_{d=0}^{j-1}(x-x_{i_d}) \right)
+\end{equation} 
+
+\begin{defn}\label{defn1:mar11A}
+    The representation of the polynomial $P_{i_0 \dots i_k}$ given in equation $(\ref{eq4:mar11A})$, is called the \textit{Newton's representation} and the coefficients $f_{i_0 \dots i_j}$ where $j = 0, \dots, k$, are called the $j^{th}$ \textit{divided differences}.
+\end{defn}
+
+\begin{thm}\label{thm1:mar11A}
+    The \textit{divided differences}, satisfies the recurrence relation given by:
+    \[
+        f_{i_0 \dots i_k} = \frac{f_{i_1 \dots i_k} - f_{i_0 \dots i_{k-1}}}{x_{i_k} - x_{i_0}}, \ \ k \geq 1  
+    \]
+\end{thm}
+\begin{prf}
+    From the definition of $P_{i_0\dots i_k}$, we already know that we can express it as: 
+    \begin{equation}\label{eq5:mar11A}
+        P_{i_0\dots i_k}(x) = \frac{(x-x_{i_0})P_{i_1\dots i_k}(x) - (x-x_{i_k})P_{i_0\dots i_{k-1}}(x)}{x_{i_k} - x_{i_0}} 
+    \end{equation}
+    But then note that $f_{i_0\dots i_k}$ is the leading coefficient of $P_{i_0\dots, i_k} \in \Pi_k$ and $f_{i_1\dots i_k}$ and $f_{i_0\dots i_{k-1}}$ are the leading coefficients of the polynomials $P_{i_1 \dots i_k} \in \Pi_{k-1}$ and $P_{i_0\dots i_{k-1}} \in \Pi_{k-1}$. And hence comparing the leading coefficients in either side of equation $(\ref{eq5:mar11A})$, we get the desired result.
+\end{prf}
+
+Thus using the \texty{Newton's interpolation formula} for \textit{divided difference}, we can easily interpolate the polynomial $P_{i_0\dots i_k}$, once we are given the support points $(x_{i_j}, f_{i_j})$. 
+
+Now let us see how does the given arguments helps us to quickly compute the interpolated polynomial. For this we consider the following example:
+
+\begin{example}\label{eg1:mar11A}
+    Consider we want to interpolate $P_{0123} \in \Pi_3$, given the support points $(x_i,f_i)$.
+
+    \begin{center}
+        \begin{tabular}{c|cccc}
+            $k$ & $0$ & $1$ & $2$ & $3$ \\
+            \hline 
+            $ x_0 $ & $f_0$ & $ \cdot $ & $ \cdot $ & $ \cdot $ \\
+            $ x_1 $ & $f_1$ & $f_{01}$ & $ \cdot $ & $ \cdot $ \\
+            $ x_2 $ & $f_2$ & $f_{12}$ & $f_{012}$ & $ \cdot $ \\
+            $ x_3 $ & $f_3$ & $f_{23}$ & $f_{123}$ & $f_{0123}$ 
+        \end{tabular}
+    \end{center}
+
+    Then note that since we know $(x_i,f_i)$, for $i=0,1,2,3$, we can easily compute $f_{01}, f_{12}$ and $f_{23}$, by using \texty{Theorem} $\ref{thm1:mar11A}$, which are in fact given by 
+    \begin{align*}
+        f_{01} = \frac{f_1 - f_0}{x_1 - x_0}, &&f_{12} = \frac{f_2 - f_1}{x_2 - x_1}, &&f_{23} = \frac{f_3 - f_2}{x_3 - x_2}
+    \end{align*}
+    Now from here we can compute $f_{012}$ and $f_{123}$, which are given by 
+    \begin{align*}
+        f_{012} = \frac{f_{12} - f_{01}}{x_2 - x_0} &&\mbox{and} &&f_{123} = \frac{f_{23} - f_{12}}{x_3 - x_1}
+    \end{align*}
+    which finally gives us $f_{0123}$, 
+    \[
+        f_{0123} = \frac{f_{123} - f_{012}}{x_3 - x_0}    
+    \]
+    thus, as we can see, at the $k^{th} \ (k \geq 1)$ level we required $n - k + 1$ many divisions (here $n=3$), and hence, in the whole process we required $\frac{n(n+1)}{2}$ divisions, like in this case we can easily see it involved $6$ divisions.
+\end{example}

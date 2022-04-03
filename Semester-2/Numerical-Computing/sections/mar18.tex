@@ -1,0 +1,38 @@
+\chapter*{Lecture 26 \\ March 18}
+\addcontentsline{toc}{chapter}{Lecture 26 (March 18)}
+\setcounter{chapter}{26}
+\setcounter{section}{0}
+
+\section{Algorithms for Hermite interpolation}
+Unfortunately Neville's algorithm and Newton's divided difference algorithm cannot be used to carry out Hermite interpolation, as they assume the $x$-coordinates of the support points are all different. Our task here then, is to develop algorithms that \textit{can} be used to carry out Hermite interpolation. We begin by introducing a technical tool that'll help us with that task.
+
+\subsection{Virtual Abscissae}
+Suppose you are given $m$ distinct reals $x_0 < x_1 < \dots < x_m$, and for all $0 \leq i \leq m$, at real $x_i$ you are given the values $f^{(0)}(x_i), f^{(1)}(x_i), \dots ,f^{(n_i - 1)}(x_i)$, for some $n_i \in \Z$. Those reals and values are the support points we shall work with. Define
+\[
+  n = \sum_{i = 0}^m n_i
+\]
+Now list the support points as follows:
+\begin{enumerate}
+\item
+  First, list $f^{(0)}(x_0), f^{(1)}(x_0), \dots ,f^{(n_0 - 1)}(x_0)$
+\item
+  Then, append the list $f^{(0)}(x_1), f^{(1)}(x_1), \dots ,f^{(n_1 - 1)}(x_1)$ in that order to the pre-existing list.
+\item
+  Then, append the list $f^{(0)}(x_2), f^{(1)}(x_2), \dots ,f^{(n_2 - 1)}(x_2)$ in that order to the pre-existing list.
+\item
+  Continue this way until you...
+\item[.]
+\item[.]
+\item[.]
+\item[m.]
+  Finally, append the list $f^{(0)}(x_m), f^{(1)}(x_m), \dots ,f^{(n_m - 1)}(x_m)$ in that order to the pre-existing list.
+\end{enumerate}
+Since there are $n$ support points in total, there must be $n$ items in our final list. Now define
+\begin{defn}
+  
+\end{defn}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

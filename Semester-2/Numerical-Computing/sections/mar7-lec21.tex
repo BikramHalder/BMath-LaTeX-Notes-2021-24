@@ -11,7 +11,7 @@ An alternate approach to solving the interpolation problem would be to initially
 \begin{defn}\label{def1:npoly} 
 Suppose we are given a set of support points $(x_i, f_i)$ for  $i=0,1, \ldots , n$. We define by $P_{i_0i_1\ldots i_k} \in \Pi _k$ the polynomial such that 
  \[
-     P_{i_0i_1\ldots i_k}(x_i_j) = f_i_j, \  \forall j=0,1,\ldots,k
+     P_{i_0i_1\ldots i_k}(x_{i_j}) = f_{i_j}, \  \forall j=0,1,\ldots,k
 .\] 
 \end{defn}
 \begin{thm}\label{thm1:nrecur}
@@ -32,11 +32,11 @@ Based on the above theorem (\ref{thm1:nrecur}), we can construct a symmetric tab
    \label{tab1:lec21}
    \begin{tabular}{|c|c|c}
       \hline
-      $k=0$ & $k=1$ & $k=2$ \hdots \\
+      $k=0$ & $k=1$ & $k=2 \hdots$ \\
       \hline
       $ f_0 = P_0(x)$ & & \\
          & $P_{01}(x)$ & \\
-      $f_1 = P_1(x)$ & & P_{012}(x) \hdots \\
+      $f_1 = P_1(x)$ & & $P_{012}(x) \hdots$ \\
                      & $P_{12}(x)$ & \\
       \vdots & \vdots & \vdots \\
              & $P_{n,n-1}(x)$ & \\
@@ -71,3 +71,8 @@ By uniqueness of interpolating polynomials, we can say that the polynomials that
    .\end{align*}
 \end{example}
 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

@@ -123,9 +123,10 @@ Now, we prove an important theorem.
   The system of equations \ref{mar18:def:cond_m} is always solvable.
 \end{thm}
 \begin{proof}
-  We proved (in an earlier lecture) that $b$ is determined uniquely by the above condition, so if we view $V_n$ as a linear transformation from $\R^{n+1}$ to $\R^{n+1}$, $V_n$ is injective. Then, by the \textbf{Rank Nullity} theorem, $V_n$ is also surjective, and thus the system of equations \ref{mar18:def:cond_m} is always solvable.
+  We proved (in an earlier lecture) that $b$ is determined uniquely by the above condition, so if we view $V_n$ as a linear transformation from $\R^{n+1}$ to $\R^{n+1}$, $V_n$ is injective. Then, by the \textbf{Rank Nullity} theorem, $V_n$ is also surjective, and thus $V_n$ is invertible, and thus the system of equations \ref{mar18:def:cond_m} is always solvable.
   \hfill
 \end{proof}
+Since $V_n$ is invertible, as we saw in the proof immediately above, we have reduced the problem of finding $P_{01\dots n}(t)$ to a problem in linear algebra, and since there are many kinds of algorithms to invert many kinds of matrices, we have practically obliterated the problem of Hermite interpolation.
 
 As an aside, matrices of the form $V_n$ are called \textbf{Generalized Vandermonde Matrices}. The \textbf{Vandermonde Matrix} (without the adjective ``general'') is the kind of $V_n$ you get when $s_j = 1$ for all $0 \leq j \leq n$. It can be factorized as follows
 \[

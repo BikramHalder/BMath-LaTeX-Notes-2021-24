@@ -1,0 +1,131 @@
+\chapPreamble{25}{March 14, Part B}
+
+\section{Hermite Interpolation}
+
+Consider $m+1$ distinct abcissae $x_0, \dots, x_m$, now suppose we are not just given the values $f_i$, but we are given the first $n_i-1$ derivatives of the function $f$, at the points $x_i$'s, i.e., we are given $n_i$ ordinate values $f_i^{(k)}$, where $k \in \{0,1,\dots,n_i-1\}$, for each $i \in \{0,1,\dots,m\}$. Let 
+\[
+    n+1 = \sum_{i=0}^m n_i    
+\]
+We want to find a $P \in \Pi_n$, where $n$ is defined as above just that the Interpolation conditions:
+\begin{equation}\label{eq1:mar14B}
+    P^{(k)}(x_i) = f_i^{(k)}, \ \forall \, k = 0,1,\dots,n_i-1 \mbox{ and } \forall \, i = 0,1,\dots,n
+\end{equation}
+are satisfied. 
+\begin{rmk}
+    The Neville's Interpolation or Newton's Interpolation are just special case of Hermite's interpolation with $n_i = 1$, for each $i \in \{1,\dots,m\}$.
+\end{rmk}
+
+\subsection{The Hermite Interpolation has an Unique Solution}
+
+\begin{thm}\label{thm1:mar14B}
+    WLOG, assume we are given that 
+    \[
+        x_0 < x_1 < \cdots < x_m  
+    \]
+    are $m+1$ abcissae, and we are further given real numbers $f_i^{k}$, where $k \in \{0,1,\dots,n_i-1\}$ for each $i \in \{0,1,\dots,m\}$. Let 
+    \[
+        n+1 = \sum_{i=0}^m n_i  
+    \]
+    then there exists an unique $ P \in \Pi_n$ satisfying equation $(\ref{eq1:mar14B})$.
+\end{thm}
+
+\begin{prf}
+    \begin{enumerate}
+        \item[]\texty{Uniqueness: }Suppose there exists $P_1, P_2 \in \Pi_n$ such that $P_1, P_2$ satisfy the equation $(\ref{eq1:mar14B})$. Now consider the difference polynomial 
+        \[
+            Q(x) = P_1(x) - P_2(x) \in \Pi_n  
+        \]  
+        but then we clearly have 
+        \[
+            Q^{(k)}(x_i) = 0, \ \forall \, k \in \{0,1,\dots,n_i-1\} \mbox{ and } \forall \, i \in \{0,1,\dots,m\}
+        \]
+        thus from here we can conclude that $x_i$ is root of $Q$, with multiplicity $n_i$, for each $i \in \{0,1,\dots,m\}$. But then we get that number of roots of $Q$ is 
+        \[
+            \sum_{i=0}^m n_i = n+1  
+        \]
+        but we have $Q \in \Pi_n$, hence, we must have $Q \equiv 0$, since its degree is strictly less than $n+1$.
+
+        \item[]\texty{Existence: } Suppose we assume 
+        \[
+            P(x) = c_0 + c_1 x + c_2 x^2 + \cdots + c_n x^n     
+        \] 
+        then note that the equation $(\ref{eq1:mar14B})$ can be interpreted as a system of linear equations, (say) 
+        \begin{equation}\label{eq2:mar14B}
+            AX = B\
+        \end{equation}
+        where $A$ is some $(n+1) \times (n+1)$ real valued matrix, and \[B = \begin{pmatrix}
+            f_0 & f_0^{(1)} & \cdots & f_0^{(n_1 -1)} & \cdots & f_m & f_m^{(1)} & \cdots & f_m^{(n_m-1)}
+        \end{pmatrix}^T\]
+        and $X = \begin{pmatrix}
+            c_0 & c_1 & \cdots c_n 
+        \end{pmatrix}^T$. Now we have already shown that if there exists a solution to equation $(\ref{eq2:mar14B})$, then it must be unique. But then if we consider $B = \mathbf{0}$, then its obvious that $ X = \mathbf{0}$ is a solution to $AX = B$, and hence its in fact the unique solution to $AX = \mathbf{0}$. This tells us that the kernel of the linear map $T_A : x \mapsto Ax$, is the zero subspace, $\ker(T_A) = \{\mathbf{0}\}$. 
+        
+        Hence, $A$ is non-singular. Thus we indeed have for all $B \in \bb{R}^{n+1}$, there exists an unique $X \in \bb{R}^{n+1}$ such that $AX = B$, which completes the proof.
+    \end{enumerate}
+\end{prf}
+
+\subsection{Generalized Lagrange Polynomials and Explicit Construction of the Hermite Interpolation Polynomial}
+
+For each $i \in \{0,1,\dots,m\}$ and $k \in \{0,1,\dots,n_i-1\}$ construct $L_{ik} \in \Pi_n$ such that  
+\begin{equation}\label{eq3:mar14B}
+    L_{ik}^{(\sigma)}(x_j) = \delta_{ij} \delta_{k\sigma}
+\end{equation}
+\begin{defn}
+    The polynomials $L_{ik} \in \Pi_n$ defined as in equation $(\ref{eq3:mar14B})$ are called the \textit{generalized Lagrange polynomials}.
+\end{defn}
+Now note that we can write $P \in \Pi_n$ satisfying equation $(\ref{eq1:mar14B})$ as:
+\begin{equation}\label{eq4:mar14B}
+    P(x) = \sum_{i=0}^m \sum_{k=0}^{n_i-1} f_i^{(k)} L_{ik}(x)
+\end{equation}
+This can be easily verified by computing the derivatives, we get 
+\[
+    P^{(\sigma)}(x) = \sum_{i=0}^m \sum_{k=0}^{n_i-1} f_i^{(k)}L^{(\sigma)}_{ik}(x)  
+\]
+and hence, we get that for $\sigma \in \{0,1,\dots, n_d-1\}$,
+\begin{align*}
+    P^{(\sigma)}(x_d) &= \sum_{i=0}^m \sum_{k=0}^{n_i-1} f_i^{(k)}L^{(\sigma)}_{ik}(x_d) \\ &= \sum_{i=0}^m \sum_{k=0}^{n_i-1} f_i^{(k)} \delta_{id}\delta_{k\sigma} \\ 
+    &= f_d^{(\sigma)}  
+\end{align*}
+thus from \texty{Theorem} $\ref{thm1:mar14B}$, we get that equation $(\ref{eq4:mar14B})$ is indeed true. Now lets see how we can in fact construct the polynomials $L_{ik}$ recursively. We first construct a set of auxiliary polynomials, defined by:
+\begin{equation}\label{eq5:mar14B}
+    l_{ik} := \frac{(x-x_i)^k}{k!} \prod_{\underset{j \neq i}{j = 0}}^m \left(\frac{x-x_j}{x_i - x_j}\right)^{n_j}, \ \forall \, 0 \leq i \leq m, \ \forall \, 0 \leq k \leq n_i-1 
+\end{equation}
+
+\begin{thm}
+    $L_{ik}$ satisfies the following recurrence relation:
+    \begin{align*}
+        &L_{i,n_i-1}(x) = l_{i,n_i-1}(x) &\forall \, i = 0,1,\dots,m \\
+        &L_{ik}(x) = l_{ik}(x) - \sum_{\nu = k+1}^{n_i-1} l^{(\nu)}_{ik}(x_i) L_{i\nu}(x) &\forall \, k \leq n_i-2 
+    \end{align*}
+\end{thm}
+\begin{prf}
+    We first show that 
+    \[
+        L_{i,n_i-1}(x) := l_{i,n_i-1}(x), \ \forall \, i = 0,1,\dots,m
+    \]
+    Note that from the definition of $l_{ik}$, we have $x_j$ is a root of $l_{i,n_i-1}$, with multiplicity $n_j$, if $j \neq i$, and $x_i$ is root of $l_{i,n_i-1}$ with a multiplicity of $n_i-1$. Thus for any $\sigma \in \{0,1,\dots,n_d-1\}$, with $d \neq i$, we have there exists at least one factor of $(x-x_d)$ in $l_{i,n_i-1}^{(\sigma)}(x)$ and hence $l_{i,n_i-1}^{(\sigma)}(x_d) = 0$. And if $d = i$, then observe that $l_{i,n_i-1}^{(\sigma)}(x_i)$ is non-zero if and only if $\sigma = n_i-1$, and in which case we have $l_{i,n_i-1}^{(n_i-1)}(x_i)=1$. Hence we have shown that 
+    \[
+        l_{i,n_i-1}^{\sigma}(x_j) = \delta_{ij} \delta_{n_i-1,\sigma}  
+    \]
+    But then since $l_{i,n_i-1} \in \Pi_n$, from \texty{Theorem} $\ref{thm1:mar14B}$, we get that $L_{i,n_i-1}(x) = l_{i,n_i-1}(x)$, for each $i \in \{0,\dots,m\}$.
+
+    Now to prove that other part of the recurrence relation we will use induction. Suppose $L_{i\nu}$ has the desired properties from $\nu = n_i-1, n_i-2, \dots, k^*$. Now fix $j \in \{0,1,\dots,m\}$ and consider the term
+    \[
+         J_{\sigma} = \underbrace{l_{i,k^*-1}^{(\sigma)}(x_j)}_{T_1} - \underbrace{\sum_{\nu=k^*}^{n_i-1}l_{i,k^*-1}^{(\nu)}(x_i) L_{i\nu}^{(\sigma)}(x_j)}_{T_2}   
+    \]
+    where $\sigma \in \{0,1,\dots,n_j-1\}$, then if $ j \neq i$, then both the terms $T_1$ and $T_2$ are zero, and so $J_{\sigma} = 0$, in this case. Now if $j = i$, then note that for $\sigma \leq k^*-1$, $T_2$ does not contribute to the term $J_{\sigma}$, and $T_1 = 1$ if and only if $\sigma = k^*-1$, and is $0$ otherwise. So, for $\sigma \leq k^*-1$, \[
+     J_{\sigma} = \begin{cases}
+         1 & \mbox{ if } \sigma = k^*-1 \\ 
+         0 & \mbox{ otherwise}
+     \end{cases}    
+    \]
+    On the other hand for $\sigma > k^*-1$, $T_2$ will contribute to the term $J_{\sigma}$, when $\nu = \sigma$, and hence in that case we get 
+    \[
+        J_{\sigma} = l_{i,k^*-1}^{(\sigma)}(x_i) - l_{i,k^*-1}^{(\sigma)}(x_i) = 0
+    \]
+    thus we in fact have $J_{\sigma} = \delta_{ij} \delta_{k^*-1,\sigma}$, thus using \texty{Theorem} $\ref{thm1:mar14B}$ and induction, we get that 
+    \[
+        L_{ik}(x) = l_{ik}(x) - \sum_{\nu = k+1}^{n_i-1} l^{(\nu)}_{ik}(x_i) L_{i\nu}(x)  \ \forall \, k \leq n_i-2
+    \]
+    which completes the proof.
+\end{prf}

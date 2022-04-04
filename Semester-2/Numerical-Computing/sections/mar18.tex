@@ -1,0 +1,172 @@
+\chapter*{Lecture 26 \\ March 18}
+\addcontentsline{toc}{chapter}{Lecture 26 (March 18)}
+\setcounter{chapter}{26}
+\setcounter{section}{0}
+\setcounter{equation}{0}
+
+\section{Algorithms for Hermite interpolation}
+Unfortunately Neville's algorithm and Newton's divided difference algorithm cannot be used to carry out Hermite interpolation, as they assume the $x$-coordinates of the support points are all different. Our task here then, is to develop algorithms that \textit{can} be used to carry out Hermite interpolation. We begin by introducing a technical tool that'll help us with that task.
+
+\subsection{Virtual Abscissae}
+Suppose you are given $m$ distinct reals $x_0 < x_1 < \dots < x_m$, and for all $0 \leq i \leq m$, at real $x_i$ you are given the values $f^{(0)}(x_i), f^{(1)}(x_i), \dots ,f^{(n_i - 1)}(x_i)$, for some $n_i \in \Z$. Those reals and values are the support points we shall work with. Define
+\begin{defn}
+\[
+  n = \left(\sum_{i = 0}^m n_i\right) - 1
+\]
+\end{defn}
+Now list the support points as follows:
+\begin{enumerate}[label = \arabic*)]
+\item
+  First, list $(x_0, f^{(0)}(x_0)), (x_0, f^{(1)}(x_0)), \dots , (x_0, f^{(n_0 - 1)}(x_0))$
+\item
+  Then, append the list $(x_1, f^{(0)}(x_1)), (x_1, f^{(1)}(x_1)), \dots , (x_1, f^{(n_1 - 1)}(x_1))$ in that order to the pre-existing list.
+\item
+  Then, append the list $(x_2, f^{(0)}(x_2)), (x_2, f^{(1)}(x_2)), \dots , (x_2, f^{(n_2 - 1)}(x_2))$ in that order to the pre-existing list.
+\item
+  Continue this way until you...
+\item[.]
+\item[.]
+\item[.]
+\item[$m$)]
+  Finally, append the list $(x_m, f^{(0)}(x_m)), (x_m, f^{(1)}(x_m)), \dots , (x_m, f^{(n_m - 1)}(x_m))$ in that order to the pre-existing list.
+\end{enumerate}
+Since there are $n+1$ support points in total, there must be $n+1$ items in our final list. \textbf{Number the items in the list from 0 to $\bm{n}$}. Now we introduce two more definitions.
+\begin{defn}
+  Let $t_i$ be the be the $x$-coordinate of the $i$-th element in the list of support points. Note that
+  \[
+    t_0 \leq t_1 \leq t_2 \leq \dots \leq t_n
+  \]
+\end{defn}
+\begin{defn}
+  Let $s_j$ be the number of times $t_j$ appears in the sequence $t_0, t_1, \dots , t_j$.
+\end{defn}
+At this point there is nothing this exposition would benefit more from than an example to illustrate the definitions we have made so far. And so we supply one. And another one too!
+\begin{example}
+  Suppose you are given the list of support points
+  \[
+    (-49, 63), (1, 2), (1, 3), (5, -\pi), (22, 7) 
+  \]
+  Then, the sequence $\{t_i \}$ is
+  \[
+    -49, 1, 1, 5, 22
+  \]
+  and the sequence $\{s_i \}$ is
+  \[
+    1, 1, 2, 1, 1
+  \]
+\end{example}
+\begin{example}
+  Suppose you are given list of support points
+  \[
+    (1, 27), (2, 53), (2,27), (3, 22), (4, 56), (4, 22), (4, 49), (273, 32)
+  \]
+  Then, the sequence $\{t_i \}$ is
+  \[
+    1, 2, 2, 3, 4, 4, 4, 273
+  \]
+  and the sequence $\{s_i \}$ is
+  \[
+    1, 1, 2, 1, 1, 2, 3, 1
+  \]
+\end{example}
+
+\subsection{The problem of Hermite interpolation - rephrased.}
+
+Using the language of virtual abscissae defined in the previous section, we see that the problem of finding a polynomial that interpolates the support points provided is precisely the problem of finding a polynomial $P_{01\dots n}$ such that
+\begin{equation}
+  \label{mar18:def:cond}
+  P_{01\dots n}^{(s_j - 1)}(t_j) = f^{(s_j - 1)}(t_j) \qquad \forall(0 \leq j \leq n)
+\end{equation}
+We have already proved (in a previous lecture) that there exists such a polynomial $P_{01\dots n}$ in $\Pi_n$ that is \textbf{unique} in $\Pi_n$. Write
+\[
+  P_{01\dots n}(t) = \sum_{j = 0}^n b_j\frac{t^j}{j!}
+\]
+Now, define
+\begin{defn}
+  \[
+    \Pi(t) = \begin{bmatrix}1, t, \frac{t^2}{2!}, \dots, \frac{t^n}{n!} \end{bmatrix}
+  \]
+  and
+  \[
+    b = \begin{bmatrix}b_0 \\ b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
+  \]
+\end{defn}
+Note that $\Pi(t)b = P_{01\dots n}(t)$. Therefore, condition \ref{mar18:def:cond} can be replaced by the condition
+\[
+  \Pi^{(s_j - 1)}(t_j)b = f^{(s_j - 1)}(t_j) \qquad \forall(0 \leq j \leq n)
+\]
+Denote the $(n+1) \times (n+1)$ matrix that is formed by letting the $j$-th row be $\Pi^{(s_j - 1)}(t_j)$ by $V_n$, then
+\[
+  V_n =
+  \begin{bmatrix}
+    \Pi^{(s_0 - 1)}(t_0) \\
+    \Pi^{(s_1 - 1)}(t_1) \\
+    \vdots \\
+    \Pi^{(s_n - 1)}(t_n)
+  \end{bmatrix}
+\]
+Then the condition on $\Pi(t)b = P_{01\dots n}(t)$ can be described using the language of linear algebra. More specifically, the condition on $P_{01\dots n}(t)$ can be written
+\begin{equation}
+  \label{mar18:def:cond_m}
+  \begin{bmatrix}
+    \Pi^{(s_0 - 1)}(t_0) \\
+    \Pi^{(s_1 - 1)}(t_1) \\
+    \vdots \\
+    \Pi^{(s_n - 1)}(t_n)
+  \end{bmatrix}
+  \begin{bmatrix}b_0 \\ b_1 \\ b_2 \\ \vdots \\ b_n \end{bmatrix}
+  =
+  \begin{bmatrix}f^{(s_0 - 1)}(t_0) \\ f^{(s_1 - 1)}(t_1) \\ f^{(s_2 - 1)}(t_2) \\ \vdots \\ f^{(s_n - 1)}(t_n) \end{bmatrix}
+\end{equation}
+Now, we prove an important theorem.
+\begin{thm}
+  The system of equations \ref{mar18:def:cond_m} is always solvable.
+\end{thm}
+\begin{proof}
+  We proved (in an earlier lecture) that $b$ is determined uniquely by the above condition, so if we view $V_n$ as a linear transformation from $\R^{n+1}$ to $\R^{n+1}$, $V_n$ is injective. Then, by the \textbf{Rank Nullity} theorem, $V_n$ is also surjective, and thus $V_n$ is invertible, and thus the system of equations \ref{mar18:def:cond_m} is always solvable.
+  \hfill
+\end{proof}
+Since $V_n$ is invertible, as we saw in the proof immediately above, we have reduced the problem of finding $P_{01\dots n}(t)$ to a problem in linear algebra, and since there are many kinds of algorithms to invert many kinds of matrices, we have practically obliterated the problem of Hermite interpolation.
+
+As an aside, matrices of the form $V_n$ are called \textbf{Generalized Vandermonde Matrices}. The \textbf{Vandermonde Matrix} (without the adjective ``general'') is the kind of $V_n$ you get when $s_j = 1$ for all $0 \leq j \leq n$. It can be factorized as follows
+\[
+  \begin{bmatrix}
+    1 & t_0 & t_0^2 & \dots & t_0^{n}\\
+    1 & t_1 & t_1^2 & \dots & t_1^{n}\\
+    1 & t_2 & t_2^2 & \dots & t_2^{n}\\
+    \vdots & \vdots & \vdots & \ddots &\vdots \\
+    1 & t_n & t_n^2 & \dots & t_n^{n}
+  \end{bmatrix}
+  \begin{bmatrix}
+    \frac{1}{0!} & 0 & 0 & \dots & 0\\
+    0 & \frac{1}{1!} & 0 & \dots & 0\\
+    0 & 0 & \frac{1}{2!} & \dots & 0\\
+    \vdots & \vdots & \vdots & \ddots &\vdots \\
+    0 & 0 & 0 & \dots & \frac{1}{n!}
+  \end{bmatrix}
+\]
+(I shamelessly stole part of the latex for the above expression from Wikipedia). We conclude this section with an example.
+\begin{example}
+  Suppose you're told that the sequence $\{t_i \}$ is of the form
+  \[
+    t_0 = t_1 = t_2 < t_3 = t_4
+  \]
+  Then, the Vandermonde Matrix $V_4$ of this sequence is
+  \[
+    \begin{bmatrix}
+      1 & t_0 & \frac{t_0^2}{2!} & \frac{t_0^3}{3!} & \frac{t_0^4}{4!} \\[4pt]
+      0 & 1 & t_1 & \frac{t_1^2}{2!} & \frac{t_1^3}{3!} \\[4pt]
+      0 & 0 & 1 & t_2 & \frac{t_2^2}{2!} \\[4pt]
+      1 & t_3 & \frac{t_3^2}{2!} & \frac{t_3^3}{3!} & \frac{t_3^4}{4!} \\[4pt]
+      0 & 1 & t_4 & \frac{t_4^2}{2!} & \frac{t_4^3}{3!} \\[4pt]
+    \end{bmatrix}
+  \]
+\end{example}
+
+\subsection{Generalizations of the techniques used in previous sections}
+Note that the definition of the sequence $\{s_j \}$ depends only on the definition of $\{t_j \}$, and \textbf{as long as $\bm{\{t_j \}}$ is non-decreasing}, we can define and solve the systems of equations in the previous section like we did there.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

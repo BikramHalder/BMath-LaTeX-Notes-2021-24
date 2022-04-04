@@ -34,6 +34,10 @@
 \usepackage{import}
 \usepackage{bm}
 \usepackage{xcolor}
+\usepackage{chngcntr}
+
+\counterwithin*{equation}{section}
+\counterwithin*{figure}{section}
 
 \hypersetup{
   colorlinks = true,
@@ -46,9 +50,12 @@
 %\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
 \theoremstyle{definition} \newtheorem{lemma}{Lemma}
 
-
-
-
+\newcommand{\chapPreamble}[2]{
+    \chapter*{Lecture #1 \\ #2}
+    \addcontentsline{toc}{chapter}{Lecture #1 (#2)}
+    \setcounter{chapter}{#1}
+    \setcounter{section}{0}
+}
 
 \renewcommand{\familydefault}{\sfdefault}
 \renewcommand{\qed}{\quad $ \blacksquare $}

@@ -1,10 +1,170 @@
 \chapter*{Lecture 20\\March 7, Part B}
-\addcontentsline{toc}{chapter}{Lecture 100, March 7}
+\addcontentsline{toc}{chapter}{Lecture 20, March 7, Part B}
 \setcounter{chapter}{4}
 \setcounter{section}{0}
 
-\section{Introduction}
+\section{Interpolation}
 
-In numerical analysis, we are often provided with a table of values of a function f(x) with respect to some argument x. Examples might be log tables, tables for various statistical distributions or non-analytic integrals etc. This approach, although extremely convenient for practical purposes, has its limitations. The most obvious one being that a table can only contain finitely many values of a function, from which we need to estimate the intermediate values. This is where interpolation becomes invaluable.\\
+In numerical analysis, we are often provided with a table of values of a function f(x) with respect to some argument x. Examples might be log tables, tables for various statistical distributions, non-analytic integrals etc. This approach, although extremely convenient for practical purposes, has its limitations. The most obvious one being that a table can only contain finitely many values of a function, from which we need to estimate the intermediate values. This is one of the places where interpolation becomes invaluable. It can also be used to develop polynomial approximations of transcendental or even non-analytic functions.\\
+Interpolation basically deals with approximating a function given its value at some support points. It is used, as the name suggests, to approximate $f(x^*)$, where $x^*$ lies between two of the given support points. This gives rise to a "approximate function" which can be used to get a reasonable guess of what $f(x^*)$ should be. The function formed must satisfy all the support points.\\
+The subject of interpolation has also given rise to one of the most impactful algorithms of the $20^{th}$ century, the \textbf{Fast Fourier Transform}.
 
-Interpolation basically deals with approximating a function given its value at some support points. It is used, as the name suggests, to approximate $f(x^*)$, where $x*$ lies between two of the given support points.
+\section{Lagrange's Interpolation Formula}
+ 
+Let $\Pi_n$ be the set if all polynomials with degree $\leq n$. Thus, any $P(x) \in \Pi_n$ can be written in the form:
+$$P(x) = \sum_{j = 0}^n a_j x^j\;\;\;\;\;a_j \in \mathbb{R}\;\;\forall j= 1(1)n$$
+Given (n+1) support points , the Lagrange interpolation gives a polynomial of degree n which satistfies all the points. So, if $(x_i,f_i)$ for $i = 0(1)n$ be the support points (where $f_i$ are the values of the function at $x_i$), we will have:
+$$P(x_i) = f_i    \;\;\; \forall i = 0(1)n$$
+
+\begin{rmark}
+    The support points must have distict abscissae. Otherwise, one or more support points are either redundant or contradictory. So, we need:
+    $$x_i \neq x_j \;\;\;\forall\;i\neq j$$
+    Throughout this lecture, we will assume that this conditions is met.
+\end{rmark}
+
+We will show that given these conditions, $\exists\;! P \in \Pi_n$ s.t. the interpolation condition is staisfied, i.e, $P(x_i) = f_i\;\;\;\forall i=0(1)n$. We first show the existence by construction of \textbf{Lagrange Polynomials} and then uniqueness.\\
+
+\begin{defn}
+    Given (n+1) support points $(x_i,f_i)$, $i = 0(1)n$ with distinct abscissae, we define the $i^{th}$ Lagrange Polynomials as follows:
+    $$L_i(x) = \prod^n_{\substack{ j = 0\\j \neq i}} \frac{x - x_j}{x_i - x_j}$$
+\end{defn}
+
+
+Then, taking $P(x) =  \sum_{i=0}^{n} f_i L_i(x)$, it is easy to see that
+$$L_i(x_k) = \delta_{ik} = 
+   \begin{cases}
+        1, & \text{if }i=k \\
+        0, & \text{otherwise}
+   \end{cases}
+$$
+
+$$\therefore P(x_k) = \sum_{i=0}^{n} f_i L_i(x_k) =
+        \sum_{i=0}^{n} f_i \delta_{ik} = f_k$$
+i.e, it satisfies the interpolation condition.
+This proves the \textbf{existence} of $P$.$\hfill \blacksquare$\\[.2 cm]
+To prove the uniqueness, we assume two polynomials $P_1(x),P_2(x) \in \Pi_n$ which satisfy the interpolation conditions. Then the polynomial:
+$$P_3(x) = P_1(x)-P_2(x) \in \Pi_n$$ has at least $n+1$ roots $\{x_i: i = 0(1)n\}$, and is thus identically zero. Hence, $P_1(x) \equiv P_2(x)$, and the interpolating polynomial is \textbf{unique}.$ \hfill\blacksquare $\\[0.2 cm]
+This, in turn, shows that the Lagrange Polynomials are the only ones satisfying $L_i(x_k) = \delta_{ik}$, as it is a special case of the Lagrange Interpolation.
+\begin{rmark}
+    As the polynomial is unique, we have different approaches for finding $f(x^*)$:
+    \begin{enumerate}
+        \item Finding the coefficients of $P(x)$ and then calculating $P(x^*)$.
+        \item Finding the value of $P(x^*)$ directly from the support points.
+    \end{enumerate}
+    The two interpolation methods discussed in this lecture, Lagrange Interpolation and Neville Interpolation, are best suited to approach (2).\\
+    Approcah (1) is more convenient when the interpolation needs to be done multiple times. This is best done using Newton's Divided difference method, as will be discussed later.
+\end{rmark}
+\begin{example}
+    Say the following support points have been provided.Find the interpolated value at $x^* = 2$.\\[0.2 cm]
+    \begin{center}
+        \begin{tabular}{|r||r|r|r|}
+            \hline
+            $x_i$ & 0 & 1 & 3 \\
+            \hline
+            $f_i$ & 1 & 3 & 2 \\
+            \hline
+        \end{tabular}
+    \end{center}
+\end{example}
+\begin{soln}
+    We simply compute the values of the Individual Lagrange Polynomials at $x^*$ and then put them together.
+    $$L_0(x^* = 2) = \frac{(x^* - x_1)(x^* - x_2)}{(x_0 - x_1)(x_0 - x_2)} = -\frac{1}{3}$$
+    Similarly,
+    $$L_1(2) = 1 \text{  and  } L_2(2) = \frac{1}{3}$$
+    Thus $$P(x^*) = \sum_{i = 0}^2 f_i L_i(x^*) = -\frac{1}{3}+ 3 + \frac{2}{3} = \frac{10}{3}$$
+\end{soln}
+
+\section{Neville Interpolation}
+This is a more systematic way of implementing Lagrange Interpolation. Here, we make polynomials which satisfy a subset of the support points, and use those to construct the final polynomial in a step by step manner. As mentioned previously, we mainly use this method to find the interpolated value and not the coefficients of the polynomial.\\
+
+\begin{defn}
+    For a given set of support points $(x_i,f_i)$,$i = 0(1)n$ with distinct abscissae, we define Neville polynomials of order k as
+    $$P_{i_0i_1\dots i_k} \in \Pi_k \text{    s.t.    } P_{i_0i_1\dots i_k}(x_i) = f_i\;\;\forall i \in \{i_0,i_1,\dots,i_k\}$$
+    where $i_\alpha$, $\alpha = 0(1)n $ as distinct elements of $\{0,1,2,\dots,n\}$
+\end{defn}
+
+We note that all these polynomials are unique, as shown in the previous section.\\
+Thus, $P_{i}(x) = f_{i}\;\;\forall i = 0(1)n$. These constant polynomials form the zeroth level  Neville Polynomials.\\
+The key idea in Neville's Algorithm is a method to find $P_{i_0i_1\dots i_k}(x)$ from $P_{i_0i_1\dots i_{k-1}}(x)$ and $P_{i_1i_2\dots i_k}(x)$. Thus, knowing the zeroth level $P_0, P_1,\dots, P_n$, we can find the first level $P_{0,1}, P_{1,2},\dots, P_{n-1,n}$ and so on. Once we reach the $n^{th}$ level, we find the polynomial $P_{0,1\dots, n}$ which satisfies:
+$$P_{0,1\dots, n} \in \Pi_n \text{    s.t.    } P_{0,1\dots, n}(x_i) = f_i\;\;\forall i = 0(1)n $$
+This is precisely the interpolating polynomial $P(x)$ we are after!\\[0.2 cm]
+Neville's Algorithm could be summarised in the following table.\\[0.2 cm]
+
+
+\begin{center}
+   \begin{tabular}{|ccccc|}
+        \hline
+        $k = 0$& 1 &\dots & n-1 & n\\
+        \hline
+        $ P_0 = f_0$& $P_{0,1}$ & $\dots$ & $P_{0,1,\dots,n-1}$ & $P_{0,1,\dots n}$\\
+        $ P_1 = f_1$ & $P_{1,2}$ & $\dots$ & $P_{1,2,\dots,n}$&\\
+        $\vdots$ & $\vdots$ &  &  & \\
+        $ P_{n-1} = f_{n-1}$ & $P_{n-1,n}$ &  & & \\
+        $ P_{n} = f_{n}$ & & & & \\
+        \hline
+    \end{tabular}
+\end{center}
+
+
+
+\begin{props}
+    The corresponding recurrence relation for Neville Interpolation is:
+    $$P_{i_0i_1\dots i_k}(x) = \frac{(x-x_{i_0})P_{i_1i_2\dots i_k}(x)-(x-x_{i_k})P_{i_0i_1\dots i_{k-1}}(x)}{x_{i_k} - x_{i_0}}$$
+\end{props}
+\begin{prf}
+    Let $$G(x):=\frac{(x-x_{i_0})P_{i_1i_2\dots i_k}(x)-(x-x_{i_k})P_{i_0i_1\dots i_{k-1}}(x)}{x_{i_k} - x_{i_0}}$$
+    As $P_{i_1i_2\dots i_k}\text{, }P_{i_0i_1\dots i_{k-1}}(x) \in \Pi_{k-1}$, we get $G(x) \in \Pi_k$.
+    Now, $$G(x_{i_0}) = \frac{-(x_{i_0}-x_{i_k})P_{i_0i_1\dots i_{k-1}}(x_{i_0})}{x_{i_k} - x_{i_0}} =  P_{i_0i_1\dots i_{k-1}}(x_{i_0}) = f_{i_0}$$
+    Similarly, we have $G(x_{i_k}) = f_{i_k}$.\\
+    For $\alpha = 1(1)k-1$, we have 
+    $$P_{i_1i_2\dots i_k}(x_{i_\alpha}) = P_{i_0i_1\dots i_{k-1}}(x_{i_\alpha}) = f_{i_\alpha}$$
+    $$\implies G(x_{i_\alpha}) = \frac{(x-x_{i_0})f_{i_\alpha}-(x-x_{i_k})f_{i_\alpha}}{x_{i_k} - x_{i_0}} = f_{i_\alpha}\;\;\;\forall \alpha = 1(1)k-1$$
+    So, $G(x)$ satisfies all the conditions of $P_{i_0i_1\dots i_k}(x)$.\\
+    Noting that $P_{i_0i_1\dots i_k}(x)$ is unique (from previous section), this completes the proof.
+\end{prf}
+\begin{rmark}
+    In theory, Neville Interpolation is just a reformulation of Lagrange Interpolation. However, it cuts down the computations required significantly and is easier to implement. For instance, the computation of the next level only requires knowledge of the previous level.
+\end{rmark}
+
+\begin{example}
+    We try to solve the same problem as before using Neville Interpolation. Given data is
+    \begin{center}
+        \begin{tabular}{|r||r|r|r|}
+            \hline
+            $x_i$ & 0 & 1 & 3 \\
+            \hline
+            $f_i$ & 1 & 3 & 2 \\
+            \hline
+        \end{tabular}
+    \end{center}
+    We need to find the interpolated value at $x^* = 2$.
+\end{example}
+
+\begin{soln}
+    To begin with, we have\\
+    $P_0(2) = 1 \text{, } P_1(2) = 3 \text{, } P_2(2) = 2$\\
+    From this, we have
+    \begin{equation}
+        \begin{split}
+            P_{0,1}(x^*=2) &= \frac{(x^*-x_0)P_1(x^*)-(x^*-x_1)P_0(x^*)}{x_1 - x_0} \\
+            &= \frac{(2-0)P_1(2)-(2-1)P_0(2)}{1 - 0} = 5
+        \end{split}
+    \end{equation}
+    Similarly, $P_{1,2}(2) = \frac{5}{2}$ and thus,
+    $$P_{0,1,2}(x^* = 2) = \frac{(x^*-x_0)P_2(x^*)-(x^*-x_2)P_0(x^*)}{x_2 - x_0} = \frac{10}{3}$$
+    As expected, this gives us the same answer as before.
+
+    \begin{center}
+        \begin{tabular}{|ccc|}
+             \hline
+             $k = 0$& 1 & 2\\
+             \hline
+             1& 5 & $\frac{10}{3}$ \\
+             3 & $-\frac{5}{2}$ & \\
+             2 &  & \\
+             
+             \hline
+         \end{tabular}
+     \end{center}
+\end{soln}
+

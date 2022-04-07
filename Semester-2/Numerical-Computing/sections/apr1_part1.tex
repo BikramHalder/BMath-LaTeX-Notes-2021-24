@@ -1,0 +1,145 @@
+\chapPreamble{32}{April 1, Part A}
+
+(This part is labelled lecture 32, part B on quadrature is 33)
+\section{Definitions from Lecture 31 recapped}
+
+Recall the following definitions for the spline function $ S_\Delta(Y;x) $, with $ \Delta = \{x_0, \dots, x_n\} $ a partition of $ [a,b] $ and $ Y = \{y_0, \dots, y_n\} $ a set of support points and the boundary values $ y'_0, y'_n $.
+
+\begin{defn}
+	\phantom{a} \msk
+	\begin{itemize}
+	\item $ h_{k+1} = x_{k+1} - x_k \ \forall \ k \in \{0, \dots, n-1\} $ 
+	\msk
+	
+	\item Moments of the spline $ M_k = S''_\Delta(Y;x_k) \ \forall \ k \in \{0, \dots, n\} $
+	\msk
+	
+	\item $ \lambda_k = \dfrac{h_{k+1}}{h_k + h_{k+1}} \ \forall \ k \in \{1, \dots, n-1\}$
+	\msk
+	
+	\item $ \mu_k = 1 - \lambda_k = \dfrac{h_{k}}{h_k + h_{k+1}} \ \forall \ k \in \{1, \dots, n-1\}$
+	\msk
+	
+	\item $ d_k = \dfrac{6}{h_k + h_{k+1}}\left(\dfrac{y_{k+1}-y_k}{h_{k+1}} - \dfrac{y_k - y_{k-1}}{h_k} \right) \ \forall \ k \in \{1, \dots, n-1\}$
+	\msk
+	
+	\item The three boundary conditions imposed on splines, in terms of moments:
+	\ssk
+		\begin{enumerate}[label=Case (\alph*):]
+		\item $ S''_\Delta(Y;a) = M_0 = 0 = M_n = S''_\Delta(Y;b) $
+		\msk
+		
+		\item $ S''_\Delta(Y;a) = S''_\Delta(Y;b) \implies M_0 = M_n $ \ssk
+		
+		$ S'_\Delta(Y;a) = S'_\Delta(Y;b) \implies \dfrac{h_n}{6}M_{n-1} + \dfrac{h_n + h_1}{3}M_n + \dfrac{h_1}{6}M_1 = \dfrac{y_1-y_n}{h_1} - \dfrac{y_n-y_{n-1}}{h_n}$
+		\ssk
+		
+		\item $ S'_\Delta(Y;a) = y'_0 \implies \dfrac{h_1}{3}M_0 + \dfrac{h_1}{6}M_1 = \dfrac{y_1-y_0}{h_1}-y_0' $ \ssk
+		
+		$ S'_\Delta(Y;b) = y'_n \implies \dfrac{h_n}{6}M_{n-1} + \dfrac{h_n}{3}M_n = y'_n - \dfrac{y_n-y_{n-1}}{h_n} $
+		\end{enumerate}
+	\end{itemize}
+\end{defn}
+
+We also have from the definition of the spline function that,
+\[ \dfrac{h_k}{h_k + h_{k+1}}M_{k-1} + 2M_k + \dfrac{h_{k+1}}{h_k + h_{k+1}}M_{k+1} = \dfrac{6}{h_k + h_{k+1}}\left(\dfrac{y_{k+1}-y_k}{h_{k+1}} - \dfrac{y_{k}-y_{k-1}}{h_{k}}\right) \eqlab{32.1}\]
+for $ k \in \{1, \dots, n-1\} $
+\pagebreak
+
+\section{Finding the moments of the spline}
+Using the definitions 32.1.1, \eqref{32.1} becomes
+\[ \mu_kM_{k-1} + 2M_k + \lambda_kM_{k+1} = d_k \]
+for $ k \in \{1, \dots, n-1\} $.
+
+We define $ \lambda, \mu, d $ separately for each of the three boundary conditions as follows,
+\begin{enumerate}[label=Case (\alph*):]
+	\item $ \lambda_0 = d_0 = 0, \ \mu_n = d_n = 0 $
+	
+	\item $ \lambda_n = \dfrac{h_1}{h_n + h_1}, \ \mu_n = \dfrac{h_n}{h_n + h_1}, \ d_n = \dfrac{6}{h_n + h_1}\left(\dfrac{y_1-y_n}{h_1} - \dfrac{y_n-y_{n-1}}{h_n}\right) $
+	
+	\item $ \lambda_0 = 1, \ d_0 = \dfrac{6}{h_1}\left(\dfrac{y_1-y_0}{h_1} - y_0'\right), \ \mu_n = 1, \ d_n = \dfrac{6}{h_n}\left(y'_n - \dfrac{y_n-y_{n-1}}{h_n}\right) $
+\end{enumerate}
+
+Including these equations in \eqref{32.1} we get the following matrix equations for the moments of the spline,
+\begin{align*}
+	\begin{bmatrix}
+	2 & \lambda_0 & 0 & \cdots & 0 & 0 \\
+	\mu_1 & 2 & \lambda_1 & \cdots & 0 & 0 \\
+	0 & \mu_2 & 2 & \cdots & 0 & 0 \\
+	\vdots & \vdots & \ddots & \ddots & \ddots & \vdots \\
+	0 & 0 & 0 & \cdots & 2 & \lambda_{n-1} \\
+	0 & 0 & 0 & \cdots & \mu_n & 2
+	\end{bmatrix}
+	\begin{bmatrix}
+	M_0 \\
+	M_1 \\
+	M_2 \\
+	\vdots \\
+	M_{n-1} \\
+	M_n 
+	\end{bmatrix} &=
+	\begin{bmatrix}
+	d_0 \\
+	d_1 \\
+	d_2 \\
+	\vdots \\
+	d_{n-1} \\
+	d_n
+	\end{bmatrix} \eqlab{32.2} \\
+	\begin{bmatrix}
+	2 & \lambda_1 & 0 & \cdots & 0 & \mu_1 \\
+	\mu_2 & 2 & \lambda_2 & \cdots & 0 & 0 \\
+	0 & \mu_3 & 2 & \cdots & 0 & 0 \\
+	\vdots & \vdots & \ddots & \ddots & \ddots & \vdots \\
+	0 & 0 & 0 & \cdots & 2 & \lambda_{n-1} \\
+	\lambda_n & 0 & 0 & \cdots & \mu_n & 2
+	\end{bmatrix}
+	\begin{bmatrix}
+	M_1 \\
+	M_2 \\
+	M_3 \\
+	\vdots \\
+	M_{n-1} \\
+	M_n 
+	\end{bmatrix} &=
+	\begin{bmatrix}
+	d_1 \\
+	d_2 \\
+	d_3 \\
+	\vdots \\
+	d_{n-1} \\
+	d_n
+	\end{bmatrix} \eqlab{32.3}
+\end{align*}
+where, \eqref{32.2} holds for cases (a) and (c), and \eqref{32.3} holds for case (b) where $ M_0 = M_n $ by periodicity.
+
+\begin{rmk}
+The coefficients $ \lambda_k, \mu_k, d_k $ are all well-defined for all $ k $ in all three cases. Further, they depend only on the $ x_i $ and not on the support points $ y_i $ and the boundary values $ y'_0, y'_n $. We also have for all $ k $,
+\[ \lambda_k \geq 0, \ \mu_k \geq 0, \ \lambda_k + \mu_k = 1 \]
+\end{rmk}
+
+\section{Existence of moments of the spline}
+We now prove the following existence and uniqueness theorem.
+
+\begin{thm}
+The systems \eqref{32.2} and \eqref{32.3} have unique solutions for all partitions $ \Delta $ of $ [a,b] $.
+\end{thm}
+\begin{prf}
+Let $ A $ be the coefficient matrix of \eqref{32.2}. If $ z, w \in \R^{n+1} $ be such that $ Az = w $ and $ |z_r| = \max_{k}|z_k| $, then
+\begin{align*}
+	w_r &= \mu_r z_{r-1} + 2z_r + \lambda_r z_{r+1} \\
+	\implies |w_r| &\geq 2|z_r| - \mu_r|z_{r-1}| - \lambda_r|z_{r+1}| \tag{Triangle inequality, $ \lambda_k \geq 0, \mu_k \geq 0 $}\\
+	\implies \max_k|w_k| &\geq (2-\mu_r-\lambda_r)|z_r| \tag{Definition of $ z_r $} \\
+	\implies \max_k|w_k| &\geq |z_r| \tag{$ \lambda_k + \mu_k = 1 $}
+\end{align*}
+
+Hence, $ Az = w \implies \max_k|z_k| \leq \max_k |w_k| $
+
+Let $ B $ be the coefficient matrix of \eqref{32.3}. If $ z, w \in \R^n $ be such that $ Bz = w $ and we define $ z_0 = z_n, w_0 = w_n $, we get the same equations as for $ A $ by using the periodicity. 
+
+Hence, $ Bz = w \implies \max_k|z_k| \leq \max_k |w_k| $. 
+
+Now, let $ C $ denote the coefficient matrix of \eqref{32.2} or \eqref{32.3}. If $ C $ is singular, there is some vector $ z \neq 0 $ such that $ Cz = 0 $. But then $ \max_k|z_k| \leq 0 $ which is a contradiction.
+
+Hence, $ C $ is non-singular, and the systems both have unique solutions.
+\end{prf}

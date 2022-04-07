@@ -1,0 +1,91 @@
+\chapPreamble{27}{March 21, Part A}
+
+Now since, we have introduced the notion of \texty{Generalized Vandermonde Matrices}, let us see how we can prepare to use \texty{Neville's algorithm}, or \texty{Newton's divided difference formula}, for tackling \texty{Hermite interpolation} problems. 
+
+\section{Neville Type Algorithm for Hermite Interpolation}
+
+We start off by associating each sequence 
+\[
+    t_i \leq t_{i+1} \leq \cdots \leq t_{i+k}, \ \ 0 \leq i \leq i+k \leq n  
+\]
+of virtual abscissae the solution $P_{i,\dots,i+k} \in \Pi_k$ of the partial \texty{Hermite interpolation} problem, i.e, it satisfies the equations 
+\begin{equation}\label{eq1:mar21A}
+    P^{(s_j-1)}_{i,i+1,\dots,i+k}(t_j) = f^{(s_j-1)}(t_j), \ \ i \leq j \leq i+k
+\end{equation}
+where $s_j$ is the number of times $t_j$, occurs in the subsequence $t_i, t_{i+1}, \dots, t_j$.
+
+\begin{example}\label{eg1:mar21A}
+    Suppose we are given that 
+    \begin{align*}
+        &x_0 = 0, \ f_0^{(0)} = -1, \mbox{ and } f_0^{(1)} = -2 \\ 
+        &x_1 = 1, \ f^{(0)}_1 = 0, \ f^{(1)}_1 = 10, \mbox{ and } f^{(2)}_1 = 40
+    \end{align*}
+    Then our virtual abscissae $\{t_j\}$'s are simply:
+    \begin{align*}
+        &t_0 = t_1 := x_0 = 0 \mbox{ and } \\
+        &t_2 = t_3 = t_4 := x_1 = 1
+    \end{align*}
+    Now suppose we consider the subsequence $t_1, t_2, t_3$, i.e., $i = 1$ and $k = 2$, then we get 
+    \begin{align*}
+        s_1 = 1, \ s_2 = 1, \mbox{ and } s_3 = 2
+    \end{align*}
+    and thus the corresponding partial Hermite interpolation polynomial will be $P_{123} \in \Pi_2$, satisfying 
+    \begin{align*}
+        &P_{123}^{(s_1 - 1)}(t_1) = P_{123}(0) = f_0^{(0)} = -1 \\
+        &P_{123}^{(s_2-1)}(t_2) = P_{123}(1) = f_1^{(0)} = 0 \\ 
+        &P_{123}^{(s_3-1)}(t_3) = P'_{123}(1) = f_1^{(1)} = 10 
+    \end{align*}
+\end{example}
+
+Using the above notations we have the following analogs to the \texty{Neville's formulae}:
+
+\begin{thm}\label{thm1:mar21A}
+    The polynomials $P_{i,i+1,\dots,i+k} \in \Pi_k$ follows the following recursive relation:
+    
+    \ 
+
+    \begin{itemize}
+        \item If $t_i = t_{i+1} = \cdots = t_{i+k} = x_l$ for some $l$, then 
+        \begin{equation}\label{eq2:mar21A}
+            P_{i,i+1,\dots,i+k}(x) = \sum_{r=0}^k \frac{f^{(r)}_l}{r!} (x-x_l)^r 
+        \end{equation}
+        \item  And if $t_i < t_{i+k}$, then we have 
+        \begin{equation}\label{eq3:mar21A}
+            P_{i,i+1.\dots,i+k}(x) = \frac{(x-t_i)P_{i+1,\dots,i+k}(x) - (x - t_{i+k})P_{i,\dots,i+k-1}(x)}{t_{i+k} - t_i}
+        \end{equation}
+    \end{itemize} 
+\end{thm}
+
+\section{Generalized Divided Differences}
+
+Analogous to the defintion of coefficients of divided differences, we now define the coefficients of generalized divided differences.
+
+\begin{defn}
+    The coefficients of generalized divided differences, denoted by 
+    \[
+        f[t_i, t_{i+1}, \dots, t_{i+k}]  
+    \]
+    as the coefficient of $x^k$ in the polynomial $P_{i,i+1, \dots, i+k} \in \Pi_k$ as defined above according to equation $(\ref{eq1:mar21A})$.
+\end{defn}
+
+Now that we have discussed about the generalized \texty{Neville's formulae}, we can easily derive the formulae for \texty{Newton's generalized divided differences} as follows: 
+
+\begin{thm}\label{thm2:mar21A}
+    The coefficients of generalized divided differences satisfies the following recurrence relations: 
+
+    \ 
+
+    \begin{itemize}
+        \item If $t_i = t_{i+1 } = \cdots = t_{i+k} = x_l$ for some $l$, then 
+        \begin{equation}\label{eq4:mar21A}
+            f[t_i, t_{i+1}, \dots, t_{i+k}] = \frac{1}{k!} f^{(k)}_l
+        \end{equation}
+        \item And $t_i < t_{i+k}$, we have 
+        \begin{equation}\label{eq5:mar21A}
+            f[t_i, t_{i+1}, \dots, t_{i+k}] = \frac{f[i+1,\dots, i+k] - f[i,\dots,i+k-1]}{t_{i+k} - t_i}
+        \end{equation}
+    \end{itemize}
+\end{thm}
+\begin{prf}
+    The proof follows directly from comparing the coefficients of $x^k$ in the two cases in the equation $(\ref{eq2:mar21A})$ and equation $(\ref{eq3:mar21A})$ given in \texty{Theorem} $\ref{thm1:mar21A}$.
+\end{prf}

@@ -1,0 +1,142 @@
+\chapPreamble{28}{March 21, Part B}
+
+\section{More interpolation algorithms for virtual abscissae}
+
+We present a version of Newton's divided differences that works for virtual abscissae.
+\subsection{Newton's divided differences for virtual abscissae}
+
+Note that the previous version of Newton's divided differences we presented relies on the abscissae of the support points being pairwise different. When working with virtual abscissae, we have no such guarantee. Instead, we have to rely on alternate definitions, which we present immediately below.
+
+\begin{defn}
+  Suppose you are given virtual abscissae $t_0 \leq t_1 \leq \dots \leq t_n$, and the corresponding values of a function $f$ and the derivatives of $f$ at the virtual abscissae. Then, we define the base cases
+  \[
+    f[t_i] = f(t_i)
+  \]
+  and we define
+  \[
+    f[t_i\dots t_{i+k}]
+    =
+    \begin{dcases}
+      \frac{f[t_{i+1}\dots t_{i+k}] - f[t_{i}\dots t_{i+k-1}]}{t_{i+k} - t_{i}}
+      & \text{ if } t_{i+k} - t_{i} \neq 0 \\
+      \frac{f^{(k)}(x_i)}{k!}
+      & \text{ if } t_{i+k} - t_{i} = 0 \\
+    \end{dcases}
+  \]
+\end{defn}
+Now, we present an example
+\begin{example}
+  Suppose you are given the support points $(0, -1), (0, -2), (1, 0), (1, 10), (1, 40)$.
+
+  Then, the virtual abscissae are $t_0 = t_1 < t_2 = t_3 = t_4$ with $t_0 = 0$ and $t_1 = 1$, and you know that
+  \[
+    f^{(0)}(0) = -1, \quad
+    f^{(1)}(0) = -2, \quad
+    f^{(0)}(1) = 0, \quad
+    f^{(1)}(1) = 10, \quad
+    f^{(2)}(1) = 40
+  \]
+  Then, the tableau for constructing the interpolating polynomial using Newton's divided differences is
+  \[
+    \begin{array}{|c| c c c c c|}
+      \hline
+      \hbox{\diagbox{$t_i$}{$k$}} & 0 & 1  & 2  & 3 & 4 \\
+      \hline
+      t_0 & -1 &    &    &    &    \\
+          &    & -2 &    &    &    \\
+      t_1 & -1 &    & 3  &    &    \\
+          &    & 1  &    & 6  &    \\
+      t_2 & 0  &    & 9  &    & 5  \\
+          &    & 10 &    & 11 &    \\
+      t_3 & 0  &    & 20 &    &    \\
+          &    & 10 &    &    &    \\
+      t_4 & 0  &    &    &    &    \\
+      \hline
+    \end{array}
+  \]
+\end{example}
+Next, we present a theorem that will let you calculate the interpolation polynomial for the support points you are given.
+\begin{thm}
+  Just like in the case of the original Newton's divided differences method, the interpolating polynomial $P_{01\dots n}$ is given by
+  \[
+    P_{01\dots n}(t) = \sum_{j = 0}^n f[t_{0}\dots t_{j}] \prod_{k = 0}^{j-1}\left(t - t_{k} \right)
+  \]
+\end{thm}
+\begin{proof}
+  The statement is obviously true for $n = 0$. Then, note that
+  \[
+    P_{01\dots n} - P_{01\dots (n-1)} = f[t_0, \dots ,t_n]x^n + \text{ a degree $n-1$ polynomial }
+  \]
+  Also, we know that $P_{01\dots n} - P_{01\dots (n-1)}$ has the roots $t_0, t_1, \dots ,t_{n-1}$. Therefore,
+  \[
+    P_{01\dots n} - P_{01\dots (n-1)} = f[t_0, \dots ,t_n]\prod_{k = 0}^{j-1}\left(t - t_{k} \right)
+  \]
+  By recursion, we are done.
+\end{proof}
+\begin{rmk}
+This proof badly needs more explaining, but until the person doing the lecture before this one pushes their notes, I can't do anything about that.
+\end{rmk}
+
+\section{Spline interpolation}
+
+\subsection{Introduction}
+
+Given an interval $[a, b]$, consider an arbitrary partition
+\[
+  \Delta \colon a = x_0 < x_1 \dots < x_n
+\]
+on $[a, b]$. The $x_i$ are called \textbf{knots}. Then we define spline functions as below.
+\begin{defn}
+  A spline function $S_\Delta$ on $[a, b]$ with the partition $\Delta$ is a function from $[a, b]$ to $\R$ such that
+  \[
+    S_\Delta \vert_{(x_{i-1}, x_{i})} \text{ is a polynomial } \forall(1 \leq i \leq n)
+  \]
+\end{defn}
+
+\begin{defn}
+  If in the above definition the restrictions $S_\Delta \vert_{(x_{i-1}, x_{i})}$ all belong to $\Pi_3$, then $S_\Delta$ is said to be a \textbf{cubic spline}.
+\end{defn}
+
+However, the above definition of cubic splines is hard to work with, so we shall impose more stringent conditions on our cubic splines.
+
+\begin{defn}
+  A spline function on $S_\Delta$ on $[a, b]$ with the partition $\Delta$ is a \textbf{cubic spline} if
+  \begin{itemize}
+  \item
+    $S_\Delta \vert_{[x_{i-1}, x_i]} \in \Pi_3$ for all $1 \leq i \leq n$. Note that we are now dealing with closed intervals instead of open.
+  \item
+    $S_\Delta$ is continuously differentiable at least twice in $[a, b]$.
+  \end{itemize}
+  \textbf{We shall assume these facts of the cubic splines we work with; now, and in the future.}
+\end{defn}
+
+\subsection{The uniqueness of splines passing through $n+1$ support points}
+
+Now suppose you're given $n+1$ ordinates $Y = \{y_0, y_1, \dots ,y_n \}$. We can impose $n+1$ conditions on the spline function $S_\Delta$, namely
+\[
+  S_\Delta(x_i) = y_i \qquad \forall(0 \leq i \leq n)
+\]
+The set of conditions is denoted $S_\Delta(Y ; \cdot)$, and the $n+1$ conditions can be written
+\begin{equation}
+  \label{mar21:uniq:spline}
+  S_\Delta(Y ; x_i) = y_i \qquad \forall(0 \leq i \leq n)
+\end{equation}
+But $S_\Delta$ is not a single polynomial function; it is piecewise polynomial. So we can't use the uniqueness/existence theorems developed in previous lectures. We have to develop specialized theorems to deal with spline functions.
+
+In order for our cubic splines satisfying conditions \ref{mar21:uniq:spline} to be unique, we need to impose additional conditions on them, but there are multiple choices of uniqueness conditions we can use. We list three of them:
+
+\begin{enumerate}[label = \arabic*)]
+\item
+  $S''_\Delta(Y ; a) = S''_\Delta(Y ; b) = 0$.
+\item
+  $S''_\Delta(Y ; a) = S''_\Delta(Y ; b)$ for $k = 0, 1, \text{ and } 2$.
+\item
+  $S'_\Delta(Y ; a) = y'_0$, and $S'_\Delta(Y ; b) = y'_n$, where $y'_0$ and $y'_n$ are fixed values given to you.
+\end{enumerate}
+
+Any one of the three conditions above is sufficient to guarantee the uniqueness of the spline passing through the support points $(x_i, y_i)$ for all $0 \leq i \leq n$.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

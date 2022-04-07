@@ -1,0 +1,67 @@
+\chapPreamble{29}{March 25, Part A}
+
+\section{Theoretical Foundations for Spline Interpolation}
+
+Let $\Delta = \{a = x_0 < x_1< \cdot < x_n = b\}$ be a partition of the interval $[a,b]$. 
+
+\begin{defn}\label{defn1:mar25A}
+    A cubic spline function $S_{\Delta}$ on $\Delta$ is real function $S_{\Delta} : [a,b] \to \bb{R}$, with the properties:
+    \begin{enumerate}
+        \item $S_{\Delta} \in \mathcal{C}^2[a,b]$, i.e., $S_{\Delta}$ is twice continuously differentiable on $[a,b]$. 
+        \item $S_{\Delta \mid [x_i, x_{i+1}]} \in \Pi_3$, i.e., coincides on every subinterval $[x_i, x_{i+1}]$ with a polynomial of degree at most three, for all $i = 0,1,\dots,n-1$. 
+    \end{enumerate}
+\end{defn}
+
+We further define an \textit{interpolating spline function} as follows:
+\begin{defn}\label{defn2:mar25A}
+    For a finite sequence $Y := (y_0, y_1, \dots, y_n)$ of $n+1$ real numbers, we denote by 
+    \[
+        S_{\Delta}(Y; \cdot)  
+    \]
+    as an \textit{interpolating spline function} $S_{\Delta}$ with $S_{\Delta}(Y; x_i) = y_i$ for all $ i \in \{0,1,\dots,n\}$.
+\end{defn}
+
+and we have already discussed in \texty{Lecture 28}, that such a interpolating spline function is unique if any one of the three following condition is satisfied:
+
+\begin{enumerate}[label = (\alph*)]
+    \item
+      $S''_\Delta(Y ; a) = S''_\Delta(Y ; b) = 0$.
+    \item
+      $S^{(k)}_\Delta(Y ; a) = S^{(k)}_\Delta(Y ; b)$ for $k = 0, 1, \text{ and } 2$.
+    \item
+      $S'_\Delta(Y ; a) = y'_0$, and $S'_\Delta(Y ; b) = y'_n$, where $y'_0$ and $y'_n$ are any fixed real numbers.
+\end{enumerate}
+
+Let $m \in \bb{N}$ and we shall now consider the following sets  
+\begin{equation}\label{eq1:mar25A}
+    \mathcal{K}^m[a,b] := \{ f : [a,b] \to \bb{R} \mid f^{(m-1)} \mbox{ is absolutely continuous on } [a,b] \mbox{ and } f^{(m)} \in \mathcal{L}^2[a,b] \}
+\end{equation}
+and we define 
+\begin{equation}\label{eq2:mar25A}
+    \mathcal{K}^m_p [a,b] := \{ f \in \mathcal{K}^m[a,b] \mid f^{(k)}(a) = f^{(k)}(b), \ \forall \, k = 0,1,\dots,m-1 \}
+\end{equation}
+
+So particularly for $m = 2$, we have $f \in \mathcal{K}^2_p[a,b]$, if 
+\begin{itemize}
+    \item $f^{(0)}$ and $f^{(1)}$ are absolutely continuous and $f^{(2)}$ exists. 
+    \item $f^{(2)} \in \mathcal{L}^2[a,b]$, i.e., $\int_a^b |f^{(2)}(x)|^2 \dd{x}$ exists and is finite. 
+    \item And finally $f^{(0)}(a) = f^{(0)}(b)$ and $f^{(1)}(a) = f^{(1)}(b)$.
+\end{itemize}
+note that the first two conditions are enough for $f \in \mathcal{K}^2[a,b]$.
+
+\subsection{Holladay's Identity} 
+
+Then note that $S_{\Delta} \in \mathcal{K}^3[a,b]$, and further if $S_{\Delta}^{(k)}(a) = S_{\Delta}^{(k)}(b)$ for $k = 0,1,2$ then $S_{\Delta} \in \mathcal{K}^3_p[a,b]$.
+
+Also note that for all $ f \in \mathcal{K}^2[a,b]$, we can define the following \texty{semi-norm} 
+\begin{equation}\label{eq3:mar25A}
+    \| f \|^2 := \int_a^b |f(x)|^2 \dd{x} 
+\end{equation} 
+
+Now with all that definitions in mind, we are ready to define the following identity due to \texty{Holladay},
+\begin{thm}\label{thm1:mar25A}\texty{(Holladay's Identity)}
+    Let $f \in \mathcal{K}^2[a,b]$ and let $\Delta = \{ a = x_0 < x_1 < \cdots < x_n = b \}$ be a partition of the interval $[a,b]$, and if $S_{\Delta}$ is a spline function with knots at $x_i \in \Delta$, then 
+    \[
+        \| f - S_{\Delta} \|^2 = \| f \|^2 - \| S_{\Delta} \|^2 - 2 \left[ (f'(x) - S'_{\Delta}(x))S^{(2)}_{\Delta}(x) \Big\vert_a^b - \sum_{i=1}^n (f(x) - S_{\Delta}(x)) S^{(3)}_{\Delta}(x) \Big\vert_{x_{i-1}^-}^{x_i^+}  \right]  
+    \] 
+\end{thm}

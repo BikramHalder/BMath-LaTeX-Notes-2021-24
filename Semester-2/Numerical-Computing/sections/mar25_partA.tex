@@ -1,6 +1,6 @@
 \chapPreamble{29}{March 25, Part A}
 
-\section{Theoretical Foundations for Spline Interpolation}
+\section{Theoretical Foundations for Cubic Spline Interpolation}
 
 Let $\Delta = \{a = x_0 < x_1< \cdot < x_n = b\}$ be a partition of the interval $[a,b]$. 
 
@@ -60,8 +60,103 @@ Also note that for all $ f \in \mathcal{K}^2[a,b]$, we can define the following 
 
 Now with all that definitions in mind, we are ready to define the following identity due to \texty{Holladay},
 \begin{thm}\label{thm1:mar25A}\texty{(Holladay's Identity)}
-    Let $f \in \mathcal{K}^2[a,b]$ and let $\Delta = \{ a = x_0 < x_1 < \cdots < x_n = b \}$ be a partition of the interval $[a,b]$, and if $S_{\Delta}$ is a spline function with knots at $x_i \in \Delta$, then 
+    Let $f \in \mathcal{K}^2[a,b]$ and let \[\Delta = \{ a = x_0 < x_1 < \cdots < x_n = b \} \] be a partition of the interval $[a,b]$, and if $S_{\Delta}$ is a spline function with knots at $x_i \in \Delta$, then 
     \[
-        \| f - S_{\Delta} \|^2 = \| f \|^2 - \| S_{\Delta} \|^2 - 2 \left[ (f'(x) - S'_{\Delta}(x))S^{(2)}_{\Delta}(x) \Big\vert_a^b - \sum_{i=1}^n (f(x) - S_{\Delta}(x)) S^{(3)}_{\Delta}(x) \Big\vert_{x_{i-1}^-}^{x_i^+}  \right]  
+        \| f - S_{\Delta} \|^2 = \| f \|^2 - \| S_{\Delta} \|^2 - 2 \left[ (f'(x) - S'_{\Delta}(x))S^{(2)}_{\Delta}(x) \Big\vert_a^b - \sum_{i=1}^n (f(x) - S_{\Delta}(x)) S^{(3)}_{\Delta}(x) \Big\vert_{x_{i-1}^+}^{x_i^-}  \right]  
     \] 
 \end{thm}
+
+\begin{prf}
+    We have 
+    \begin{align*}
+        \| f - S_{\Delta} \|^2 
+        &= \int_a^b \left|f^{(2)}(x) - S^{(2)}_{\Delta}(x)\right|^2 \dd{x} \\ 
+        &= \int_a^b \left|f^{(2)}(x)\right|^2 \dd{x} - 2 \int_a^b f^{(2)}(x)S_{\Delta}^{(2)}(x) \dd{x} + \int_a^b \left|S_{\Delta}^{(2)}(x)\right|^2 \dd{x} \\ 
+        &= \int_a^b \left|f^{(2)}(x)\right|^2 \dd{x} - \int_a^b \left|S^{(2)}_{\Delta}(x)\right|^2 \dd{x} - 2 \int_a^b \left(f^{(2)}(x) - S_{\Delta}^{(2)}(x)\right) S_{\Delta}^{(2)}(x) \dd{x} \\ 
+        &= \| f \|^2 - \| S_{\Delta} \|^2 - 2 \int_a^b \left(f^{(2)}(x) - S_{\Delta}^{(2)}(x)\right) S_{\Delta}^{(2)}(x) \dd{x}
+    \end{align*}
+    Now observe that using \texty{intergration by parts} we can write 
+    \begin{align*}
+        \int_{x_{i-1}}^{x_i} \left(f^{(2)}(x) - S_{\Delta}^{(2)}(x)\right) S_{\Delta}^{(2)}(x) \dd{x} &= \left(f^{(1)}(x) - S_{\Delta}^{(1)}(x)\right) S_{\Delta}^{(2)}(x) \Big\vert_{x_{i-1}}^{x_i} - \int_{x_{i-1}}^{x_i} \left(f^{(1)}(x) - S_{\Delta}^{(1)}(x)\right) S_{\Delta}^{(3)}(x) \dd{x} 
+    \end{align*}
+    which can be further broken down as 
+    \begin{align*}
+        \int_{x_{i-1}}^{x_i} \left(f^{(1)}(x) - S_{\Delta}^{(1)}(x)\right) S_{\Delta}^{(3)}(x) \dd{x} &= \left(f(x) - S_{\Delta}(x)\right) S_{\Delta}^{(3)}(x) \Big\vert_{x_{i-1}^+}^{x_i^-} - \int_{x_{i-1}}^{x_i} \left(f(x) - S_{\Delta}(x)\right) S_{\Delta}^{(4)}(x) \dd{x} \\ 
+        &\overset{(1)}{=} \left(f(x) - S_{\Delta}(x)\right) S_{\Delta}^{(3)}(x) \Big\vert_{x_{i-1}^+}^{x_i^-} 
+    \end{align*}
+    where $(1)$, follows from the fact that $S_{\Delta \mid (x_{i-1},x_i)} \in \Pi_3$, and hence $S^{(4)}_{\Delta} \equiv 0 $ on $(x_{i-1},x_i)$, and combining the two results we got from \texty{intergration by parts} we get that 
+    \begin{align*}
+        \int_{a}^{b} \left(f^{(2)}(x) - S_{\Delta}^{(2)}(x)\right) S_{\Delta}^{(2)}(x) \dd{x} 
+        &= \sum_{i=1}^n \int_{x_{i-1}}^{x_i} \left(f^{(2)}(x) - S_{\Delta}^{(2)}(x)\right) S_{\Delta}^{(2)}(x) \dd{x} \\ 
+        &= \sum_{i=1}^n \left(f(x) - S_{\Delta}(x)\right) S_{\Delta}^{(3)}(x) \Big\vert_{x_{i-1}}^{x_i} - \sum_{i=1}^n \left(f(x) - S_{\Delta}(x)\right) S_{\Delta}^{(3)}(x) \Big\vert_{x_{i-1}^+}^{x_i^-} \\ 
+        &= (f(x) - S_{\Delta}(x)) S^{(3)}_{\Delta}(x) \Big\vert_a^b - \sum_{i=1}^n \left(f(x) - S_{\Delta}(x)\right) S_{\Delta}^{(3)}(x) \Big\vert_{x_{i-1}^+}^{x_i^-}
+    \end{align*}
+    which completes the proof of \texty{Theorem} $\ref{thm1:mar25A}$.
+\end{prf}
+
+\subsection{Minimum Semi-norm Property of Spline Functions}
+
+\begin{thm}\label{thm2:mar25A}
+    Let $ \Delta = \{ a = x_0 < x_1 < \cdots < x_n = b \} $
+    be a partition of the interval $[a,b]$ and let $f \in \mathcal{K}^2[a,b]$. And suppose we are given the values $Y = (y_0, y_1, \dots, y_n)$ such that $f(x_i) = y_i, \ \forall \, i \in \{0,1,\dots,n\}$. Then
+    \[
+        0 \leq \| f - S_{\Delta}(Y; \cdot) \|^2 = \|f\|^2 - \| S_{\Delta}(Y; \cdot) \|^2    
+    \]
+    holds for every spline function $S_{\Delta}(Y; \cdot)$ provided one of the following conditions is true:
+    \begin{enumerate}[label = (\alph*)]
+        \item $S_{\Delta}^{(2)}(a) = S_{\Delta}^{(2)}(b) = 0 $.
+        
+        \item $f \in \mathcal{K}_p^2[a,b]$ and $S_{\Delta}(Y; \cdot) \in \mathcal{K}^2_p[a,b]$.
+        
+        \item $S'_{\Delta}(Y;a) = f'(a)$ and $S'_{\Delta}(Y;b) = f'(b)$. 
+    \end{enumerate}
+\end{thm}
+
+\begin{prf}
+    First note that from the definition of spline interpolation function $S_{\Delta}(Y; \cdot)$, we have 
+    \[
+        \lim_{x \to x_k^-} f(x) = f(x_k) = y_k = \lim_{x \to x_k^-} S_{\Delta}(Y;x)  
+    \]
+    and 
+    \[
+        \lim_{x \to x_k^+} f(x) = f(x_k) = y_k = \lim_{x \to x_k^+} S_{\Delta}(Y;x)
+    \]
+    for any $k \in \{0,1,\dots,n\}$. Thus the term 
+    \[
+        \sum_{i=1}^n \left(f(x) - S_{\Delta}(Y;x)\right) S_{\Delta}^{(3)}(Y;x) \Big\vert_{x_{i-1}^+}^{x_i^-} = 0  
+    \]
+    and hence using \texty{Holladay's identity} (\texty{Theorem} $\ref{thm1:mar25A}$), we get 
+    \begin{equation}\label{eq4:mar25A}
+        \| f - S_{\Delta}(Y;\cdot) \|^2 = \|f \|^2 - \| S_{\Delta}(Y;\cdot) \|^2 - 2 \left( f'(x) - S'_{\Delta}(Y;x)\right)S_{\Delta}^{(2)}(Y;x) \Big\vert_a^b
+    \end{equation}
+    But then its easy to observe that for any of the three conditions (a), (b) or (c), the term 
+    \[
+        \left( f'(x) - S'_{\Delta}(Y;x)\right)S_{\Delta}^{(2)}(Y;x) \Big\vert_a^b = 0
+    \]
+    Thus we have 
+    \begin{equation}\label{eq5:mar25A}
+        \| f - S_{\Delta}(Y; \cdot) \|^2 = \| f \|^2 - \| S_{\Delta}(Y; \cdot) \|^2
+    \end{equation}
+    but it trivially follows from the definition of \texty{semi-norm}, that $\| f - S_{\Delta}(Y;)\| \geq 0$, which completes our proof. 
+\end{prf}
+
+But why is the spline Interpolation, so important? We end this chapter with the following geometric interpretation of the spline interpolation. 
+
+\subsection{Geometric Interpretation of Cubic Spline Functions}
+
+\begin{defn}\label{defn3:mar25A}
+    Let $f \in \mathcal{K}^2[a,b]$, then the curvature of $f$ at the point $x \in [a,b]$, denoted by $\kappa_x$ is defined by 
+    \[
+        \kappa_x = \frac{f^{(2)}(x)}{(1+f'(x)^2)^{\frac{3}{2}}}  
+    \]
+\end{defn}
+
+Now suppose we have $|f'(x)| \ll 1$, i.e., $|f'(x)|$ is very small compared to $1$, then in that case we have 
+\[
+    \kappa_x \approx f^{(2)}(x)  
+\]
+But observe that the term 
+\[ 
+    \|f\|^2 = \int_a^b |f^{(2)}(x)|^2 \dd{x}    
+\]
+is kind of measure for the total curvature of the function $f$ in the interval $[a,b]$, but from \texty{Theorem} $\ref{thm2:mar25A}$, we have already shown that if the spline function satisfies certain conditions, then it minimizes the term $\|f\|^2$. So we can say that a spline function is the \textit{"smoothest"} function to interpolate the given support points $(x_i,y_i)$.

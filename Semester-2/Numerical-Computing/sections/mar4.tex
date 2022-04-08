@@ -176,14 +176,31 @@ We are now ready to state the final theorem of this lecture.
 We end by remarking that fixed point iterations are very easy to program owing to the simple nature of their iterations.
 
 % [Stopped at 37:36 $\pm$ a few seconds. The remainder of the lecture is about polynomial interpolation.]
+\newpage
 \section{Introduction to Interpolation}
-\texty{Setup:}
+\subsection{What is Interpolation?}
+Let $f(x)$ be a function on an interval $[a, b]$. The goal is to construct a function $g(x)$ that
+approximates $f$ to within a given error. To do so, we must specify:
 \begin{itemize}
-	\item There is a family of functions given by $ \{\Phi_i(x)\} $ in a single variable $ x $.
-	\item We have, $ n+1 $ parameters $ \{a_0,a_1,\ldots,a_n\} $ unknown to us.
-	\item Given, $ (n+1) $ pairs $ (x_i,f_i), i=0,1,\ldots,n $  where support points $ x_i $'s are discrete.
-	\item We need to find the function $ \Phi \equiv \Phi(x: \{a_0,a_1,\ldots,a_n\}) $.
+	\item The structure of the approximating functions
+	\item The way of measuring error
 \end{itemize}
+And, We have 2 problems now:
+
+\begin{itemize}
+	% \begin{problem}
+	\item \hypertarget{mar4:int_prob:1}{\textbf{Problem I:}} The function $f(x)$ is given (like $f(x) = e^x$), can be evaluated at any point	$x$, and we seek a simple function $g(x)$ (like $g(x) = ax + b$) that best approximates $f$. The \textit{simple} part constrains the possible accuracy.
+	      % \end{problem}
+	      % \begin{problem}
+	\item \hypertarget{mar4:int_prob:2}{\textbf{Problem II:}} Values are given at a set of points: $(x_0, f_0), \ldots ,(x_n, f_n) $ with $f_j = f(x_j)$ but $f(x)$ is not known. The amount and type of data constrains the possible accuracy and what approximations may be constructed.
+	      % \end{problem}
+\end{itemize}
+
+Our approach to approximation is known as \textbf{interpolation}. The process of finding the value of $f(x)$ corresponding to any value of $x = x_i$ between $x_0$ and $x_n$ is called interpolation.
+\begin{defn}[\textbf{Interpolation}]
+	The technique of estimating the value of a function for any intermediate value of the independent variable.
+\end{defn}
+If the function $f$ is known explicitly, then the value of $f(x)$ corresponding to any value of $x$ can easily be found. Conversely, if the form of $f(x)$ is not known (as is the case in most of the applications), it is very difficult to determine the exact form of $f(x)$ with the help of tabulated set of values $(x_i, f_i)$.
 
 \begin{figure}[H]
 	\centering
@@ -193,30 +210,43 @@ We end by remarking that fixed point iterations are very easy to program owing t
 	\label{fig1:mar4}
 \end{figure}
 
-More precisely, given, the set of pairs $\{(x_i,f_i): i \in \{0,1,\ldots,n\} \text{ and } x_0 < x_1 < \ldots < x_n \}$ where, $x_i$'s are support points (discrete) and $f_i$'s are values of the function $f$ at $x_i$. We need to find, $\{a_0,a_1,\ldots,a_n\}$ to approximate $f$ in the domain $[x_0,x_n]$.
+\textit{In such cases}, $f(x)$ is replaced by a simpler function $\phi(x)$ which assumes the same values as those of $f(x)$ at the tabulated set of points. Any other value may be calculated from $\phi(x)$ which is known as the \textbf{interpolating function} or \textbf{smoothing function}.
 
 \begin{rmk}
-	\textit{Interpolation is a "guess" of function in a "valid domain" given to us. \\
-		There is another method of guessing a function known as \textbf{Extrapolation} which can be outside the domain of the function.}
+	If $\phi(x)$ is a polynomial, then it called the \textbf{interpolating polynomial} and the process is called the \textbf{polynomial interpolation}. Similarly, when $\phi(x)$ is a finite trigonometric series, we have \textbf{trigonometric interpolation}. But we shall confine ourselves to polynomial interpolation only.
 \end{rmk}
 
+\begin{tcolorbox}[
+		colback = red!5,
+		colframe = red!75
+	]
+	\textbf{Caution (interpolation vs. approximation)}: Note that \textit{interpolation} is not exactly the same as \textit{approximation} - it is a strategy that one hopes will approximate the function. There is no exact and unique solution. The actual function is NOT known and CANNOT be determined from the tabular data. In the case of \hyperlink{mar4:int_prob:2}{Problem II} where data is given, interpolation is natural since it uses precisely
+	the data we are given.\\
+	For \hyperlink{mar4:int_prob:1}{Problem I} (where $f$ is given), it is not obvious that interpolation is the right way to obtain a small max-norm (or any other error). Compare, for instance, to a best-fit line that does not have to pass through any points.
+\end{tcolorbox}
 
+From the set $\{ (x_0, f_0), \ldots ,(x_n, f_n) \}$ with $f_j = f(x_j)$, we would like to write,
+\[
+	f(x) \approx \phi(x) \text{ such that } \phi(x_j) = f_j \ \forall j \in \{0,1, \ldots , n\}
+\]
 
 \begin{example}
 	Some examples of various kind of interpolation are following:
 	\begin{itemize}
-		\item Linear Interpolation
-		      \\ Here, we assume that $ \Phi(x) $ is linearly dependent on $a_i$'s.
+		\item Linear Interpolation (\textit{General construction idea})
+		      \\ Here, we choose a set of $(n+1)$ functions $ \{\phi_i\}_{i=0}^n $ and assume that $\phi$ is linearly dependent on $\phi_i$'s.
 		      \[
-			      \Phi(x) = \sum_{i=0}^{n}a_i\Phi_i(x)
+			      \phi(x) = \sum_{i=0}^{n}a_i\phi_i(x)
 		      \]
 		      \begin{itemize}
-			      \item[(a)] Polynomial Interpolation
-				      \[\Phi(x) = \sum_{i=0}^{n}a_ix^i\]
-			      \item[(b)] \[\Phi(x) = \sum_{r=0}^{n}a_re^{\iota rx} = \sum_{r=0}^{n}a_r\cos(rx) + \iota\sum_{r=0}^{n}a_r\sin(rx) \]
+			      \item[(a)] Polynomial Interpolation ($ \phi_i(x) = x^i $)
+				      \[
+					      \Phi(x) = \sum_{i=0}^{n}a_ix^i
+				      \]
+			      \item[(b)] \[\phi(x) = \sum_{r=0}^{n}a_re^{\iota rx} = \sum_{r=0}^{n}a_r\cos(rx) + \iota\sum_{r=0}^{n}a_r\sin(rx) \]
 			      \item[(c)] Cubic Spline interpolation
 				      \begin{itemize}
-					      \item Here, we assume that $ \Phi(x) $ coincides with a cubic polynomial on every interval $ [x_i,x_{i+1}], i = 0,1,\ldots,n $
+					      \item Here, we assume that $ \phi(x) $ coincides with a cubic polynomial on every interval $ [x_i,x_{i+1}], i = 0,1,\ldots,n $
 					      \item Polynomials on different sub-intervals need not match.
 				      \end{itemize}
 		      \end{itemize}
@@ -224,13 +254,19 @@ More precisely, given, the set of pairs $\{(x_i,f_i): i \in \{0,1,\ldots,n\} \te
 		      \begin{itemize}
 			      \item Rational function interpolation
 			            \[
-				            \Phi(x) = \frac{a_0+a_1x+\cdots+a_nx^n}{b_0+b_1x+\cdots+b_mx^m}
+				            \phi(x) = \frac{a_0+a_1x+\cdots+a_nx^n}{b_0+b_1x+\cdots+b_mx^m}
 			            \]
 			            Note that, total $ n+m+2 $ parameters $ a_0,a_1,\ldots,a_n,b_0,b_1,\ldots,b_n $ need to be determined here.
 		      \end{itemize}
 	\end{itemize}
 
 \end{example}
+
+\begin{rmk}
+	Interpolation is a "guess" of function in a "valid domain" given to us.
+	\[ \text{In the above case, the "valid domain" is  } [\min_j x_j, \max_j x_j] \]
+	On the other hand "guessing" a function outside the domain is known as \textbf{Extrapolation}.
+\end{rmk}
 
 
 

@@ -1,0 +1,77 @@
+\chapPreamble{30}{March 25, Part B}
+
+\section{Uniqueness of Spline Function}
+
+We now prove that under the hypothesis of \texty{Theorem} $\ref{thm2:mar25A}$, in each of the three cases there exists an unique spline function.
+
+We restate the \texty{Theorem} $\ref{thm2:mar25A}$ as follows: 
+
+\begin{thm}\label{thm1:mar25B}
+    Let $ \Delta = \{ a = x_0 < x_1 < \cdots < x_n = b \} $
+    be a partition of the interval $[a,b]$ and let $f \in \mathcal{K}^2[a,b]$. And suppose we are given the values $Y = (y_0, y_1, \dots, y_n)$ such that $f(x_i) = y_i, \ \forall \, i \in \{0,1,\dots,n\}$. Then
+    \[
+        0 \leq \| f - S_{\Delta}(Y; \cdot) \|^2 = \|f\|^2 - \| S_{\Delta}(Y; \cdot) \|^2    
+    \]
+    holds for every spline function $S_{\Delta}(Y; \cdot)$ provided one of the following conditions is true:
+    \begin{enumerate}[label = (\alph*)]
+        \item $S_{\Delta}^{(2)}(a) = S_{\Delta}^{(2)}(b) = 0 $. 
+        
+        \item $f \in \mathcal{K}_p^2[a,b]$ and $S_{\Delta}(Y; \cdot) \in \mathcal{K}^2_p[a,b]$.
+        
+        \item $S'_{\Delta}(Y;a) = f'(a)$ and $S'_{\Delta}(Y;b) = f'(b)$. 
+    \end{enumerate}
+
+    \vspace{0.1cm} 
+
+    Furthermore in each of the cases the spline function $S_{\Delta}(Y; \cdot)$ is uniquely determined.
+\end{thm}
+
+\begin{prf}
+    In the proof of \texty{Theorem} $\ref{thm2:mar25A}$, we already shown that the spline function minimizes the semi-norm if any of the conditions (a), (b) or (c) is met. So now we only need to check the uniqueness.
+
+    Suppose there exists two spline functions $S_{\Delta}(Y; \cdot)$ and $\tilde{S}_{\Delta}(Y; \cdot)$ satisfying the hypothesis. But then since $S_{\Delta}(Y; \cdot), \tilde{S}_{\Delta}(Y; \cdot) \in \mathcal{K}^2[a,b]$, so we can use $\tilde{S}_{\Delta}(Y; \cdot)$ to play the role of $f \in \mathcal{K}^2[a,b]$. But then from the semi-norm minimizing property of spline function (\texty{Theorem} $\ref{thm2:mar25A}$), we get that 
+    \begin{equation}\label{eq1:mar25B}
+        \| \tilde{S}_{\Delta}(Y; \cdot) - S_{\Delta}(Y; \cdot) \|^2 = \| \tilde{S}_{\Delta}(Y; \cdot) \|^2 - \| S_{\Delta}(Y; \cdot) \|^2 \geq 0
+    \end{equation} 
+    But then we can switch the roles of $\tilde{S}_{\Delta}(Y; \cdot)$ and $S_{\Delta}(Y; \cdot)$, i.e., in this time we can take $S_{\Delta}(Y;\cdot)$ to play the role of the $f \in \mathcal{K}^2[a,b]$, then we get 
+    \begin{align*}
+        \| \tilde{S}_{\Delta}(Y; \cdot) - S_{\Delta}(Y; \cdot) \|^2 
+        &= \| S_{\Delta}(Y; \cdot) - \tilde{S}_{\Delta}(Y; \cdot) \|^2 \\
+        &= \| S_{\Delta}(Y; \cdot) \|^2 - \| \tilde{S}_{\Delta}(Y; \cdot) \|^2 \\ 
+        &\overset{(\ref{eq1:mar25B})}{\leq} 0
+    \end{align*}
+    Thus we get 
+    \[
+        \| \tilde{S}_{\Delta}(Y; \cdot) - S_{\Delta}(Y; \cdot) \|^2 = 0 
+    \]
+    which gives us 
+    \begin{equation}\label{eq2:mar25B}
+        \int_a^b \left| \tilde{S}^{(2)}_{\Delta}(Y; \cdot) - S^{(2)}_{\Delta}(Y; \cdot) \right|^2\dd{x} = 0
+    \end{equation}
+    but then since $\tilde{S}_{\Delta}(Y;\cdot) \in \mathcal{C}^2[a,b]$ and $S_{\Delta}(Y; \cdot) \in \mathcal{C}^2[a,b]$, we get that equation $(\ref{eq2:mar25B})$ holds if and only if 
+    \begin{equation}\label{eq3:mar25B}
+        \tilde{S}_{\Delta}^{(2)}(Y; \cdot) \equiv S_{\Delta}^{(2)}(Y; \cdot)
+    \end{equation}
+    but then twice intergrating both sides of equation $(\ref{eq3:mar25B})$, we get that 
+    \[
+        \tilde{S}_{\Delta}(Y; \cdot) \equiv S_{\Delta}(Y; \cdot) + cx + d
+    \]  
+    but then we can easily compute $c$ and $d$ using the fact that $\tilde{S}_{\Delta}(Y;a) = S_{\Delta}(Y;a)$ and $\tilde{S}_{\Delta}(Y;b) = S_{\Delta}(Y;b)$. This gives us $c = d = 0$, and hence we have 
+    \[
+        \tilde{S}_{\Delta}(Y;\cdot) \equiv S_{\Delta}(Y;\cdot)  
+    \] 
+    which completes the proof of the uniqueness.
+\end{prf}
+
+\ 
+
+We end this chapter, with some remarks on the three conditions (a), (b) and (c) in \texty{Theorem} $\ref{thm1:mar25B}$.
+
+\begin{rmk}
+    \begin{enumerate}[label = (\roman*)]
+        \item The spline function arising from condition (a), is regarded as \texty{natural spline function}, as it does not have any other dependency on the function $f$, which we are trying to interpolate.
+        \item On the other hand (b), is restricted to only functions $f \in \mathcal{K}^2_p[a,b]$.
+        \item And finally, (c) kind of restricts the range of the function $f$, since we are fixing the values $f'(a) = y_0' $ and $f'(b) = y_n'$, where $y_0' = S'_{\Delta}(Y; x_0)$ and $y_n' = S'_{\Delta}(Y; x_n)$.
+    \end{enumerate}
+\end{rmk}
+

@@ -176,13 +176,13 @@ We are now ready to state the final theorem of this lecture.
 We end by remarking that fixed point iterations are very easy to program owing to the simple nature of their iterations.
 
 % [Stopped at 37:36 $\pm$ a few seconds. The remainder of the lecture is about polynomial interpolation.]
+\newpage
 \section{Introduction to Interpolation}
 \texty{Setup:}
 \begin{itemize}
-	\item There is a family of functions given by $ \{\Phi_i(x)\} $ in a single variable $ x $.
-	\item We have, $ n+1 $ parameters $ \{a_0,a_1,\ldots,a_n\} $ unknown to us.
-	\item Given, $ (n+1) $ pairs $ (x_i,f_i), i=0,1,\ldots,n $  where support points $ x_i $'s are discrete.
-	\item We need to find the function $ \Phi \equiv \Phi(x: \{a_0,a_1,\ldots,a_n\}) $.
+	\item There is a family of functions given by $ \{\Phi_i(x)\} $, $i = 0(1)n$ in a single variable $ x $.
+	\item We are given, $ (n+1) $ support points $ (x_i,f_i), i=0,1,\ldots,n $  where the support abscissae $ x_i $'s are distinct.
+	\item We want to find a function $\Phi (x) \equiv \Phi (x; \{ a_i: i = 0(1)n \})$ where $ \{a_0,a_1,\ldots,a_n\} $ are $ (n+1) $ parameters  unknown to us. We want this function to satisfy $\Phi (x_i) = f_i,  \forall i = 0(1)n$
 \end{itemize}
 
 \begin{figure}[H]
@@ -193,15 +193,12 @@ We end by remarking that fixed point iterations are very easy to program owing t
 	\label{fig1:mar4}
 \end{figure}
 
-More precisely, given, the set of pairs $\{(x_i,f_i): i \in \{0,1,\ldots,n\} \text{ and } x_0 < x_1 < \ldots < x_n \}$ where, $x_i$'s are support points (discrete) and $f_i$'s are values of the function $f$ at $x_i$. We need to find, $\{a_0,a_1,\ldots,a_n\}$ to approximate $f$ in the domain $[x_0,x_n]$.
+More precisely, given, the support points $\{(x_i,f_i): i \in \{0,1,\ldots,n\} \text{ and } x_0 < x_1 < \ldots < x_n \}$ where, $x_i$'s are distinct support ordinates and $f_i$'s are values of the function $f$ at the support ordinates, we need to find, the coefficient $\{a_0,a_1,\ldots,a_n\}$ to approximate $f$ in the domain $[x_0,x_n]$.
 
 \begin{rmk}
 	\textit{Interpolation is a "guess" of function in a "valid domain" given to us. \\
-		There is another method of guessing a function known as \textbf{Extrapolation} which can be outside the domain of the function.}
+		There is another method of guessing a function known as \textbf{Extrapolation} which is used to approximate the function outside its domain.}
 \end{rmk}
-
-
-
 \begin{example}
 	Some examples of various kind of interpolation are following:
 	\begin{itemize}
@@ -213,7 +210,8 @@ More precisely, given, the set of pairs $\{(x_i,f_i): i \in \{0,1,\ldots,n\} \te
 		      \begin{itemize}
 			      \item[(a)] Polynomial Interpolation
 				      \[\Phi(x) = \sum_{i=0}^{n}a_ix^i\]
-			      \item[(b)] \[\Phi(x) = \sum_{r=0}^{n}a_re^{\iota rx} = \sum_{r=0}^{n}a_r\cos(rx) + \iota\sum_{r=0}^{n}a_r\sin(rx) \]
+			      \item[(b)] Trigonometric Interpolation
+					  \[\Phi(x) = \sum_{r=0}^{n}a_re^{\iota rx} = \sum_{r=0}^{n}a_r\cos(rx) + \iota\sum_{r=0}^{n}a_r\sin(rx) \]
 			      \item[(c)] Cubic Spline interpolation
 				      \begin{itemize}
 					      \item Here, we assume that $ \Phi(x) $ coincides with a cubic polynomial on every interval $ [x_i,x_{i+1}], i = 0,1,\ldots,n $
@@ -222,7 +220,7 @@ More precisely, given, the set of pairs $\{(x_i,f_i): i \in \{0,1,\ldots,n\} \te
 		      \end{itemize}
 		\item Non-Linear Interpolation
 		      \begin{itemize}
-			      \item Rational function interpolation
+				  \item[(a)] Rational function interpolation
 			            \[
 				            \Phi(x) = \frac{a_0+a_1x+\cdots+a_nx^n}{b_0+b_1x+\cdots+b_mx^m}
 			            \]

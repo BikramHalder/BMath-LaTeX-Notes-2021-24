@@ -1,9 +1,9 @@
 \chapPreamble{24}{March 14, Part A}
 
 \section{Divided-Difference Scheme}
-We know that the interpolating polynomial $P_{i_0i_1\ldotsi_k}$ is uniquely determined by its support points. So, it is invariant of any permutation of the indices $ i_0,i_1,\ldots,i_k$. Therefore we have the following result:
+We know that the interpolating polynomial $P_{i_0i_1\ldots i_k}$ is uniquely determined by its support points. So, it is invariant of any permutation of the indices $ i_0,i_1,\ldots,i_k$. Therefore we have the following result:
 \begin{thm}\label{thm1:lec24}
-    The coefficients/divided-differences $f_{i_0i_1\ldotsi_k}$ are invariant of any permutations of the indices $ i_0,i_1,\ldots,i_k$.
+    The coefficients/divided-differences $f_{i_0i_1\ldots i_k}$ are invariant of any permutations of the indices $ i_0,i_1,\ldots,i_k$.
 \end{thm}
 
 \begin{example}\label{ex1:lec24}
@@ -66,7 +66,7 @@ By Theorem \ref{thm1:lec24}, we can see that the divided differences $f[x_{i_0},
     for all $k>N$.
 \end{thm}
 
-This is easy to see. Since, the interpolated polynomial is unique, the final polynomial must be identically equal to $f(x) \in \Pi _N$. Therefore, the coefficent of  $x^{k}$ in $P_{01\ldotsk}(x)$, which is given by $f[x_0,x_1,\ldots,x_k]$, must be equal to $0$ for all  $k>N$.
+This is easy to see. Since, the interpolated polynomial is unique, the final polynomial must be identically equal to $f(x) \in \Pi _N$. Therefore, the coefficent of  $x^{k}$ in $P_{01\ldots k}(x)$, which is given by $f[x_0,x_1,\ldots,x_k]$, must be equal to $0$ for all  $k>N$.
 
 \section{Error Term}
 
@@ -82,3 +82,8 @@ We can conclude from the error analysis from the previous chapter, since $\omega
 \[
     f[x_0\ldots x_{n},\overline{x}] = \frac{f^{(n+1)}(\xi)}{ (n+1)!} \text{ for some } \xi \in I[x_0,\ldots,x_n,\overline{x}]
 .\] 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

@@ -9,11 +9,7 @@ Notes for Courses of B. Math(Hons.) programme by 1st year (2021-'22) students at
   - [ ] Computer Science II (Numerical Computing)
   <!-- - [ ] Statistics I (Intro to Stat with R) -->
 
-<hr>
-
 ## Contributing (B. Math 1st year people)
-
-<hr>
 
 ### Get Started
 

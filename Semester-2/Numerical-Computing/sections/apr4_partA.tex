@@ -1,0 +1,72 @@
+\chapPreamble{35}{April 4, Part B}
+
+We have already seen that we can find the integration $\int_a^b f(x) \dd{x}$ using \texty{Lagrange's interpolation}. Now we try to find additional integration rules using \texty{Hermite interpolation}. For this we take the simple example when $P \in \Pi_3$ such that 
+\begin{equation}\label{eq1:apr4A}
+    P^{(i)}(a) = f^{(i)}(a) \mbox{ and } P^{(i)}(b) = f^{(i)}(b), \ \forall \, i = 0,1 
+\end{equation}
+For simplicity we take $a=0, \, b = 1$. Thus recall from \texty{Lecture 25}, that the \texty{Hermite interpolation} gives 
+\[
+    P(x) = \sum_{i=0}^1 \sum_{k=0}^1 f_i^{(k)} L_{ik}(x)  
+\]
+we get that 
+\begin{align*}
+    &&L_{01}(x) = x(x-1)^2 &&\mbox{and}  &&L_{00}(x) = (x-1)^2 +2x(x-1)^2 \\ 
+    &&L_{11}(x) = x^2(x-1) &&\mbox{and}  &&L_{00}(x) = x^2 -2x^2(x-1) 
+\end{align*}
+and hence, we get that 
+\[
+    P(x) = f(0)[(x-1)^2 + 2x(x-1)^2] + f'(0)x(x-1)^2 + f(1)[x^2 - 2x^2(x-1)] + f'(1)x^2(x-1)
+\]
+and hence we get that 
+\[
+    \int_0^1 P(x) \dd{x} = \frac{1}{2}(f(0) + f(1)) + \frac{1}{12} (f'(0) - f'(1))  
+\]
+but then for general $a$ and $b$, we can take $P(t) = f(a+ht)$ where $h := b-a$, and then 
+\begin{align*}
+    \int_a^b f(x) \dd{x} 
+    &= h\int_0^1 f(a + ht) \dd{t} \\
+    &\approx \int_0^1 P(t) \dd{t} \\ 
+    &= \frac{h}{2}(f(a) + f(b)) + \frac{h^2}{12} (f'(a) - f'(b)) 
+\end{align*}
+
+Now, when are computing the integral using different quadrature rule (integration rules) such as the above \texty{Hermite interpolation} one, we don't apply the formula on the whole interval, instead we apply it on subintervals into which the interval $[a,b]$ has been divided. The full integration is then approximated by the sum of the approximations to the subintervals. We are here approximating the integrals locally, and then extending it, this gives rise to a composite rule. We now look at the composite rules in various cases quadrature rules.
+
+\section{Composition of Errors in Trapezoidal and Simpson's Rule }
+
+\subsection{Trapezoidal Rule}
+
+In this case we assume that the quadrature rule on an interval $[x_i, x_{i+1}]$ is given by 
+\begin{equation}\label{eq2:apr4A}
+    I_i = \frac{h}{2}(f(x_i) + f(x_{i+1}))
+\end{equation}
+where $[x_i,x_{i+1}]$ are the subintervals formed by the partition $x_i = a + ih, \ \forall \, i = 0,1, \dots, N$, where $h := \frac{b-a}{N}$. Thus for the entire interval we get the approximation 
+\begin{align*}
+    T(h) &:= \sum_{i=0}^{N-1} I_i \\ 
+    &= h\left( \frac{f(a)}{2} + f(a+h) + f(a+2h) + \cdots + f(b-h) + \frac{f(b)}{2}  \right) 
+\end{align*}
+Assuming that $f \in \mathcal{C}^2[a,b]$, it can be shown that (using \texty{Peano's Error formula} which is stated in the next section) the error denoted by $\varepsilon_i$ is 
+\begin{equation}\label{eq3:apr4A}
+    \varepsilon_i := I_i - \int_{x_i}^{x_{i+1}} f(x) \dd{x} = \frac{h^3}{12} f^{(2)} (\xi_i) 
+\end{equation}
+for some $\xi_i \in (x_i, x_{i+1})$. Thus summing all these individual error terms we get that 
+\begin{align*}
+    T(h) - \int_a^b f(x) \dd{x} 
+    &= \sum_{i=0}^{N-1} \left( I_i - \int_{x_i}^{x_{i+1}} f(x) \dd{x} \right) \\ 
+    &= \frac{h^3}{12}\sum_{i=0}^{N-1} f^{(2)}(\xi_i) \\ 
+    &= \frac{h^2}{12}(b-a) \left( \frac{1}{N} \sum_{i=0}^{N-1} f^{(2)}(\xi_i)\right) \\ 
+    &\overset{(1)}{=} \frac{h^2}{12}(b-a) f^{(2)}(\xi)
+\end{align*}
+where $(1)$ follows from the fact that 
+\[
+    \min_{i} f^{(2)}(\xi_i) \leq \frac{1}{N} \sum_{i=0}^{N-1} f^{(2)}(\xi_i) \leq \max_{i} f^{(2)}(\xi_i)   
+\]
+and since $f \in \mathcal{C}^2[a,b]$ hence by \texty{Intermediate Value Property}, there exists a $\xi \in \left[ \min_i \xi_i, \max_i \xi_i \right]$ such that 
+\[
+    f^{(2)}(\xi) = \frac{1}{N} \sum_{i=0}^{N-1} f^{(2)}(\xi_i)  
+\]
+Hence we have shown that 
+\begin{equation}\label{eq4:apr4A}
+    T(h) - \int_a^b f(x) \dd{x} = \frac{h^2}{12} (b-a) f^{(2)}(\xi), \ \ \mbox{ for some } \xi \in (a,b)
+\end{equation}
+
+\section{Peano's Error Representations}

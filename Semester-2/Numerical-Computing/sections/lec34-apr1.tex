@@ -1,0 +1,27 @@
+\chapPreamble{34}{April 1, Part B}
+
+
+\section{Quadrature}
+
+We have a function $f$ about we don't know much and we want to calculate the integral 
+$I = \int_a^b f(x) dx$, where  $a,b,f(x)$ are given. Out of the many ways of solving this 
+problem, a series of them can be classified into a series of formulae called the 
+\textbf{Newton-Cotes Formulae}, some of which are:
+\begin{itemize}
+    \item Trapezoidal Rule
+    \item Simpson's Rule (Most popular for "smooth" functions $f$ and when  $b-a$ is finite.)
+    \item Milne's Rule
+\end{itemize}
+
+The defining feature of a Newton-Cotes formulation is that we have uniform partitioning 
+$\Delta _u$ of  $b-a$ into (say)  $n$ sub-intervals. Let  $h = \frac{b-a}{n}$ be the length of
+each sub-interval. Then our partition can be specified by the two numbers $(n,h)$. 
+Let $x_0 = a$, $x_n = b$ and  $x_i = x_0 + ih,\ 0 \le  i \le  n$. 
+Define $I_j = [x_{j-1}, x_j],\ j = 1,\ldots,n$ be the $jth$ sub-interval.
+\\
+Now we create an interpolating polynomial $P_n(x) \in \Pi _n$ such that  
+$P(x_i) = f(x_i) = f_i,\ \forall i = 0,\ldots,n$. We shall use this polynomial to approximate
+the integral.
+Note that $x_k - x_i = (k-i)h$. So, we have the condition that $x_k = x_i \implies k = i$.
+
+

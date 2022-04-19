@@ -13,6 +13,8 @@ problem, a series of them can be classified into a series of formulae called the
     \item Milne's Rule
 \end{itemize}
 
+\subsection{Simpson's Rule}
+
 The defining feature of a Newton-Cotes formulation is that we have uniform partitioning 
 $\Delta _u$ of  $b-a$ into (say)  $n$ sub-intervals. Let  $h = \frac{b-a}{n}$ be the length of
 each sub-interval. Then our partition can be specified by the two numbers $(n,h)$. 
@@ -24,4 +26,59 @@ $P(x_i) = f(x_i) = f_i,\ \forall i = 0,\ldots,n$. We shall use this polynomial t
 the integral.
 Note that $x_k - x_i = (k-i)h$. So, we have the condition that $x_k = x_i \implies k = i$.
 
+Recall that the \textbf{Lagrange Interpolation} gives us the polynomial 
+$P_n(x) = \sum \limits _{i=0} ^n f_i L_i$ such that $L_i(x) = \prod \limits _{k=0 (k \neq i)} 
+^ n$.
+\\
+Let $t = \frac{x-a}{h}$ for any $ x \in [a,b]$. Here, we shall scale/convert the variable $x$
+using the dimensionless variable $t$. Using this, we get $x_i-x_k = h(i-k)$. So, we can write 
+\begin{align*}
+    L_i(x) &= \prod \limits _{k=0 (k \neq i)} ^n \frac{(x-x_k)}{(x_i - x_k)} \\
+           &= \prod \limits _{k=0 (k \neq i)} ^n \frac{t-k}{i-k} = \Phi _i(t) 
+.\end{align*}
+
+Therefore, we can finally write 
+\begin{align*}
+    \int \limits _a ^b P_n(x) dx &= \sum \limits _{i=0} ^n f_i \int \limts _a^b L_i(x) dx \\
+                                 &= \sum \limits  _{i=0} ^n h f_i \int \limits _{i=0}^n \Phi _i(t) dt \\
+                                 &= h \sum \limits _{i=0}^n f_i \alpha_i
+\end{align*}
+where $\alpha _i = \int \limits _{t=0} ^n \Phi _i (t) dt$. Note that the weights $\alpha _i$ 
+depend only on  $n$ and do depend on  $a,b$. 
+
+\begin{example}
+    Suppose we are given $n=2$, the support ordinates $f_0,f_1,f_2$ and limits $a=0, b=2$. 
+    What is our approximation to  $I$?
+    \\
+    By Lagrange Interpolation, we first get $P_2(x) \in \Pi _2$. Then, using \textbf{Simpson's Rule}, We get
+    \begin{align*}
+        \int \limits _0^2 P_2(x) dx &= \frac{h}{3} [f_0 + 4f_1 +f_2]\\
+                                    &= \frac{1}{3}[f_0 + 4f_1 +f_2] \  (h=1)
+    .\end{align*}
+\end{example}
+
+
+\subsection{Trapezoidal Rule}
+
+\subsection{Error}
+
+The error is given by $\int \limits _a^b P_n(x)cdx - \int \limits _a^b f(x) dx$.
+
+This error term for the \textbf{Trapezoidal Rule} is given by  $\frac{h^{3}}{12}f^{(2)}( \xi )$ 
+for some $\xi \in [a,b]$. The same for \textbf{Simpson's Rule} is given by  
+$\frac{h^5}{90}f^{(4)}f(\xi)$ for some $\xi \in [a,b]$.
+
+Apply the rules in a composite form:- \\
+\textbf{Trapezoidal Rule}\\
+$\frac{h}{2[f(x_0) + f(x_1)]}$. We apply the Trapezoidal Rule to every interval 
+$I_i = [x_i, x_{i+1}]$ for $i = 0, \ldots ,n-1$ to get $\mathscr{I} _i = \frac{h}{2} [f(x_i)
+ + f(x_{i+1})]$. Therefore, the total integral becomes 
+ \begin{align*}
+     T(h) &= \sum \limits _{i=0} ^{n-1} \mathscr{I} _i \\
+          &= h[\frac{f(a)}{2} + f(a+h) + f(a+2h) + \ldots + f(b-h) + \frac{f(b)}{2}]
+ \end{align*}
+ 
+ \section{Approximation (Composite) for Simpson's Rule}
+
+ Trapezoidal Rule is an $O(2)$ method while Simpson's Rule is an $O(4)$ method.
 

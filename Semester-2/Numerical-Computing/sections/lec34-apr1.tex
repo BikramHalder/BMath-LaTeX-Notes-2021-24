@@ -33,17 +33,17 @@ $P_n(x) = \sum \limits _{i=0} ^n f_i L_i$ such that $L_i(x) = \prod \limits _{k=
 Let $t = \frac{x-a}{h}$ for any $ x \in [a,b]$. Here, we shall scale/convert the variable $x$
 using the dimensionless variable $t$. Using this, we get $x_i-x_k = h(i-k)$. So, we can write 
 \begin{align*}
-    L_i(x) &= \prod \limits _{k=0 (k \neq i)} ^n \frac{(x-x_k)}{(x_i - x_k)} \\
-           &= \prod \limits _{k=0 (k \neq i)} ^n \frac{t-k}{i-k} = \Phi _i(t) 
+    L_i(x) &= \prod_{k=0 (k \neq i)}^n \frac{(x-x_k)}{(x_i - x_k)} \\
+           &= \prod_{\substack{k=0 \\ k \neq i}}^n \frac{t-k}{i-k} = \Phi _i(t) 
 .\end{align*}
 
 Therefore, we can finally write 
 \begin{align*}
-    \int \limits _a ^b P_n(x) dx &= \sum \limits _{i=0} ^n f_i \int \limts _a^b L_i(x) dx \\
-                                 &= \sum \limits  _{i=0} ^n h f_i \int \limits _{i=0}^n \Phi _i(t) dt \\
-                                 &= h \sum \limits _{i=0}^n f_i \alpha_i
+    \int_a^b P_n(x) dx &= \sum_{i=0}^n f_i \int_a^b L_i(x) dx \\
+                                 &= \sum_{i=0}^n h f_i \int_{0}^n \Phi _i(t) dt \\
+                                 &= h \sum_{i=0}^n f_i \alpha_i
 \end{align*}
-where $\alpha _i = \int \limits _{t=0} ^n \Phi _i (t) dt$. Note that the weights $\alpha _i$ 
+where $\alpha _i = \int_{0}^n \Phi _i (t) dt$. Note that the weights $\alpha _i$ 
 depend only on  $n$ and do depend on  $a,b$. 
 
 \begin{example}
@@ -82,3 +82,8 @@ $I_i = [x_i, x_{i+1}]$ for $i = 0, \ldots ,n-1$ to get $\mathscr{I} _i = \frac{h
 
  Trapezoidal Rule is an $O(2)$ method while Simpson's Rule is an $O(4)$ method.
 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

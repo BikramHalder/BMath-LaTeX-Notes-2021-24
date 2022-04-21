@@ -1,0 +1,127 @@
+\chapPreamble{36}{April 4, Part B}
+
+\section{Proof of Peano's result}
+
+Check Stoer and Bulirsch.
+
+\section{Gaussian Integration}
+
+\subsection{Motivation and Introduction}
+
+The Newton-Cotes formulae we have seen so far are derived assuming that the size of each interval in the partition we are numerically integrating over is the same. This shall not be the case with Gaussian integration. In addition, Gaussian integration is deeper connections to other areas of numerical analysis, and even analysis in general.
+
+But enough motivation! Let's get to the meat of this topic, and begin by laying out our task. Suppose you have been given a function $f$ to integrate on an interval $[a, b]$. Then if you're using Gaussian integration to accomplish that you integrate
+\begin{defn}
+  \[
+    \mI(f) = \int_a^b \omega(x) f(x) \dd{x}
+  \]
+  where $\omega$ is a \textbf{weight function} that you have chosen, that satisfies
+  \[
+    \omega \geq 0
+  \]
+\end{defn}
+The function $\omega$ must satisfy some conditions, which we will list after stating a definition used to frame them.
+\begin{defn}
+  For all integers $k \geq 0$,
+  \[
+    \mu_k = \int_a^b x^k \omega(x) \dd{x}
+  \]
+\end{defn}
+The conditions $\omega$ must satisfy are
+\begin{defn}
+  \label{apr4b:conds:weight}
+  \hfill
+
+\begin{itemize}
+\item
+  $\omega$ must be measurable on $[a, b]$.
+  
+\item
+  $\mu_k$ must exist and be finite for all $k \in \Z$, such that $k \geq 0$.
+
+\item
+  For any function $s$, if $s \geq 0$ on $[a, b]$, then
+  \[
+    \int_a^b s(x) \omega(x) \dd{x} = 0
+    \qquad \implies \qquad
+    s = 0 \text{ on $[a, b]$ }
+  \]
+\end{itemize}
+\end{defn}
+
+\begin{rmk}
+  By choosing $\omega = 1$, we recover the Newton-Cotes formulae we have discussed so far.
+\end{rmk}
+
+One advantage of Gaussian integration is that it lets you ``divide intervals in uneven sizes'', and deal with intervals of infinite length. In particular, in the discussion above, $a$ and $b$ might be $\pm \infty$.
+
+\begin{example}
+  Let $c$ be any non-zero real. Then, the integral
+  \[
+    \int_{-\infty}^{\infty} c \dd{x}
+  \]
+  does not exist, but the Gaussian integral of $c$ over $(-\infty, \infty)$ obtained by choosing $\omega(x) = e^{-x^2}$, namely
+  \[
+    \int_{-\infty}^{\infty} e^{-x^2} c \dd{x}
+  \]
+  does exist.
+\end{example}
+
+The above example immediately raises the question: How do we choose the weight function $\omega$ to use? Some kinds of weight functions that are commonly used are
+\begin{itemize}
+\item
+  Legendre polynomials
+\item
+  Laguerre polynomials
+\item
+  Hermite polynomials
+\item
+  Tchebyshev polynomials
+\end{itemize}
+
+The classes of polynomials listed above form \textbf{orthogonal} classes of polynomials, and the next subsection is dedicated to defining the basic notions required to explain what that means.
+
+\subsection{Orthogonal Polynomials}
+
+\begin{defn}
+  We define, for all integers $n \geq 0$,
+  \[
+    \Pi_n = \{p \in R[x] \colon \deg(p) \leq n \}
+  \]
+  and
+  \[
+    \overline{\Pi}_n = \{p \in \Pi_n \colon \text{ $p$ is monic } \}
+  \]
+  \textbf{Note that $\Pi_n$ is a vector space.}
+\end{defn}
+We introduce some more definitions. In the following definitions, $\omega$ is a \textit{weight function} on a \textit{fixed interval} $[a, b]$ satisfying the conditions in \ref{apr4b:conds:weight}.
+
+\begin{defn}
+  Now fix an integer $n \geq 0$.
+  
+  Since $\Pi_n$ is a vector space, we can give it an inner product, which we do by defining the inner product $\langle \cdot , \cdot \rangle$ by
+  \[
+    \langle f, g \rangle = \int_a^b \omega(x) f(x) g(x) \dd{x}
+  \]
+  for all $f, g \in \Pi_n$.
+\end{defn}
+and one more definition before the definition of orthogonal polynomials:
+\begin{defn}
+  \[
+    L^2[a, b]_\omega = \{\langle f, f \rangle = \int_a^b \omega(x) \left(f(x)\right)^2 \dd{x} \text{ exists and is finite } \}
+  \]
+  for all $f \in \Pi_n$.
+\end{defn}
+and finally, the definition of orthogonal polynomials
+\begin{defn}
+  If $p, q \in \Pi_n$ for some integer $n$, we say that $p$ and $q$ are \textbf{orthogonal} if
+  \[
+    \langle p, q \rangle = 0
+  \]
+\end{defn}
+
+We are done with the notes for Part B of the NC lecture on April 4.
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

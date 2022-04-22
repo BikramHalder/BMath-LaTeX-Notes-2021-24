@@ -1,0 +1,237 @@
+\chapPreamble{39}{April 18}
+
+\section{Exactly integrating polynomials using Gaussian integration}
+
+\subsection{Basic definitions and setup}
+
+Recall that in previous lectures we have proved that given
+\begin{itemize}
+\item
+  an interval $[a, b]$.
+\item
+  and a weight function $\omega$ on $[a, b]$.
+\end{itemize}
+there exist polynomials $p_0, p_1, p_2, \dots , p_n \in \overline{\Pi}_n$, such that
+\begin{itemize}
+\item
+  $p_i \in \overline{\Pi}_i$ for $0 \leq i \leq n$.
+\item
+  The collection of polynomials $p_0, p_1, \dots , p_k$ form an orthonormal basis for $\Pi_k$, for all $0 \leq k \leq n$.
+\item
+  $p_n$ has $n$ simple roots.
+\item
+  The $p_i$ can be calculated using a recursive relation.
+\end{itemize}
+
+Let $x_1, x_2, \dots , x_n$ be the $n$ roots of $p_n$. Then, define the matrix $\bb{A}$ by
+\begin{defn}
+  \[
+    [A]_{ki} = p_k(x_i) \qquad \forall(0 \leq k \leq n-1, 1 \leq i \leq n)
+  \]
+\end{defn}
+Then, we want to solve the system of equations given by
+\begin{equation}
+  \label{apr18:conds:w_i}
+  \underbrace
+  {\begin{bmatrix}
+    p_0(x_1) & p_0(x_2) & \dots & p_0(x_n) \\[5pt]
+    p_1(x_1) & p_1(x_2) & \dots & p_1(x_n) \\[5pt]
+    \vdots & \vdots & \vdots & \vdots \\[5pt]
+    p_{n-1} & p_n(x_2) & \dots & p_{n-1}(x_n)
+  \end{bmatrix}}_A
+  \begin{bmatrix} \omega_1 \\[5pt] \omega_2 \\[5pt] \vdots \\[5pt] \omega_n \end{bmatrix}
+  =
+  \begin{bmatrix} \langle p_0, p_0 \rangle \\[5pt] 0 \\[5pt] \vdots \\[5pt] 0 \end{bmatrix}
+\end{equation}
+To clarify, the column vector on the right has $\langle p_0, p_0 \rangle$ in it's first row, and 0 in all the other rows. The reason we want to solve the above set of equations is that, if we know the values of the $w_i$, we can \textbf{exactly} integrate $\omega$ times any polynomial of degree at most $\bm{2n-1}$ over the interval $[a, b]$.
+
+To solve the system of equations, we first show that
+\begin{thm}
+  The matrix $A$ is invertible.
+\end{thm}
+\begin{proof}
+   We shall show that for any vector $c$, $Ac = 0 \implies c = 0$. That shall be enough to prove that $A$ is invertible. Let $c = (c_1, c_2, \dots , c_n)^T$ be a any vector such that $Ac = 0$. Now, $Ac = 0 \implies c^TA = 0$. Expanding the last equality into a system of equations, we obtain that
+  \[
+    \sum_{i=0}^{n-1} c_i p_i(x_k) = 0 \qquad \forall(1 \leq k \leq n)
+  \]
+  Therefore the polynomial $Q$ defined by $Q(x) = \sum_{i=0}^{n-1} c_i p_i(x)$ has the roots $x_1, x_2, \dots , x_n$.
+  
+  We have already proved that $u \neq v \implies x_u \neq x_v$; it is simply the statement that $p_n$ has $n$ simple roots.
+
+  Therefore, $Q$ has at least $n$ roots, namely $x_1, x_2, \dots , x_n$. But from the definition of $Q$, namely $Q(x) = \sum_{i=0}^{n-1} c_i p_i(x)$, and the fact that $p_i \in \overline{\Pi}_i$ for $0 \leq i \leq n$, we know that the degree of $Q$ is at most $n-1$.
+
+  Therefore, $Q$ must be identically 0, which implies that $c_j = 0$ for all $1 \leq j \leq k$.
+  \hfill
+\end{proof}
+
+\begin{corr}
+  The solution to the system of equations \ref{apr18:conds:w_i} is unique. \qed
+\end{corr}
+
+\subsection{The exact integration}
+
+Next, we come to the most important theorem about Gaussian integration:
+\begin{thm}
+  \label{apr18:thm:main}
+  Let $p \in \Pi_{2n-1}$. Then,
+  \[
+    \int_a^b \omega(x) p(x) \dd{x} = \sum_{i=1}^n \omega_i p(x_i)
+  \]
+  where the $w_i$ are the solutions to the system of equations \ref{apr18:conds:w_i}.
+\end{thm}
+\begin{proof}
+Use the Euclidean algorithm to write $p$ as
+\[
+  p = p_nq + r
+\]
+where $q \in \Pi_{n-1}$. Then it must also be the case that $r \in \Pi_{n-1}$. Write
+\[
+  q(x) = \sum_{i = 0}^{n-1} \alpha_i p_i(x)
+  \quad \text{ and } \quad
+  r(x) = \sum_{i = 0}^{n-1} \beta_i p_i(x)
+\]
+Then, note that
+\[
+  \int_a^b \omega(x) p(x) \dd{x} =
+  \underbrace{\int_a^b \omega(x) p_n(x) q(x) \dd{x}}_{\text{Term 1}}
+  + \underbrace{\int_a^b \omega(x) r(x) \dd{x}}_{\text{Term 2}}
+\]
+Since $q(x) = \sum_{i = 0}^{n-1} \alpha_i p_i(x)$ and $p_0, p_1, \dots , p_n$ form an orthonormal basis for $\Pi_n$, it follows that Term 1 is 0. As for Term 2, note that
+\[
+  \int_a^b \omega(x) r(x) \dd{x}
+  =
+  \langle p_0, p \rangle
+  =
+  \sum_{i=0}^{n-1} \beta_i \langle p_0, p_k \rangle
+  =
+  \beta_0 \langle p_0, p_0 \rangle
+\]
+since $p_0, p_1, \dots , p_n$ form an orthonormal basis for $\Pi_n$. Therefore, $\int_a^b \omega(x) p(x) \dd{x} = \beta_0 \langle p_0, p_0 \rangle$.
+
+Next, we shall show that $\sum_{i=1}^n \omega_i p(x_i) = \beta_0 \langle p_0, p_0 \rangle$. That shall finish the proof. To that end, note that
+\begin{align*}
+  \sum_{i=1}^n \omega_i p(x_i)
+  &=
+    \sum_{i=1}^n \omega_i(p_n(x_i)q(x_i) + r(x_i)) \\
+  &\lao{1}
+    \sum_{i=1}^n \omega_i r(x_i) \\
+  &=
+    \sum_{i=1}^n \sum_{k = 0}^{n-1} \omega_i \beta_k p_k(x_i) \\
+  &\lao{2}
+    \sum_{k = 0}^{n-1} \sum_{i=1}^n \omega_i \beta_k p_k(x_i) \\
+  &=
+    \sum_{k = 0}^{n-1} \beta_k \sum_{i=1}^n \omega_i p_k(x_i) \\
+  &\lao{3}
+    \beta_0 \langle p_0, p_0 \rangle
+\end{align*}
+where equality (1) follows from the fact that $x_1, x_2, \dots , x_n$ are roots of $p_n$, equality (2) from interchanging the sums, and equality (3) from the fact that the $\omega_i$ satisfy the system of equations \ref{apr18:conds:w_i}.
+\hfill
+\end{proof}
+
+We now state and prove another important theorem
+\begin{thm}
+  The $w_i$ in the system of equations \ref{apr18:conds:w_i} are all greater than 0.
+\end{thm}
+\begin{proof}
+  Define, for all integers $j$ such that $1 \leq j \leq n$,
+  \[
+    \overline{p}_j(x) = \prod_{\substack{k = 1 \\ k \neq j}}^n (x - x_k)^2
+  \]
+  Note that $\overline{p}_j \in \Pi_{2n-2} \in \Pi_{2n-1}$ for all $1 \leq j \leq n$, which implies, by theorem \ref{apr18:thm:main}, that
+  \[
+    \int_a^b \omega(x) \overline{p}_j(x) \dd{x}
+    = \sum_{i=1}^n \omega_i \overline{p}_j(x_i)
+    = \sum_{i=1}^n \omega_i\left(\prod_{\substack{k = 1 \\ k \neq j}}^n (x_i - x_k)^2 \right)
+  \]
+  But since $\prod\limits_{\substack{k = 1 \\ k \neq j}}^n (x_i - x_k)^2$ for all $i \neq j$, it follows that $\sum_{i=1}^n \omega_i\left(\prod\limits_{\substack{k = 1 \\ k \neq j}}^n (x_i - x_k)^2 \right) = \omega_j\left(\prod\limits_{\substack{k = 1 \\ k \neq j}}^n (x_j - x_k)^2 \right)$. Therefore, we have
+  \[
+    \int_a^b \omega(x) \overline{p}_j(x) \dd{x}
+    = \omega_j\left(\prod\limits_{\substack{k = 1 \\ k \neq j}}^n (x_j - x_k)^2 \right)
+  \]
+  Now, recall that any weight function on an interval $[a, b]$ must satisfy the condition that for any polynomial $s$, if $s \geq 0$ on $[a, b]$, then
+  \[
+    \int_a^b s(x) \omega(x) \dd{x} = 0
+    \qquad \implies \qquad
+    s = 0 \text{ on $[a, b]$ }
+  \]
+  Now, for all $1 \leq j \leq n$, $\overline{p}_j \geq 0$ on $[a, b]$, but $\overline{p}_j \neq 0$ on $[a, b]$, so since $\omega \geq 0$ on $[a, b]$, we have
+  \[
+    \int_a^b \omega(x) \overline{p}_j(x) \dd{x} > 0
+  \]
+  Also, by elementary considerations
+  \[
+    \left(\prod\limits_{\substack{k = 1 \\ k \neq j}}^n (x_j - x_k)^2 \right) > 0
+  \]
+  Therefore, since
+  \[
+    \int_a^b \omega(x) \overline{p}_j(x) \dd{x}
+    = \omega_j\left(\prod\limits_{\substack{k = 1 \\ k \neq j}}^n (x_j - x_k)^2 \right)
+  \]
+  it follows that $\omega_j > 0$ for all $1 \leq j \leq n$.
+  \hfill
+\end{proof}
+
+Next we show that theorem \ref{apr18:thm:main} does not hold for some polynomials in $\Pi_{2n}$.
+
+\begin{thm}
+  There exists a polynomial $\overline{p} \in \Pi_{2n}$ such that there exists no collection $\omega_1, \omega_2, \dots , \omega_n$ such that
+  \[
+    \int_a^b \omega(x) \overline{p}(x) \dd{x} = \sum_{i=1}^n \omega_i \overline{p}(x_i)
+  \]
+\end{thm}
+\begin{proof}
+  Define $\overline{p}(x) = \prod_{k = 1}^n (x - x_k)^2$. Then recall that any weight function on an interval $[a, b]$ must satisfy the condition that for any polynomial $s$, if $s \geq 0$ on $[a, b]$, then
+  \[
+    \int_a^b s(x) \omega(x) \dd{x} = 0
+    \qquad \implies \qquad
+    s = 0 \text{ on $[a, b]$ }
+  \]
+  Now, for all $1 \leq j \leq n$, $\overline{p} \geq 0$ on $[a, b]$, but $\overline{p} \neq 0$ on $[a, b]$, so since $\omega \geq 0$ on $[a, b]$, we have
+  \[
+    \int_a^b \omega(x) \overline{p}(x) \dd{x} > 0
+  \]
+  However, $\overline{p}(x_j) = \prod_{k = 1}^n (x_j - x_k)^2 = 0$ for all $1 \leq j \leq n$, so $\sum_{i=1}^n \omega_i \overline{p}(x_i) = 0$.
+  Therefore,
+  \[
+    \int_a^b \omega(x) \overline{p}(x) \dd{x} > 0 = \sum_{i=1}^n \omega_i \overline{p}(x_i)
+  \]
+  and we are done.
+  \hfill
+\end{proof}
+Next, we state a converse to theorem \ref{apr18:thm:main}.
+
+\begin{thm}
+  If there exists a collection of pairs $(\omega_1, x_1), (\omega_2, x_2), \dots , (\omega_n, x_n)$ such that
+  \[
+    \int_a^b \omega(x) p(x) \dd{x} = \sum_{i=1}^n \omega_i p(x_i)
+  \]
+  for all $p \in \Pi_{2n-1}$, then the $x_i$ are the roots of $p_n$, and the $w_i$ are the solutions to the system of equations \ref{apr18:conds:w_i}.
+\end{thm}
+\begin{proof}
+  See Stoer and Bulirsch.
+\end{proof}
+
+\subsection{Choosing the right weight function and orthonormal basis}
+
+Now, we list some types of intervals and the weight functions plus the systems of orthogonal bases best used with them. Through a combination of using scaling and shift transformations, most intervals you encounter can be transformed into a type of interval that is listed below:
+
+\begin{center}
+  \begin{tabular}{|c|c|c|}
+    \hline
+    Interval $[a, b]$ & Weight function $\omega(x)$ & Orthonormal basis (the $p_i$) \\
+    \hline\hline
+    $[-1, +1]$ & 1 & Legendre Polynomials \\
+    \hline
+    $[0, \infty)$ & $e^{-x}$ & Laguerre Polynomials \\
+    \hline
+    $(-D, +D)$ & $e^{-x^2}$ & Hermite Polynomials \\
+    \hline
+    $[-1, +1]$ & $(1-x^2)^{-\frac 12}$ & Tchebyshev Polynomials \\
+    \hline    
+\end{tabular}
+\end{center}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

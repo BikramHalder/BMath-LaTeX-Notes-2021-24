@@ -1,0 +1,100 @@
+\chapPreamble{37}{April 11, Part A}
+
+Let's recall some definition from the previous lecture.
+\begin{defn}
+  \begin{itemize}
+    \label{apr11a:defn:recall}    
+    \hfill
+    \item
+    \[
+      \mI(f) = \int_a^b \omega(x) f(x) \dd{x}
+    \]
+    where $\omega$ is a \textbf{weight function} that you have chosen, that satisfying $\omega \geq 0$
+    \item For all integers $k \geq 0$,
+    \[
+      \mu_k = \int_a^b x^k \omega(x) \dd{x}
+    \]
+    For the above two,
+    \begin{itemize}
+      \item
+        $\omega$ must be measurable on $[a, b]$.
+        
+      \item
+        $\mu_k$ must exist and be finite for all $k \in \Z$, such that $k \geq 0$.
+      
+      \item
+        For any polynomial $s$, if $s \geq 0$ on $[a, b]$, then
+        \[
+          \int_a^b s(x) \omega(x) \dd{x} = 0
+          \qquad \implies \qquad
+          s = 0 \text{ on $[a, b]$ }
+        \]
+      \end{itemize}
+    \item $\forall$ integers $n \geq 0$,
+    \[
+      \Pi_n = \{p \in \R[x] \colon \deg(p) \leq n \}
+    \text{ and }
+      \overline{\Pi}_n = \{p \in \Pi_n \colon \text{ $p$ is monic } \}
+    \]
+    \textbf{Note that $\Pi_n$ is a vector space. Also, $\overline{\Pi}_n \subset \Pi_n$}
+    \item Fix an integer $n \geq 0$.  
+    We can define an inner product $\langle \cdot , \cdot \rangle$  on $\Pi_n$ by
+    \[
+      \langle f, g \rangle = \int_a^b \omega(x) f(x) g(x) \dd{x}
+    \]
+    for all $f, g \in \Pi_n$.
+    \item  \[
+      L^2[a, b]_\omega = \{\langle f, f \rangle = \int_a^b \omega(x) \left(f(x)\right)^2 \dd{x} \text{ exists and is finite } \}
+    \]
+    for all $f \in \Pi_n$.
+    \item If $p, q \in \Pi_n$ for some integer $n$, we say that $p$ and $q$ are \textbf{orthogonal} if $\langle p, q \rangle = 0$
+    
+  \end{itemize}
+
+\end{defn}
+
+\section{Gram-Schmidt Orthogonalization on polynomials}
+For the vector space of all polynomials with at most degree $n$, $\Pi_n$, we can apply Gram-Schmidt Orthogonalization to the basis, $ \{1,x,\ldots,x^n\} $ w.r.t the inner product defined above and obtain an orthogonal basis, $ \{p_0(x), p_1(x), \ldots, p_n(x) \}$ with $ \deg(p_r) = r \ \forall \ r $.\\ 
+
+\begin{tcolorbox}[
+  colback = orange!10,
+  colframe = red!75
+]
+We can compute the orthogonal polynomials as follows:\\
+\bigskip  
+Let $ u_k(x)=x^k, \ \forall \ k \in \{0,1,\ldots,n\} $ 
+\begin{itemize}
+  \item $ p_0=u_0 $ 
+  \item $ p_k = u_k - \sum_{j=0}^{k-1}\frac{\inp{u_k}{p_j}}{\inp{p_j}{p_j}}p_j $ for $ k\in\{1,\ldots,n\} $ 
+\end{itemize}
+\bigskip
+Recursively, we can write the above as,
+\begin{itemize}
+  \item $p_0=u_0$ \thatis $ p_0(x)=1 \ \forall \ x \in [a,b] $ 
+  \item $ p_k(x)=\Bigl(x-\frac{\inp{xp_{k-1}}{p_{k-1}}}{\inp{p_{k-1}}{p_{k-1}}}\Bigr)p_{k-1} - \frac{\inp{xp_{k-1}}{p_{k-1}}}{\inp{p_{k-2}}{p_{k-2}}}p_{k-2}(x) $ for $ k \in \{1,2,\ldots,n\} $ 
+\end{itemize}
+\bigskip
+Note that, here we take $ p_{-1}=0 $ 
+\end{tcolorbox}
+
+\begin{example}
+  Let's explicitly compute $ p_0,p_1,p_2 $ with $ a=-1,b=1 $. Note that, we care only about the roots of the polynomials, so we will save ourselves the trouble of normalizing the polynomials. We start with the usual basis, $ u_0(x)=1,u_1(x)=x,u_2(x)=x^2 $\\ 
+  We take, $ p_0=u_0 $. Now, taking out the $ p_0-$component from $ u_1 $ we left with \[p_1(x)=u_1(x)-\frac{\inp{u_1}{p_0}}{\inp{p_0}{p_0}}p_0(x)=x\]
+  Since, \[\langle u_1,p_0 \rangle = \int_{-1}^{1}x\dd{x} = 0\]
+  To find, $p_2$, we similarly take out the $ p_0 $ and $p_1-$components from $ u_2 $ to get, \[p_2(x)=u_2(x)-\frac{\inp{u_2}{p_0}}{\inp{p_0}{p_0}}p_0(x) - \frac{\inp{u_2}{p_1}}{\inp{p_1}{p_1}}p_1(x)=x^2 - \frac{1}{3}\]
+\end{example}
+We now state and prove an important theorem.
+\begin{thm}
+  Each $ p_n $ has $ n $ distinct zeros inside the open interval $ (a,b) $
+\end{thm}
+\begin{proof}[Proof]
+  Since, $ p_n $ is orthogonal to $ \Pi_{n-1} $, for any polynomial $ q $ with $\deg(q) < n $, we must have 
+  $$ \inp{q}{p_n} = \int \limits_a^b q(x)p_n(x)\dd{x} = 0 $$
+  \\ 
+  Let $ p_n $  have exactly $ m $  distinct real zeros of odd multiplicities inside $ (a,b) $. Call them, $ \alpha_1,\alpha_2,\ldots,\alpha_m $.\\ 
+  Define a polynomial, $$ q(x) := (x-\alpha_1)\cdots(x-\alpha_m) $$
+  Then $ q(x)p_n(x) $  has all real zeros of even multiplicities, and hence does not change sign over $ (a,b) $. So, 
+  $$ \int \limits_a^b q(x)p_n(x)\dd{x} \not = 0 $$
+  By the construction of $ p_n(x) $  this forces $ \deg(q) \geq n $. But $ m\leq n $ and hence $ m=n $.\\
+  So, $ p_n $  has exactly  distinct roots (with odd multiplicities). Since $ p_n $  has degree $ n $,  all the zeroes are real and distinct and inside $ (a,b) $.
+\end{proof}

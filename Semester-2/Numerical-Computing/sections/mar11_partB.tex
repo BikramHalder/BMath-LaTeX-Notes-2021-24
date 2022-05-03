@@ -3,7 +3,7 @@
 \section{Summary of Newton's divided differences}
 
 \begin{defn}
-  Given support points $(x_0, f_0), (x_1, f_1), \dots ,(x_k, y_k)$, we can define the polynomial $\Phi(x) = P_{i_0i_1\dots i_n} \in \Pi_n$ to be the \textbf{unique} $n$ degree polynomial that satisfies $\Phi(x_{i_j}) = f_{i_j}$ for all $0 \leq j \leq n$.
+  Given support points $(x_0, f_0), (x_1, f_1), \dots ,(x_k, f_k)$, we can define the polynomial $\Phi(x) = P_{i_0i_1\dots i_n} \in \Pi_n$ to be the \textbf{unique} $n$ degree polynomial that satisfies $\Phi(x_{i_j}) = f_{i_j}$ for all $0 \leq j \leq n$.
 \end{defn}
 \begin{rmk}
   $\Phi$ and $P_{i_0i_1\dots i_n}$ are merely different ways to write the same polynomial; the second form emphasizes the role of the support points in the definition of $\Phi$.
@@ -13,7 +13,7 @@
  \begin{thm}
    \label{mar11b:thm:ndd}
   \[
-    \Phi = \sum_{j = 0}^n f_{i_0\dots i_j}\prod_{k = 0}^{j-1}\left(x - x_{i_j}\right)
+    \Phi = \sum_{j = 0}^n f_{i_0\dots i_j}\prod_{k = 0}^{j-1}\left(x - x_{i_k}\right)
   \]
   where the $f_{\dots}$ are defined as follows.
 

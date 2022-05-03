@@ -1,0 +1,197 @@
+\chapPreamble{35}{April 4, Part A}
+
+We have already seen that we can find the integration $\int_a^b f(x) \dd{x}$ using \texty{Lagrange's interpolation}. Now we try to find additional integration rules using \texty{Hermite interpolation}. For this we take the simple example when $P \in \Pi_3$ such that 
+\begin{equation}\label{eq1:apr4A}
+    P^{(i)}(a) = f^{(i)}(a) \mbox{ and } P^{(i)}(b) = f^{(i)}(b), \ \forall \, i = 0,1 
+\end{equation}
+For simplicity we take $a=0, \, b = 1$. Thus recall from \texty{Lecture 25}, that the \texty{Hermite interpolation} gives 
+\[
+    P(x) = \sum_{i=0}^1 \sum_{k=0}^1 f_i^{(k)} L_{ik}(x)  
+\]
+we get that 
+\begin{align*}
+    &&L_{01}(x) = x(x-1)^2 &&\mbox{and}  &&L_{00}(x) = (x-1)^2 +2x(x-1)^2 \\ 
+    &&L_{11}(x) = x^2(x-1) &&\mbox{and}  &&L_{00}(x) = x^2 -2x^2(x-1) 
+\end{align*}
+and hence, we get that 
+\[
+    P(x) = f(0)[(x-1)^2 + 2x(x-1)^2] + f'(0)x(x-1)^2 + f(1)[x^2 - 2x^2(x-1)] + f'(1)x^2(x-1)
+\]
+and hence we get that 
+\[
+    \int_0^1 P(x) \dd{x} = \frac{1}{2}(f(0) + f(1)) + \frac{1}{12} (f'(0) - f'(1))  
+\]
+but then for general $a$ and $b$, we can take $P(t) = f(a+ht)$ where $h := b-a$, and then 
+\begin{align*}
+    \int_a^b f(x) \dd{x} 
+    &= h\int_0^1 f(a + ht) \dd{t} \\
+    &\approx \int_0^1 P(t) \dd{t} \\ 
+    &= \frac{h}{2}(f(a) + f(b)) + \frac{h^2}{12} (f'(a) - f'(b)) 
+\end{align*}
+
+Now, when are computing the integral using different quadrature rule (integration rules) such as the above \texty{Hermite interpolation} one, we don't apply the formula on the whole interval, instead we apply it on subintervals into which the interval $[a,b]$ has been divided. The full integration is then approximated by the sum of the approximations to the subintervals. We are here approximating the integrals locally, and then extending it, this gives rise to a composite rule. We now look at the composite rules in various cases quadrature rules.
+
+\section{Composition of Errors in Trapezoidal and Simpson's Rule }
+
+\subsection{Trapezoidal Rule}
+
+In this case we assume that the quadrature rule on an interval $[x_i, x_{i+1}]$ is given by 
+\begin{equation}\label{eq2:apr4A}
+    I_i = \frac{h}{2}(f(x_i) + f(x_{i+1}))
+\end{equation}
+where $[x_i,x_{i+1}]$ are the subintervals formed by the partition $x_i = a + ih, \ \forall \, i = 0,1, \dots, N$, where $h := \frac{b-a}{N}$. Thus for the entire interval we get the approximation 
+\begin{align*}
+    T(h) &:= \sum_{i=0}^{N-1} I_i \\ 
+    &= h\left( \frac{f(a)}{2} + f(a+h) + f(a+2h) + \cdots + f(b-h) + \frac{f(b)}{2}  \right) 
+\end{align*}
+Assuming that $f \in \mathcal{C}^2[a,b]$, it can be shown that (using \texty{Peano's Error formula} which is stated in the next section) the error denoted by $\varepsilon_i$ is 
+\begin{equation}\label{eq3:apr4A}
+    \varepsilon_i := I_i - \int_{x_i}^{x_{i+1}} f(x) \dd{x} = \frac{h^3}{12} f^{(2)} (\xi_i) 
+\end{equation}
+for some $\xi_i \in (x_i, x_{i+1})$. Thus summing all these individual error terms we get that 
+\begin{align*}
+    T(h) - \int_a^b f(x) \dd{x} 
+    &= \sum_{i=0}^{N-1} \left( I_i - \int_{x_i}^{x_{i+1}} f(x) \dd{x} \right) \\ 
+    &= \frac{h^3}{12}\sum_{i=0}^{N-1} f^{(2)}(\xi_i) \\ 
+    &= \frac{h^2}{12}(b-a) \left( \frac{1}{N} \sum_{i=0}^{N-1} f^{(2)}(\xi_i)\right) \\ 
+    &\overset{(1)}{=} \frac{h^2}{12}(b-a) f^{(2)}(\xi)
+\end{align*}
+where $(1)$ follows from the fact that 
+\[
+    \min_{i} f^{(2)}(\xi_i) \leq \frac{1}{N} \sum_{i=0}^{N-1} f^{(2)}(\xi_i) \leq \max_{i} f^{(2)}(\xi_i)   
+\]
+and since $f \in \mathcal{C}^2[a,b]$ hence by \texty{Intermediate Value Property}, there exists a $\xi \in \left[ \min_i \xi_i, \max_i \xi_i \right]$ such that 
+\[
+    f^{(2)}(\xi) = \frac{1}{N} \sum_{i=0}^{N-1} f^{(2)}(\xi_i)  
+\]
+Hence we have shown that 
+\begin{equation}\label{eq4:apr4A}
+    T(h) - \int_a^b f(x) \dd{x} = \frac{h^2}{12} (b-a) f^{(2)}(\xi), \ \ \mbox{ for some } \xi \in (a,b)
+\end{equation}
+Thus we get that as $h$ tends to $0$, the approximation error approaches zero as fast as $h^2$, so the Trapezoidal rule is a method of \textit{order} $2$. So what have shown is the following 
+\begin{thm}\label{thm1:apr4A}
+    The approximation error in the \texty{Trapezoidal rule} approaches $0$ as fast as $h^2$, i.e., the \texty{Trapezoidal rule} is a method of \textit{order} $2$, and in general for the partition 
+    \[
+        \Delta = \{ x_0 = a < x_1 = a+h < \cdots < x_{N-1} = b-h < x_N = b \}    
+    \]
+    the error term is given by 
+    \[
+        \varepsilon_T := T(h) - \int_a^b f(x) \dd{x} = \frac{h^2}{12}(b-a) f^{(2)}(\xi), \ \ \mbox{ for some } \xi \in (a,b)  
+    \]
+    where $h = \frac{b-a}{N}$.
+\end{thm}
+
+\subsection{Simpson's Rule}
+
+Recall that in Simpson's rule, the integration rule on the interval $[a,b]$ is given by the \texty{Lagrange interpolate} $P \in \Pi_2$ with nodes at $x_0 = a, x_1 = a+h$ and $x_2 = b$, where $h = b-a$
+\[
+    \int_a^b f(x) \dd{x} \approx \int_a^b P(x) \dd{x} = \frac{h}{3}(f_0 + 4f_1 + f_2)    
+\]
+where $f_i = f(x_i)$ for $i = 0,1,2$. 
+
+\ 
+
+Now we assume that the number of nodes in the partition of the interval $[a,b]$ is even, i.e., let 
+\[
+    \Delta = \{ x_0 = a < x_1 = a+h < \cdots < x_N = b \}  
+\]
+where $N$ is even. Now we apply Simpson's rule on each of the subintervals $[x_{2i}, x_{2i+2}]$, with nodes at $x_{2i}, x_{2i+1}$ and $x_{2i+2}$, then we get that 
+\[
+    I_i = \frac{h}{3} [f(x_{2i}) + 4f(x_{2i+1}) + f(x_{2i+2})],\  \ \forall \, i = 0,1,\dots, \frac{N}{2}-1
+\]
+Summing all these $\frac{N}{2}$ approximations we define 
+\begin{equation}\label{eq5:apr4A}
+    S(h) := \frac{h}{3}\left( f(a) + 4f(a+h) + 2f(a+2h) + \cdots + 2f(b-2h) + 4f(b-h) + f(b) \right)
+\end{equation}
+now we assume that $f \in \mathcal{C}^4[a,b]$, then it can be shown (using \texty{Peano's Error formula} which is stated in the next section) the error denoted by $\varepsilon_i$ is 
+\begin{equation}\label{eq6:apr4A}
+    \varepsilon_i := I_i - \int_{x_{2i}}^{x_{2i+2}} f(x) \dd{x} = \frac{h^5}{90} f^{(4)}(\xi_i)
+\end{equation} 
+for some $\xi_i \in (x_{2i},x_{2i+2})$. Thus like in the case of \texty{Trapezoidal rule}, in we sum up all these error terms and with similar arguments we get that 
+ \begin{equation}\label{eq7:apr4A}
+    S(h) - \int_a^b f(x) \dd{x} = \frac{h^4}{180}(b-a) f^{(4)}(\xi), \ \ \mbox{ for some } \xi \in (a,b)
+ \end{equation}
+ Thus we conclude this section with the following theorem: 
+ \begin{thm}\label{thm2:apr4A}
+    The approximation error in the \texty{Simpson's rule} approaches $0$ as fast as $h^4$, i.e., the \texty{Simpson's rule} is a method of \textit{order} $4$, and in general for the partition 
+    \[
+        \Delta = \{ x_0 = a < x_1 = a+h < \cdots < x_{N-1} = b-h < x_N = b \}    
+    \]
+    with $N$ even, the error term is given by 
+    \[
+        \varepsilon_S := S(h) - \int_a^b f(x) \dd{x} = \frac{h^4}{180}(b-a) f^{(4)}(\xi), \ \ \mbox{ for some } \xi \in (a,b)  
+    \]
+    where $h = \frac{b-a}{N}$.
+ \end{thm}
+
+\section{Peano's Error Representations}
+
+Observe that all the integration rules (quadrature rules), we have used so far are of the form
+\begin{equation}\label{eq8:apr4A}
+    \tilde{I}(f) := \sum_{j=0}^n \sum_{k=0}^{m_j} a_{kj} f^{(j)}(x_{kj})  
+\end{equation} 
+For a given integration rule $\tilde{I}$ as in equation $(\ref{eq8:apr4A})$, we define the integration error as 
+\begin{equation}\label{eq9:apr4}
+    R(f) := \tilde{I}(f) - \int_a^b f(x) \dd{x} 
+\end{equation}  
+\begin{rmk}
+    Observe that $R : V \to \bb{R}$ is a \texty{linear functional}, i.e., 
+    \[
+        R(\alpha f + \beta g) = \alpha R(f) + \beta R(g), \ \forall \, f,g \in V, \mbox{ and } \alpha, \beta \in \bb{R}    
+    \]
+    where $V$ is a suitable vector space over the field $\bb{R}$, for example $V = \bb{C}^n[a,b]$ or $V = \Pi_n$.
+\end{rmk}
+
+Now we state the following result which is due to \texty{Peano}:
+
+\begin{thm}\label{peano}\texty{(Peano's Error Formula)}.
+    Suppose $I$ be an integration rule such that the corresponding integration error satisfies the condition that $R(P) = 0$ for all $ P \in \Pi_n$, i.e., every polynomial whose degree is at most $n$, is integrated exactly. Then for all functions $ f \in \mathcal{C}^{n+1}[a,b]$, we have 
+    \[
+        R(f) = \int_a^b f^{(n+1)}(t) K(t) \dd{t}  
+    \] 
+    where 
+    \begin{align*}
+        K(t) := \frac{1}{n!} R_x[(x-t)^n_+], &&(x-t)^n_+ := \begin{cases}
+            (x-t)^n &\mbox{ if } x \geq t \\ 
+            0 & \mbox{ otherwise}
+        \end{cases}
+    \end{align*}
+    and $R_x[(x-t)^n_+]$ denotes the integration error of $(x-t)^n_+$ when considered as a function of $x$. The function $K(t)$ is called the \texty{Peano kernel} of the linear functional $R$.
+\end{thm}
+
+We first give an application of the \texty{Peano's error formula}, in the case of \texty{Simpson's rule}. Note that 
+\[
+    \int_a^b f(x) \dd{x} = \int_{-1}^1 f(t) \dd{t} = \frac{b-a}{2} \int_{-1}^1 f \left( \left(\frac{b-a}{2}\right)t + \frac{b+a}{2} \right) \dd{t} = \frac{b-a}{a} \int_{-1}^1 g(t) \dd{t}
+\]
+where $g(t) = f \left( \left(\frac{b-a}{2}\right)t + \frac{b+a}{2} \right)$. Thus the task of approximating the integral $\int_a^b f(x) \dd{x}$ is equaivalent to approximating the integral $\int_{-1}^1 g(x) \dd{x}$, thus WLOG, we may assume that the nodes of the \texty{Lagrange interpolate} for the \texty{Simpson's rule} to be $-1,0,1$.
+
+First of all we need to show that $R(P) = 0$ for all $P \in \Pi_3$. So we let $P$ be any polynomial in $\Pi_3$, and consider the \texty{Lagrange interpolate polynomial} $Q \in \Pi_2$ defined by
+\begin{align*}
+    Q(-1) = P(-1), && Q(0) = P(0) &&\mbox{ and } &&Q(1) = P(1)
+\end{align*} 
+and set
+\[
+    S(x) := P(x) - Q(x)    
+\] 
+Then note that $x = -1, 0, 1$ are roots of $S$ and since $S \in \Pi_3$, we must have $S(x) = ax(x^2-1)$ for some constant $a \in \bb{R}$. Thus we get that $S$ is an odd function and hence we get that 
+\[
+    \int_{-1}^1 S(x) \dd{x} = 0  
+\]
+and hence we get 
+\[
+    R(S) = \frac{1}{3} (S(-1) + 4S(0) + S(1)) - \int_{-1}^1 S(x) \dd{x} = 0  
+\]
+Now we have $Q \in \Pi_2$, thus we must have $Q(x) = px^2 + qx + r$ for some constants $p,q,r \in \bb{R}$, and hence we get that 
+\begin{align*}
+    R(Q) 
+    &= \frac{1}{3}(Q(-1) + Q(0) + Q(1)) - \int_{-1}^1 Q(x) \dd{x} \\
+    &= \frac{1}{3}((p-q+r)+4r+(p+q+r)) - \int_{-1}^1 (px^2+qx+r)\dd{x}  \\ 
+    &= \frac{1}{3}(2p+6r) - \left( p\frac{x^3}{3} + q \frac{x^2}{2} + rx \right) \Bigg\vert_{-1}^1 \\ 
+    &= \frac{2}{3}(p+3r) - \frac{2}{3}(p+3r) \\ 
+    &= 0
+\end{align*} 
+and finally since $R$ is a linear functional we get that 
+\[
+    R(P) = R(S) + R(Q) = 0  
+\]
+but since $P$ was arbitrary we get that $R(P) = 0$ for all $P \in \Pi_3$. The the \texty{Simpson's rule} indeed satisfies the hypothesis of \texty{Peano's Theorem} $\ref{peano}$, for $n = 3$.   

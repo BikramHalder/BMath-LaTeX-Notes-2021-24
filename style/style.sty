@@ -35,9 +35,12 @@
 \usepackage{bm}
 \usepackage{xcolor}
 \usepackage{chngcntr}
+\usepackage{diagbox}
+\usepackage{tocbibind}
+\usepackage{mathrsfs}
 
-\counterwithin*{equation}{section}
-\counterwithin*{figure}{section}
+\counterwithin{equation}{section}
+\counterwithin{figure}{section}
 
 \hypersetup{
   colorlinks = true,
@@ -55,6 +58,8 @@
     \addcontentsline{toc}{chapter}{Lecture #1 (#2)}
     \setcounter{chapter}{#1}
     \setcounter{section}{0}
+    \setcounter{subsection}{0}
+    \setcounter{theorem}{0}
 }
 
 \renewcommand{\familydefault}{\sfdefault}
@@ -83,7 +88,7 @@
 % \newcommand{\tr}[1]{\operatorname{trace}\left({#1}\right)} % physics already defines this
 \newcommand{\modulo}[1]{\ (\mbox{mod } #1)}
 \newcommand{\bb}[1]{\mathbb{#1}}
-
+\newcommand{\eqlab}[1]{\label{#1}\tag{#1}} %label and tag equations at once
 
 \newcommand{\texty}[1]{\textsf{\textbf{#1}}}
 \newcommand{\shared}[1]{\begin{flushright}\textit{(shared by #1)}\end{flushright}}
@@ -98,6 +103,7 @@
 \newcommand{\AbsB}[1]{\Bigg| #1 \Bigg|}
 
 \newcommand{\lao}[2][=]{\overset{(#2)}{#1}}
+\newcommand{\inp}[2]{\langle {#1,#2} \rangle}
 
 \newcommand{\im}{\operatorname{im}}
 \newcommand{\dom}{\operatorname{dom}}
@@ -218,7 +224,7 @@
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]
-% \newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{lemmas}[theorem]{Lemma}
 \newtheorem{clm}[theorem]{Claim}
 \newtheorem{propn}[theorem]{Proposition}
 
@@ -233,7 +239,7 @@
 
 \newenvironment{thm}{\begin{theoremBox} \begin{theorem}}{\end{theorem} \end{theoremBox}}
 \newenvironment{problem}{\begin{probBox} \begin{prob}}{\end{prob} \end{probBox}}
-\newenvironment{lem}{\begin{lemmaBox} \begin{lemma}}{ \end{lemma} \end{lemmaBox}}
+\newenvironment{lem}{\begin{lemmaBox} \begin{lemmas}}{ \end{lemmas} \end{lemmaBox}}
 \newenvironment{corr}{\begin{corrBox} \begin{corollary}}{ \end{corollary} \end{corrBox}}
 \newenvironment{example}{\begin{savenotes}\begin{exampleBox} \begin{examples}}{ \end{examples} \end{exampleBox}\end{savenotes}}
 \newenvironment{cexample}{\begin{exampleBox} \begin{counterexample}}{ \end{counterexample} \end{exampleBox}}

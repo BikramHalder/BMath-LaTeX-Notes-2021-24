@@ -1,0 +1,89 @@
+\chapPreamble{24}{March 14, Part A}
+
+\section{Divided-Difference Scheme}
+We know that the interpolating polynomial $P_{i_0i_1\ldots i_k}$ is uniquely determined by its support points. So, it is invariant of any permutation of the indices $ i_0,i_1,\ldots,i_k$. Therefore we have the following result:
+\begin{thm}\label{thm1:lec24}
+    The coefficients/divided-differences $f_{i_0i_1\ldots i_k}$ are invariant of any permutations of the indices $ i_0,i_1,\ldots,i_k$.
+\end{thm}
+
+\begin{example}\label{ex1:lec24}
+
+We take up an old example and form the \textit{divided-differences scheme} for the same:
+    \begin{center}
+    \begin{tabular}{c|ccc}
+        $k$ &  $0$ &  $1$ &  $2$\\
+        \hline
+        $x_0=0$ & $f_0=1$ & \\
+                & & $f_{01}=2$ & \\
+        $ x_1=1$ & $ f_1=3$ & & $f_{012} = \frac{-5}{6}$\\
+                 & &  $ f_{12}=\frac{-1}{2}$ &\\
+        $ x_2=3$ & $ f_2=2$ & \\
+    \end{tabular}
+    \end{center}
+
+Here $f_{01} = \frac{f_1-f_0}{x_1-x_0} = 2$, $f_{12} = \frac{f_2-f_1}{x_2-x_1}$ and $f_{012} = \frac{f_{12}-f_{01}}{x_2-x_0} = \frac{-5}{6}$.
+ 
+So, we get our final interpolated polynomial as $P_{012}(x) = 1+2.(x-0)-\frac{5}{6}(x-0)(x-1)$.
+\end{example}
+
+\begin{rmk}\label{rmk1:lec24}
+    We will always want to choose such a permutation of the indices that satisfies
+    \[
+        |\xi - x_{i_k}| \ge  |\xi - x_{i_{k-1}}|, \forall k=1,2,\ldots,n
+    .\] 
+which dampens the error during the evaluation of the Horner's Scheme.
+\end{rmk}
+
+In accordance of the remark (\ref{rmk1:lec24}), we have an algorithm to choose the preferred sequence of indices. For this, we assume that the support abscissae $x_i$ are in, say ascending, order. Then for each  $k>0$, we can choose the index  $i_k$ so that either  $i_k = min\{i_l|0\le l<k\}-1$ or $i_k - max\{i_l|0\le l<k\}+1$. So, instead of the descending-diagonal sequence of indices that we get from the divided-difference scheme, here we get a zig-zag path.
+
+\begin{example}
+    Continuing from Example \ref{ex1:lec24}, we can use the sequence $ i_0=1, i_1=2, i_3 = 0$ for interpolating the polynomial at $\xi = 2$. Then the corresponding Newton Representation is:
+    \[
+        P_{120}(x) = 3 - \frac{1}{2}(x-1) - \frac{5}{6} (x-1)(x-3)
+    .\] 
+
+\end{example}
+
+\section{An alternate notation}
+
+Sometimes, the support ordinates $f_i$ are the function values of a given function  $f(x)$, which we want to approximate using interpolation. We might want to do this because sometimes, even if we know the function, it might not have a nice closed form, making it difficult to evaluate the function at arbitrary points. We can think of the divided differences as multivariate functions of the support abscissae  $x_i$. In general, we use the following notation for this purpose:
+\[
+    f[x_{i_0},x_{i_1},\ldots, x_{i_k}] = f_{i_0,i_1,\ldots,i_k}
+.\] 
+
+For instance, we have the following:
+\begin{align*}
+    f[x_0] &= f(x_0)\\
+    f[x_0,x_1] &= \frac{f[x_1]f[x_0]}{x_1-x_0} = \frac{f(x_1) - f(x_0)}{x_1-x_0} \\
+    f[x_0,x_1,x_2] &= \frac{f[x_1,x_2] - f[x_0,x_1]}{x_2-x_0}\\
+                   &= \frac{f(x_0)(x_1-x_2) + f(x_1)(x_2-x_0) + f(x_2)(x_0-x_1)}{(x_1-x_0)(x_2-x_1)(x_0-x_2)} 
+.\end{align*}
+
+By Theorem \ref{thm1:lec24}, we can see that the divided differences $f[x_{i_0},x_{i_1},\ldots,x_{i_k}]$ are invariant of permutations of the indices. 
+
+\begin{thm}
+    If the given function $f(x)$ is a polynomial of degree  $N$, then  $f[x_0,x_1,\ldots,x_k]=0$
+    for all $k>N$.
+\end{thm}
+
+This is easy to see. Since, the interpolated polynomial is unique, the final polynomial must be identically equal to $f(x) \in \Pi _N$. Therefore, the coefficent of  $x^{k}$ in $P_{01\ldots k}(x)$, which is given by $f[x_0,x_1,\ldots,x_k]$, must be equal to $0$ for all  $k>N$.
+
+\section{Error Term}
+
+We have by the Newton's Interpolation formula that 
+\[
+    P(x) \equiv P_{01\ldots n}(x) = f[x_0] + f[x_0,x_1](x-x_0)+\ldots + f[x_0,\ldots, x_n](x-x_0)\ldots(x-x_{n-1})
+.\] 
+Suppose we introduce a $(n+2)^{nd}$ support point $(x_{n+1}, f_{n+1})$ with  $x_{n+1} := \overline{x}$ and $f_{n+1} := f(\overline{x})$ and $\overline{x} \neq x_i, \forall i = 0,1,\ldots, n$. Then, by Newton's Formula
+\[
+    f(\overline{x}) = P_{01\ldots(n+1)}(\overline{x}) = P_{01\ldots n}(x) + f[x_0,\ldots ,x_n,\overline{x}]\omega(\overline{x})
+.\] 
+We can conclude from the error analysis from the previous chapter, since $\omega (\overline{x}) \neq 0$, that 
+\[
+    f[x_0\ldots x_{n},\overline{x}] = \frac{f^{(n+1)}(\xi)}{ (n+1)!} \text{ for some } \xi \in I[x_0,\ldots,x_n,\overline{x}]
+.\] 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

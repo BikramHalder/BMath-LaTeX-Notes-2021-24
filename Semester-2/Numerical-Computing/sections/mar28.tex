@@ -1,0 +1,334 @@
+\chapPreamble{31}{March 28}
+
+\section{Constructing an interpolating cubic spline}
+
+We want to construct an interpolating cubic spline from $[a, b]$ to $\R$ that takes the value $y_i$ at $x_i$ for $n+1$ given support points $(x_0, y_0), (x_1, y_1), \dots , (x_n, y_n)$, with $x_0 < x_1 < \dots < x_n$.
+
+We begin by listing all the inputs we are given:
+\begin{itemize}
+\item
+  The interval $[a, b]$.
+\item
+  The partition $\Delta = \{a = x_0 < x_1 < \dots < x_n = b \}$.
+\item
+  The set $Y = \{y_0, y_1, \dots , y_n \}$.
+\end{itemize}
+
+We define
+\begin{defn}
+  \[
+    I_j = [x_{j-1}, x_j] \qquad \forall(1 \leq j \leq n)
+  \]
+  and
+  \[
+    h_j = x_j - x_{j-1} \qquad \forall(1 \leq j \leq n)
+  \]
+\end{defn}
+
+\subsection{Brief description of the following subsections, and one new definition}
+We have not yet constructed the interpolating cubic spline, but we shall show that it is determined completely by the values of its second derivatives at the knots (the $x_i$).
+
+To that end, define
+\begin{defn}
+  \label{mar28:def:Mi}
+  \[
+    M_i = S''_\Delta(Y ; x_i) \qquad \forall(1 \leq j \leq n)
+  \]
+\end{defn}
+
+ Next, we shall find relationships between the $M_i$, that almost completely determine them given $Y$; just a few more conditions, and we'd be done. Then, if we impose any one of the three boundary conditions from the end of the notes for lecture 28 (which are actually relations between the $M_i$), we shall have obtained a set of conditions that uniquely determine our interpolating cubic spline.
+
+Then, we shall observe that the conditions on the $M_i$ are linear equations, and we shall use linear algebra to find a set of $M_0, M_1, \dots , M_n$ that make the interpolating polynomial pass through the support points (if such a set exists).
+
+In what follows, we denote the cubic spline we wish to find by $S_\Delta(Y ; x)$. Then, as a reminder, note that the interpolating conditions on $S_\Delta(Y ; x)$ are
+\[
+  S_\Delta(Y ; x_i) = y_i \qquad \forall(0 \leq i \leq n)
+\]
+
+\subsection{The interpolating cubic spline is determined entirely by its second derivatives at the knots}
+
+Note that since we are working with the abstract form of our cubic spline (that we have not yet constructed), we cannot actually compute the $M_i$. Nevertheless, we can work with them without knowing their values to show that they completely characterize the cubic spline.
+
+In what follows, fix an arbitrary interval $I_{k+1}$.  We state a theorem.
+\begin{thm}
+  \label{mar28:thm:dd_form}
+  \[
+    S''_\Delta(Y ; x) \vert_{I_{k+1}}
+    =
+    M_k\left(\frac{x_{k+1} - x}{h_{k+1}}\right)
+    +
+    M_{k+1}\left(\frac{x - x_k}{h_{k+1}}\right)
+  \]
+\end{thm}
+
+\begin{proof}
+  By the definition of a cubic spline, $S''_\Delta(Y ; x) \vert_{I_{k+1}} \in \Pi_1$, is a linear function. But we also know that we must have (by the definition of the $M_i$, see Definition \ref{mar28:def:Mi})
+  \[
+    S''_\Delta(Y ; x_k) \vert_{I_{k+1}} = M_k
+  \]
+  and
+  \[
+    S''_\Delta(Y ; x_{k+1}) \vert_{I_{k+1}} = M_{k+1}
+  \]
+  Linear functions are completely determined by their values at two distinct locations, and it is easy to verify that the formula given for $S''_\Delta(Y ; x) \vert_{I_{k+1}}$ does satisfy the two equations above.
+  \hfill
+\end{proof}
+
+\begin{thm}
+  \label{mar28:thm:M_determines}
+  \[
+    S_\Delta(Y ; x) \vert_{I_{k+1}}
+    =
+    M_k\frac{(x_{k+1} - x)^3}{6h_{k+1}}
+    +
+    M_{k+1}\frac{(x - x_k)^3}{6h_{k+1}}
+    +
+    A_k(x - x_k) + B_k
+  \]
+  where
+  \begin{align*}
+    B_k &= y_k - \frac{M_kh^2_{k+1}}{6} \\
+    A_k &= \frac{y_{k+1} - y_k}{h_{k+1}} - \frac{h_{k+1}}{6}(M_{k+1} - M_k)
+  \end{align*}
+\end{thm}
+
+\begin{proof}
+  Use theorem \ref{mar28:thm:dd_form} and integrate twice to obtain the formula
+  \[
+    S_\Delta(Y ; x) \vert_{I_{k+1}}
+    =
+    M_k\frac{(x_{k+1} - x)^3}{6h_{k+1}}
+    +
+    M_{k+1}\frac{(x - x_k)^3}{6h_{k+1}}
+    +
+    c_1x + c_2
+  \]
+  for some constants $c_1, c_2$. Now, by choosing $A_k$ and $B_k$ properly, we can have $c_1x + c_2 = A_k(x - x_k) + B_k$.
+
+  To see that $A_k$ and $B_k$ have the forms mentioned in the statement of the theorem, note that by the interpolation conditions given to us
+  \[
+    \begin{aligned}
+      S_\Delta(Y ; x_k) \vert_{I_{k+1}} &= y_k \\
+      S_\Delta(Y ; x_{k+1}) \vert_{I_{k+1}} &= y_{k+1}
+    \end{aligned}
+    \implies
+    \begin{aligned}
+      M_k \frac{h^2_{k+1}}{6} + B_k &= y_k \\
+      M_{k+1} \frac{h^2_{k+1}}{6} + A_kh_{k+1} + B_k &= y_{k+1}
+    \end{aligned}
+  \]
+  Solving for $A_k$ and $B_k$ gives us the desired result.
+  \hfill
+\end{proof}
+
+\begin{rmk}
+  The above theorem says that the interpolating cubic spline's restrictions to the intervals $I_j$ can be calculated in terms of the $M_i$. Since the spline is defined by its behaviour on the restrictions to the $I_j$, that completely determines the spline.
+\end{rmk}
+
+Now, let us try to find constants $\alpha_k, \beta_k, \gamma_k, \delta_k$ such that $S_\Delta(Y ; x) \vert_{I_{k+1}} = \alpha_k(x-x_k)^3 + \beta_k(x-x_k)^2 + \gamma_k(x-x_k) + \delta_k$
+
+\begin{thm}
+  \label{mar28:thm:taylor}
+  \[
+    S_\Delta(Y ; x) \vert_{I_{k+1}} = \alpha_k(x-x_k)^3 + \beta_k(x-x_k)^2 + \gamma_k(x-x_k) + \delta_k
+  \]
+  where
+  \begin{align*}
+    \delta_k &= y_k \\
+    \gamma_k &= \frac{y_{k+1} - y_k}{h_{k+1}} - \frac{h_{k+1}}{6}(2M_k + M_{k+1}) \\
+    \beta_k &= \frac{M_k}{2}\\
+    \alpha_k &= \frac{M_{k+1} - M_k}{6 h_{k+1}}
+  \end{align*}
+\end{thm}
+
+\begin{proof}
+  Use theorem \ref{mar28:thm:M_determines}, and differentiate, plug in support points, solve, repeat.
+\end{proof}
+
+\subsection{Relations between the $M_i$}
+
+Since we haven't constructed the interpolating cubic spline $S_\Delta(Y ; x)$, we cannot compute its $M_i$. But there exist relations between them, relations in the form of linear equations, that we can solve to determine the $M_i$. Unfortunately there are $(n+1)$ $M_i$ to determine (namely $M_0, M_1, \dots , M_n$), and in this section we shall only be able to derive $n-1$ linear equations involving the $M_i$.
+
+That is where the boundary conditions described at the end of the notes for lecture 28 come in. They reduce the degrees of freedom by an additional 2, so that we get a system of equations in the $M_i$ that we can solve uniquely (assuming the matrix formed by them is non-singular). The boundary conditions shall be described in greater detail in the next sub-section.
+
+\begin{thm}
+  \label{mar28:thm:cond_m}
+  \[
+    \frac{h_k}{6}M_{k-1} + \frac{h_k + h_{k+1}}{3}M_k + \frac{h_{k+1}}{6}M_{k+1}
+    =
+    \frac{y_{k+1} - y_k}{h_{k+1}} - \frac{y_k - y_{k-1}}{h_k}
+  \]
+  for all $1 \leq k \leq n-1$.
+\end{thm}
+
+\begin{proof}
+  Recall that we had imposed the condition that our cubic splines be at least twice continuously differentiable in lecture 28.
+  
+  Then, since $S_\Delta(Y ; x)$ is a cubic spline, we must have
+  \[
+    \lim_{x\to x^-} S'_\Delta(Y ; x) = \lim_{x\to x^+} S'_\Delta(Y ; x)
+  \]
+  Using theorem \ref{mar28:thm:taylor}, and doing a lot of boring and uninspired algebra gives us the result.
+  \hfill
+\end{proof}
+
+\begin{rmk}
+  The above theorem gives us $n-1$ linear equations in $n+1$ variables. We are short 2 equations. Which brings us to the next sub-section.
+\end{rmk}
+
+\subsection{Boundary conditions}
+
+We recall the three boundary conditions mentioned at the end of lecture 28.
+
+\begin{enumerate}[label = \arabic*)]
+\item
+  $S''_\Delta(Y ; a) = S''_\Delta(Y ; b) = 0$.
+\item
+  $S^{(k)}_\Delta(Y ; a) = S^{(k)}_\Delta(Y ; b)$ for $k = 0, 1, \text{ and } 2$.
+\item
+  $S'_\Delta(Y ; a) = y'_0$, and $S'_\Delta(Y ; b) = y'_n$, where $y'_0$ and $y'_n$ are fixed values given to you.
+\end{enumerate}
+
+When used in conjunction with the interpolation conditions, any one of the three conditions above is sufficient to guarantee the existence of $n+1$ linear equations in the $n+1$ variables $M_0, M_1, \dots , M_n$. We shall prove that below.
+
+\begin{thm}
+  Given the interpolation conditions, and the boundary condition 1), there are a total of $n+1$ linear equations in the $n+1$ variables $M_0, M_1, \dots , M_n$.
+\end{thm}
+\begin{proof}
+  Theorem \ref{mar28:thm:cond_m} gives us $n-1$ linear equations in $M_0, M_1, \dots , M_n$. Boundary condition 1) says that
+  \[
+    S''_\Delta(Y ; a) = S''_\Delta(Y ; b) = 0
+    \quad \implies \quad
+    M_0 = M_n = 0
+    \quad \implies \quad
+    M_0 = 0 \text{ and } M_n = 0
+  \]
+  and therefore gives us two more linear equations in $M_0, M_1, \dots , M_n$. We now have $n+1$ linear equations in the $n+1$ variables $M_0, M_1, \dots , M_n$.
+\end{proof}
+
+\begin{thm}
+  Given the interpolation conditions, and the boundary condition 2), there are a total of $n+1$ linear equations in the $n+1$ variables $M_0, M_1, \dots , M_n$.
+\end{thm}
+\begin{proof}
+  Boundary condition 2) says that
+  \[
+    S^{(k)}_\Delta(Y ; a) = S^{(k)}_\Delta(Y ; b) \text{ for } k = 0, 1, \text{ and } 2
+  \]
+
+  \begin{itemize}
+  \item
+    \textbf{Implications of $S^{(k)}_\Delta(Y ; a) = S^{(k)}_\Delta(Y ; b) \text{ for } k = 0$:}
+
+    \[
+      S^{(0)}_\Delta(Y ; a) = S^{(0)}_\Delta(Y ; b)
+      \implies
+      y_0 = y_n
+    \]
+    \item
+    \textbf{Implications of $S^{(k)}_\Delta(Y ; a) = S^{(k)}_\Delta(Y ; b) \text{ for } k = 2$:}
+
+    \[
+      S^{(2)}_\Delta(Y ; a) = S^{(2)}_\Delta(Y ; b)
+      \implies
+      M_0 = M_n
+    \]
+  \item
+    \textbf{Implications of $S^{(k)}_\Delta(Y ; a) = S^{(k)}_\Delta(Y ; b) \text{ for } k = 1$:}
+
+    \begin{align*}
+      &S^{(1)}_\Delta(Y ; a) = S^{(1)}_\Delta(Y ; b) \\
+      \lao[\implies]{1}&
+                         -\frac{M_0h_1}{2} + \frac{y_1 - y_0}{h_1} - \frac{h_1(M_1 - M_0)}{6}
+                         =
+                         \frac{M_nh_n}{2} + \frac{y_n - y_{n-1}}{2} - \frac{h_n(M_n - M_{n-1})}{6} \\
+      \lao[\implies]{2}&
+                         \frac{h_n}{6}M_{n-1} + \frac{h_n + h_{1}}{3}M_n + \frac{h_{1}}{6}M_{1}
+                         =
+                         \frac{y_{1} - y_n}{h_{1}} - \frac{y_n - y_{n-1}}{h_n}
+    \end{align*}
+    where implication (1) follows from, e.g., theorem \ref{mar28:thm:taylor}, and implication (2) follows from the facts that $y_0 = y_n$ and $M_0 = M_n$ as we proved above.
+  \end{itemize}
+
+  We now have $n+1$ linear equations in the $n+1$ variables $M_0, M_1, \dots , M_n$, namely
+  \begin{itemize}
+  \item
+    The $n-1$ linear equations theorem \ref{mar28:thm:cond_m} give us.
+  \item
+    The linear equation $M_0 = M_n$ the case $k = 2$ gives us.
+  \item
+    The linear equation
+    \[
+      \frac{h_n}{6}M_{n-1} + \frac{h_n + h_{1}}{3}M_n + \frac{h_{1}}{6}M_{1}
+      =
+      \frac{y_{1} - y_n}{h_{1}} - \frac{y_n - y_{n-1}}{h_n}
+    \]
+    the case $k = 1$ gives us.
+  \end{itemize}
+  \hfill
+\end{proof}
+
+\begin{thm}
+  Given the interpolation conditions, and the boundary condition 3), there are a total of $n+1$ linear equations in the $n+1$ variables $M_0, M_1, \dots , M_n$.
+\end{thm}
+\begin{proof}
+  Left as an exercise to the reader.
+\end{proof}
+
+\subsection{Using linear algebra to construct the interpolating spline}
+We first introduce some new notation.
+\begin{defn}
+  \[
+    \mu_k = \frac{h_k}{h_{k+1} + h_k} \qquad \forall(1 \leq k \leq n-1)
+  \]
+  \[
+    \lambda_k = \frac{h_{k+1}}{h_{k+1} + h_k} \qquad \forall(1 \leq k \leq n-1)
+  \]
+  \[
+    d_k = \frac{6}{h_{k+1} + h_k}
+    \left(\frac{-y_k + y_{k+1}}{h_{k+1}} - \frac{y_k - y_{k-1}}{h_{k}} \right)
+    \qquad \forall(1 \leq k \leq n-1)
+  \]
+\end{defn}
+
+Now, suppose we have decided to impose boundary condition 1) on the interpolating spline; that is, the condition
+\[
+  S''_\Delta(Y ; a) = S''_\Delta(Y ; b) = 0
+\]
+In addition, define $\mu_n = \lambda_0 = 0$, and $d_0 = d_n = 0$. Then the $n+1$ conditions on $M_0, M_1, \dots , M_n$ can be written as follows after multiplying all the conditions except $M_0 = 0$ and $M_n = 0$ by the factor $\frac{6}{h_{k+1} + h_k}$ 
+\[
+  \underbrace{
+    \begin{bmatrix}
+      2 & \lambda_0 & & & &                     \\[5pt]
+      \mu_1 & 2 & \lambda_1 & & &               \\[5pt]
+      & \mu_2 & 2 & \lambda_2 & &              \\[5pt]
+      & & \ddots & \ddots & \ddots &           \\[5pt]
+      & & & \ddots & \ddots & \lambda_{n-1}     \\[5pt]
+      & & & &  \mu_n & 2
+    \end{bmatrix}
+  }_A
+  \underbrace{
+    \begin{bmatrix}
+      M_0 \\[5pt] M_1 \\[5pt] M_2 \\[5pt] \vdots \\[5pt] \vdots \\[5pt] M_n
+    \end{bmatrix}
+  }_M
+  =
+  \underbrace{
+    \begin{bmatrix}
+      d_0 \\[5pt] d_1 \\[5pt] d_2 \\[5pt] \vdots \\[5pt] \vdots \\[5pt] d_n
+    \end{bmatrix}
+  }_d
+\]
+Empty entries denote zeroes. Matrices of the form of $A$ are called \textbf{tridiagonal matrices}, or \textbf{banded matrices}. There exist efficient algorithms specifically designed to compute the inverses of tridiagonal matrices (if they exist). Note that $A$ depends only on the partition $\Delta$, not on $Y$. If the matrix $A$ is invertible, then the we can precompute $A^{-1}$ and solve for the equation
+\[
+  AM = d
+\]
+by computing $M = A^{-1}d$. Finally, note that by their definitions,
+\[
+  0 < \mu_k, \lambda_k < 1 \qquad \forall(1 \leq k \leq n-1)
+\]
+We shall discuss the invertibility of $A$ in greater detail in the notes for the next lecture.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../NC"
+%%% End:

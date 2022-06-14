@@ -11,9 +11,7 @@ jobs:
       - name: Compile LaTeX document
         uses: dante-ev/latex-action@latest
         with:
-          root_file: |
-            Semester-2/Analysis-2/Analysis-2.tex
-            Semester-2/Numeircal-Computing/NC.tex
+          root_file: Semester-2/Numerical-Computing/NC.tex
 
       - name: Create Release
         id: create_release
@@ -33,10 +31,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: |
-            ./Analysis-2.pdf
-            ./NC.pdf
-          asset_name: |
-            Analysis-2.pdf
-            NC.pdf
+          asset_path: ./NC.pdf
+          asset_name: NC.pdf
           asset_content_type: pdf

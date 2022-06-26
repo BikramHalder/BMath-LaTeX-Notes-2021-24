@@ -7,8 +7,8 @@ Notes for Courses of B. Math(Hons.) programme by 1st year (2021-'22) students at
 [![Compile Latex and put pdfs in asset-pdf branch](https://github.com/BikramHalder/BMath-LaTeX-Notes-2021-24/actions/workflows/build-latex.yml/badge.svg)](https://github.com/BikramHalder/BMath-LaTeX-Notes-2021-24/actions/workflows/build-latex.yml)
 
 - Semester II
-  - [X] Analysis II
-  - [X] Computer Science II (Numerical Computing)
+  - [X] [Analysis II](https://github.com/BikramHalder/BMath-LaTeX-Notes-2021-24/blob/asset-pdf/Analysis-2.pdf)
+  - [X] [Computer Science II (Numerical Computing)](https://github.com/BikramHalder/BMath-LaTeX-Notes-2021-24/blob/asset-pdf/NC.pdf)
   <!-- - [ ] Statistics I (Intro to Stat with R) -->
 
 ## Contributing (B. Math 1st year people)

@@ -5,6 +5,7 @@ on:
     branches:
       - main
     paths:
+      - ".github/workflows/build-latex.yml"
       - "**.tex"
       - "**.sty"
       - "**.bib"
@@ -31,6 +32,7 @@ jobs:
 
       - name: Put PDFs in a single directory
         run: |
+          mkdir PDFs
           mv Semester-2/Numerical-Computing/NC.pdf PDFs/NC.pdf
           mv Semester-2/Analysis-2/Analysis-2.pdf PDFs/Analysis-2.pdf
 

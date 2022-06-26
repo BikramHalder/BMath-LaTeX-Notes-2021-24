@@ -4,7 +4,7 @@ Notes for Courses of B. Math(Hons.) programme by 1st year (2021-'22) students at
 
 ## Available Notes
 
-[![Compile Latex and put pdfs in asset-pdf branch](https://github.com/BikramHalder/BMath-LaTeX-Notes-2021-24/actions/workflows/build-latex.yml/badge.svg?branch=main)](https://github.com/BikramHalder/BMath-LaTeX-Notes-2021-24/actions/workflows/build-latex.yml)
+[![Compile Latex and put pdfs in asset-pdf branch](https://github.com/BikramHalder/BMath-LaTeX-Notes-2021-24/actions/workflows/build-latex.yml/badge.svg)](https://github.com/BikramHalder/BMath-LaTeX-Notes-2021-24/actions/workflows/build-latex.yml)
 
 - Semester II
   - [X] Analysis II

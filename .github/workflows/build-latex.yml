@@ -1,0 +1,44 @@
+name: Compile Latex and put pdfs in asset-pdf branch
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "**.tex"
+      - "**.sty"
+      - "**.bib"
+      - "**.cls"
+
+jobs:
+  build_latex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v3
+
+      - name: Compile Analysis II
+        uses: dante-ev/latex-action@latest
+        with:
+          working_directory: Semester-2/Analysis-2
+          root_file: ./Analysis-2.tex
+
+      - name: Compile Numerical Computing
+        uses: dante-ev/latex-action@latest
+        with:
+          working_directory: Semester-2/Numerical-Computing
+          root_file: ./NC.tex
+
+      - name: Put PDFs in a single directory
+        run: |
+          mv Semester-2/Numerical-Computing/NC.pdf PDFs/NC.pdf
+          mv Semester-2/Analysis-2/Analysis-2.pdf PDFs/Analysis-2.pdf
+
+      - name: Deploy
+        uses: s0/git-publish-subdir-action@develop
+        env:
+          REPO: self
+          BRANCH: asset-pdf
+          FOLDER: PDFs
+          SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_ASSET_PRIVATE_KEY }}
+          MESSAGE: "Update from {sha}.\n{msg}"

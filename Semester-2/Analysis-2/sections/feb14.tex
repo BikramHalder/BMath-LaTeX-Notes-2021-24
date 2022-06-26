@@ -38,7 +38,7 @@ The natural question that arises now is do all functions have antiderivatives?
     But then by \texty{Darboux's theorem}\footnote{\texty{Darboux's theorem:} Let $f : [a,b] \to \bb{R}$ be a differentiable function such that $f'(a) \neq f'(b)$, then for any $c$ in between $f'(a)$ and $f'(b)$, there exists $\eta \in (a,b)$ such that $f'(\eta) = c$.}, we would get that $\forall \, c \in (0,1)$, there exists a $\eta \in [-1,1]$ such that $f(\eta) = F'(\eta) = c$ (Contradiction! since range of $f$ is simply $\{0,1\}$).
 \end{example}
 
-Thus its evident from \texty{example} $\ref{eg2:feb14}$, that there are functions which do not have any antiderivatives. Later we will see that for any continuous function there always exists an antiderivative, this will follow as a consequence of \texty{Second Fundamental Theorem of Calculus}. But first we look at the \texty{First Fundamental Theorem of Calculus}.
+Thus, its evident from \texty{example} $\ref{eg2:feb14}$, that there are functions which do not have any antiderivatives. Later we will see that for any continuous function there always exists an antiderivative, this will follow as a consequence of \texty{Second Fundamental Theorem of Calculus}. But first we look at the \texty{First Fundamental Theorem of Calculus}.
 
 \subsection{First Fundamental Theorem of Calculus}
 
@@ -76,7 +76,7 @@ Thus its evident from \texty{example} $\ref{eg2:feb14}$, that there are function
     \]
 \end{prf}
 
-Thus \texty{theorem} $\ref{thm1:feb14}$ tells us that, if we already known the antiderivative of the function $f$, we can easily compute its intergral.
+Thus, \texty{theorem} $\ref{thm1:feb14}$ tells us that, if we already know the antiderivative of the function $f$, we can easily compute its integral.
 
 \subsection{Second Fundamental Theorem of Calculus}
 
@@ -89,7 +89,7 @@ Thus \texty{theorem} $\ref{thm1:feb14}$ tells us that, if we already known the a
     \begin{enumerate}
         \item[(i)] $F \in \mathcal{C}[a,b]$.
         \item[(ii)] If $f$ is continuous at $x_0 \in (a,b)$, then $F$ is differentiable at $x_0$, and in particular we have $F'(x_0) = f(x_0)$.
-        \item[(iii)] If $f$, is continuous from right at $a$, then $F$ has right-hand derivative at $a$, and we have $F'_{+}(a) = f(a)$. Similarly if $f$ is continuous from left at $b$, then $F$ has left-hand derivative at $b$, and we have $F'_{-}(b) = f(b)$. 
+        \item[(iii)] If $f$, is continuous from right at $a$, then $F$ has right-hand derivative at $a$, and we have $F'_{+}(a) = f(a)$. Similarly, if $f$ is continuous from left at $b$, then $F$ has left-hand derivative at $b$, and we have $F'_{-}(b) = f(b)$. 
     \end{enumerate}
 \end{thm}
 
@@ -150,7 +150,7 @@ Thus \texty{theorem} $\ref{thm1:feb14}$ tells us that, if we already known the a
             0 & \mbox{ otherwise}
         \end{cases}  
     \]
-    Then it is obvious that $f \in \mR[0,2]$. Now the funcion $F(x) := \int_0^x f(t) \dd{t}$, where $x \in [0,2]$ can be easily computed, and we get 
+    Then it is obvious that $f \in \mR[0,2]$. Now the function $F(x) := \int_0^x f(t) \dd{t}$, where $x \in [0,2]$ can be easily computed, and we get 
     \[
         F(x) = \begin{cases}
             x & \mbox{ if } 0 \leq x \leq 1 \\ 
@@ -193,7 +193,7 @@ Thus \texty{theorem} $\ref{thm1:feb14}$ tells us that, if we already known the a
 \begin{prf}
     First of all note that if $u$ is a constant function, then the theorem holds trivially. So we assume that $u$ is not a constant function. 
 
-    Now since $f \in \mathcal{C}[u([a,b])]$ (note that $u([a,b])$ is a closed interval, since $u$ is a continuous function, hence image of $[a,b]$ under $u$ is also a closed interval), so we have $f \circ u \in \mR[a,b]$. Also since $u' \in \mR[a,b]$, we get that $(f \circ u) \cdot u' \in \mR[a,b]$, hence $\int_a^b f (u(x))u'(x) \dd{x}$ is well defined.
+    Now since $f \in \mathcal{C}[u([a,b])]$ (note that $u([a,b])$ is a closed interval, since $u$ is a continuous function, hence image of $[a,b]$ under $u$ is also a closed interval), so we have $f \circ u \in \mR[a,b]$. Also since $u' \in \mR[a,b]$, we get that $(f \circ u) \cdot u' \in \mR[a,b]$, hence $\int_a^b f (u(x))u'(x) \dd{x}$ is well-defined.
 
     Now $\forall \, x \in u([a,b])$ we define 
     \[
